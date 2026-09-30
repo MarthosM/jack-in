@@ -2,7 +2,7 @@
 
 Mesa online de **Netrunner** para jogar com **cartas físicas e câmeras**. Cada jogador aponta a câmera para a própria área de jogo; a plataforma cuida da conexão de vídeo e áudio, do placar (cliques, créditos, cartas na mão, pontos de agenda, tags…), dos turnos e da **identificação das cartas** clicando nelas no vídeo.
 
-**Site:** https://SEU-SITE.netlify.app · **Projeto irmão:** [The Elysium](https://github.com/MarthosM/the-elysium) (Vampire: The Eternal Struggle)
+**Site:** https://jack-in.netlify.app · **Projeto irmão:** [The Elysium](https://github.com/MarthosM/the-elysium) (Vampire: The Eternal Struggle)
 
 ## Recursos
 - Vídeo e áudio direto entre os jogadores (WebRTC, via PeerJS), sem servidor próprio: o navegador de quem cria a mesa guarda o estado da partida.
