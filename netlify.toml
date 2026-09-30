@@ -1,2 +1,5 @@
 [build]
   publish = "site"
+  # Pula o deploy quando nada mudou em site/ (README e docs não gastam créditos).
+  # No primeiro deploy os dois commits são iguais, então o build acontece normalmente.
+  ignore = '[ "$CACHED_COMMIT_REF" != "$COMMIT_REF" ] && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- site/'
