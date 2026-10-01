@@ -1,4 +1,4 @@
-# Jack In — arquitetura (v2.2, set/2026)
+# Jack In — arquitetura (v2.3, set/2026)
 
 Mesa online de **Netrunner** com cartas físicas e câmeras. Projeto irmão do **The Elysium** (VTES), mas **totalmente separado**: pasta, site no Netlify, prefixo de rede e armazenamento próprios.
 
@@ -117,3 +117,7 @@ Mesa online de **Netrunner** com cartas físicas e câmeras. Projeto irmão do *
 - O Netlify fica ligado ao repositório: cada commit na branch `main` gera um deploy de produção. O `netlify.toml` publica a pasta `site/`, sem etapa de build.
 - Para economizar créditos do Netlify, juntar várias mudanças num commit só; testes podem ir para outra branch (prévias de deploy não gastam créditos).
 - O rodapé do lobby traz os links exigidos pelo plano Open Source do Netlify: licença, código-fonte, código de conduta e "This site is powered by Netlify".
+
+## Memória do Runner (v2.3)
+- Contador **MU usada / máxima** no painel do Runner (e no placar da tela cheia), com o símbolo de MU da NSG. Campos `mu` (usada, começa em 0) e `muMax` (máxima, começa em 4), cada um com − e + e editável clicando no número. A máxima aumenta manualmente quando entra hardware ou quando a identidade dá memória extra.
+- Se a usada passar da máxima, o contador fica vermelho e aparece "MU excedida: descartar programas". As mudanças vão para o registro. Reiniciar a partida volta para 0 / 4.

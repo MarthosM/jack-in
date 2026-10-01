@@ -156,6 +156,9 @@ details.adv[open] summary{margin-bottom:10px}
 .ctr b{min-width:2ch; text-align:center; font-family:var(--fh); font-size:1.15rem; cursor:text}
 .ctr svg{width:17px; height:17px}
 .ctr.cr{color:var(--acc2)} .ctr.ap{color:var(--ok)} .ctr.tg{color:var(--hot)} .ctr.cd{color:#d99cff} .ctr.bp{color:#ff9e6b} .ctr.ln{color:var(--muted)}
+.ctr.mu{color:#8fe3c7} .ctr.mu.over{border-color:var(--hot); color:var(--hot)}
+.ctr.mu .sl{color:var(--dim); font-family:var(--fh); padding:0 2px}
+.ctr.mu .mx{color:var(--muted); font-size:.95rem}
 .ctr button{background:none; border:none; color:var(--muted); width:22px; height:22px; border-radius:4px; font-size:1rem; line-height:1}
 .ctr button:hover{background:#15283a; color:var(--text)}
 .ctr input{width:3.2ch; background:transparent; border:none; border-bottom:1px solid var(--acc); color:var(--text); text-align:center; font-family:var(--fh); font-size:1.1rem}
@@ -572,6 +575,7 @@ body.obs .clickctl{display:none!important}
           <li>Os dois começam com 5 créditos. A Corporação joga primeiro e não compra carta no primeiro turno.</li>
           <li>Turno da Corporação: compra obrigatória, 3 cliques, descarte. Turno do Runner: 4 cliques, descarte.</li>
           <li>Vence quem chegar a 7 pontos de agenda (aplicado automaticamente). O Runner também perde se sofrer dano maior que a mão; a Corporação perde se precisar comprar com o P&D vazio.</li>
+          <li>Memória do Runner (MU): mostra usada / máxima. A máxima começa em 4 e aumenta com hardware ou pela identidade; a usada sobe ao instalar programas. Se passar da máxima, o Runner precisa descartar programas.</li>
           <li>Todos começam com 5 cartas na mão. Tamanho máximo de mão: 5, menos o dano central do Runner. Comprar soma 1 carta; instalar e jogar operação/evento tiram 1; a compra obrigatória da Corporação é somada no início do turno dela.</li>
         </ul>
       </div>
@@ -639,7 +643,7 @@ body.obs .clickctl{display:none!important}
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const APP_VERSION = '2.2 · 30/09/2026';
+const APP_VERSION = '2.3 · 30/09/2026';
 const MAX_PLAYERS = 2;
 const START_CREDITS = 5;
 const WIN_AP = 7;
@@ -1086,7 +1090,7 @@ function kickPlayer(id){
 function addPlayer(id, name, want){
   const taken = new Set(state.players.map(p => p.side));
   let side = want && !taken.has(want) ? want : (!taken.has('corp') ? 'corp' : !taken.has('runner') ? 'runner' : null);
-  state.players.push({ id, name, side, credits:START_CREDITS, hand:5, ap:0, clicks:0, tags:0, core:0, bp:0, link:0, online:true, deck:false, identity:null });
+  state.players.push({ id, name, side, credits:START_CREDITS, hand:5, ap:0, clicks:0, tags:0, core:0, bp:0, link:0, mu:0, muMax:4, online:true, deck:false, identity:null });
   state.order.push(id);
 }
 function renameId(oldId, newId){
@@ -1164,8 +1168,8 @@ const O = id => (state?.obs || []).find(o => o.id === id);
 const nameOf = id => P(id)?.name || O(id)?.name || '?';
 const isSilenced = id => !!(P(id) || O(id))?.hostMuted;
 function sysLog(text){ state.log.push({ ts:Date.now(), k:'sys', text }); }
-const FIELDS = { credits:[0,999], hand:[0,99], ap:[0,99], tags:[0,99], core:[0,99], bp:[0,99], link:[0,99] };
-const FLABEL = { credits:'créditos', hand:'cartas na mão', ap:'pontos de agenda', tags:'tags', core:'dano central', bp:'má publicidade', link:'link' };
+const FIELDS = { credits:[0,999], hand:[0,99], ap:[0,99], tags:[0,99], core:[0,99], bp:[0,99], link:[0,99], mu:[0,99], muMax:[0,99] };
+const FLABEL = { credits:'créditos', hand:'cartas na mão', ap:'pontos de agenda', tags:'tags', core:'dano central', bp:'má publicidade', link:'link', mu:'memória usada (MU)', muMax:'memória máxima (MU)' };
 const BASIC = {
   corp: [
     { k:'credit', t:'Ganhar 1 crédito', c:1, cr:1 },
@@ -1278,7 +1282,7 @@ function applyAction(a, from){
       const [x, y] = state.players;
       if (x && y && (!x.side || !y.side || x.side === y.side)) { x.side = 'corp'; y.side = 'runner'; }
       else if (x && !y && !x.side) x.side = 'corp';
-      state.players.forEach(q => { q.credits = START_CREDITS; q.hand = 5; q.ap = 0; q.clicks = 0; q.tags = 0; q.core = 0; q.bp = 0; q.link = q.side === 'runner' ? (q.identity?.link | 0) : 0; });
+      state.players.forEach(q => { q.credits = START_CREDITS; q.hand = 5; q.ap = 0; q.clicks = 0; q.tags = 0; q.core = 0; q.bp = 0; q.link = q.side === 'runner' ? (q.identity?.link | 0) : 0; q.mu = 0; q.muMax = 4; });
       const corp = state.players.find(q => q.side === 'corp'), run = state.players.find(q => q.side === 'runner');
       state.order = [corp, run].filter(Boolean).map(q => q.id);
       state.started = true; state.startedAt = Date.now(); state.turnNum = 1; state.winner = null; state.turn = null;
@@ -1523,6 +1527,16 @@ document.addEventListener('keydown', e => {
 });
 $('#btnGrid').onclick = () => setFocus(null);
 
+// memória do Runner: usada / máxima (a máxima começa em 4 e sobe com hardware ou pela identidade)
+function muCtr(p){
+  const used = p.mu || 0, max = p.muMax ?? 4, over = used > max;
+  return `<div class="ctr mu ${over ? 'over' : ''}" title="Memória (MU): usada / máxima. A máxima começa em 4 e pode aumentar com hardware ou pela identidade.${over ? ` Excedeu em ${used - max}: descarte programas.` : ` Livre: ${max - used}.`}">
+    <svg><use href="#g-mu"/></svg>
+    <button data-act="ctr" data-f="mu" data-d="-1" aria-label="Menos memória usada">−</button><b data-act="edit" data-f="mu">${used}</b><button data-act="ctr" data-f="mu" data-d="1" aria-label="Mais memória usada">+</button>
+    <span class="sl">/</span>
+    <button data-act="ctr" data-f="muMax" data-d="-1" aria-label="Menos memória máxima">−</button><b class="mx" data-act="edit" data-f="muMax">${max}</b><button data-act="ctr" data-f="muMax" data-d="1" aria-label="Mais memória máxima">+</button>
+  </div>${over ? `<span class="chip hot" title="Memória usada acima da máxima">MU excedida: descartar programas</span>` : ''}`;
+}
 const ctr = (p, f, icon, title, cls) => `
   <div class="ctr ${cls}" title="${title}">
     <button data-act="ctr" data-f="${f}" data-d="-1" aria-label="Menos ${title}">−</button>
@@ -1579,6 +1593,7 @@ function plateHTML(p){
       ${run ? ctr(p, 'tags', 'g-tag', 'Tags', 'tg') : ''}
       ${run ? ctr(p, 'core', 'g-core', 'Dano central', 'cd') : ''}
       ${run ? ctr(p, 'link', 'g-link', 'Link', 'ln') : ''}
+      ${run ? muCtr(p) : ''}
     </div>`;
 }
 function onPlateClick(e){
