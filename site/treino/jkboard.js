@@ -197,7 +197,7 @@ function JKCard(card, opts) {
     hosted = "<div class='jk-hosted'>" + card.hostedCards.map(function (h) { return JKCard(h, { cls: "jk-mini" }); }).join("") + "</div>";
   }
   if (db.code && JK.imgGood[db.code]) cls += " has-img";
-  return "<div class='" + cls + "' data-title=\"" + JKEsc(card.title) + "\" title=\"" + JKEsc(card.title) + "\">" + JKImg(db.code) +
+  return "<div class='" + cls + "' data-title=\"" + JKEsc(card.title) + "\">" + JKImg(db.code) +
     "<div class='jk-name'>" + JKEsc(card.title) + "</div>" + JKBadges(card) + hosted + "</div>";
 }
 
@@ -228,32 +228,39 @@ function JKPile(label, cards, opts) {
     "<div class='jk-pile-lbl'><span>" + label + "</span><b>" + cards.length + "</b></div></div>";
 }
 
-function JKServer(server, name) {
+function JKServer(server, name, iceBelow) {
+  // iceBelow: a Corp está em cima da tela (você é o Runner), então os ices ficam embaixo dos servidores,
+  // virados para o Runner, com o mais externo mais perto dele. Quando você é a Corp, o contrário.
   var attacked = attackedServer === server;
-  var html = "<section class='jk-server" + (attacked ? " jk-attacked" : "") + "'>";
-  html += "<header><h3>" + JKEsc(name) + "</h3>" + (attacked ? "<span class='jk-run-tag'>run</span>" : "") + "</header>";
-  // gelos: o mais externo em cima
-  html += "<div class='jk-ice'>";
-  for (var i = server.ice.length - 1; i >= 0; i--) {
-    var cls = "jk-ice-card";
+  var html = "<section class='jk-server" + (attacked ? " jk-attacked" : "") + (iceBelow ? " jk-ice-below" : "") + "'>";
+  var head = "<header><h3>" + JKEsc(name) + "</h3>" + (attacked ? "<span class='jk-run-tag'>run</span>" : "") + "</header>";
+  var ice = "<div class='jk-ice'>";
+  var order = [];
+  for (var i = 0; i < server.ice.length; i++) order.push(i);
+  if (!iceBelow) order.reverse(); // Corp embaixo: o mais externo fica em cima (perto do Runner)
+  order.forEach(function (i) {
+    var cls = "jk-ice-card jk-landscape";
     if (attacked && i == approachIce) cls += " jk-approached";
-    html += JKCard(server.ice[i], { cls: cls });
-  }
-  if (!server.ice.length) html += "<div class='jk-noice'>sem ice</div>";
-  html += "</div><div class='jk-root'>";
-  if (server === corp.HQ) html += JKPile("Mão", corp.HQ.cards, { facedown: true, side: "corp", cls: "jk-mini-pile" });
-  if (server === corp.RnD) html += JKPile("Baralho", corp.RnD.cards, { facedown: true, side: "corp", cls: "jk-mini-pile" });
+    ice += JKCard(server.ice[i], { cls: cls });
+  });
+  if (!server.ice.length) ice += "<div class='jk-noice'>sem ice</div>";
+  ice += "</div>";
+  var root = "<div class='jk-root'>";
+  if (server === corp.HQ) root += JKPile("Mão", corp.HQ.cards, { facedown: true, side: "corp", cls: "jk-mini-pile" });
+  if (server === corp.RnD) root += JKPile("Baralho", corp.RnD.cards, { facedown: true, side: "corp", cls: "jk-mini-pile" });
   if (server === corp.archives) {
     var meCorpA = typeof PhysicalHuman == "function" && PhysicalHuman() == corp;
     var up = corp.archives.cards.filter(function (c) { return IsFaceUp(c); });
     var down = corp.archives.cards.length - up.length;
     // Corp humana vê as próprias cartas viradas em Archives (e pode usar habilidades delas, ex.: Petty Cash)
     var shown = meCorpA ? corp.archives.cards.slice(-12) : up.slice(-6);
-    html += "<div class='jk-archives'>" + (shown.length ? shown.map(function (c) { return JKCard(c, { cls: "jk-mini" + (IsFaceUp(c) ? "" : " jk-arch-down"), forceVisible: true }); }).join("") : "") +
+    root += "<div class='jk-archives'>" + (shown.length ? shown.map(function (c) { return JKCard(c, { cls: "jk-mini" + (IsFaceUp(c) ? "" : " jk-arch-down"), forceVisible: true }); }).join("") : "") +
       "<div class='jk-pile-lbl'><span>Archives</span><b>" + corp.archives.cards.length + "</b>" + (down ? "<small>" + down + " virada(s)</small>" : "") + "</div></div>";
   }
-  server.root.forEach(function (c) { html += JKCard(c); });
-  html += "</div></section>";
+  server.root.forEach(function (c) { root += JKCard(c); });
+  root += "</div>";
+  html += iceBelow ? head + root + ice : head + ice + root;
+  html += "</section>";
   return html;
 }
 
@@ -285,8 +292,9 @@ function JKBoardHTML() {
   var corpStats = corpSide + corpPower + JKStat("Créditos", corp.creditPool, "jk-big") + JKStat("Cliques", corp.clickTracker) +
     JKStat("Pontos", cAP + "/" + win) + JKStat("HQ", corp.HQ.cards.length) + JKStat("R&D", corp.RnD.cards.length) +
     (corp.badPublicity ? JKStat("Bad pub.", corp.badPublicity, "jk-warn") : "");
-  var servers = JKServer(corp.archives, "Archives") + JKServer(corp.RnD, "R&D") + JKServer(corp.HQ, "HQ");
-  corp.remoteServers.forEach(function (s) { servers += JKServer(s, ServerName(s)); });
+  var iceBelow = !(typeof viewingPlayer != "undefined" && viewingPlayer == corp);
+  var servers = JKServer(corp.archives, "Archives", iceBelow) + JKServer(corp.RnD, "R&D", iceBelow) + JKServer(corp.HQ, "HQ", iceBelow);
+  corp.remoteServers.forEach(function (s) { servers += JKServer(s, ServerName(s), iceBelow); });
   var corpScore = corp.scoreArea.map(function (c) { return JKCard(c, { cls: "jk-mini", forceVisible: true }); }).join("");
 
   // ---- Runner
@@ -361,10 +369,12 @@ $(function () {
   $("#menucontent .close-cross").attr({ role: "button", "aria-label": "Fechar menu", tabindex: 0 }).html("&times;");
   $("#menu").on("click", function (e) { if (e.target === this) $("#menu").hide(); });
   $(document).on("keydown", function (e) { if (e.key == "Escape") $("#menu").hide(); });
-  $("body").append("<div id='jk-version'>Jack In Treino · v2.5</div>");
+  $("body").append("<div id='jk-version'>Jack In Treino · v2.6</div>");
   $(document).on("click", "#jk-board .jk-card[data-title], #jk-board .jk-idname", function (e) {
     e.stopPropagation();
-    if (typeof RevealShowCard == "function") RevealShowCard($(this).attr("data-title"));
+    JKZoomHide();
+    var $b = $(this).find(".jk-badges");
+    if (typeof RevealShowCard == "function") RevealShowCard($(this).attr("data-title"), $b.length ? $b.html() : "");
   });
   // traduz botões assim que o rodapé muda
   var obs = new MutationObserver(function () { JKTranslateUI(); });
@@ -461,3 +471,49 @@ function JKArchivesButtons() {
   var mo = new MutationObserver(function () { JKArchivesButtons(); });
   $(function () { var f = document.getElementById("footer"); if (f) mo.observe(f, { childList: true }); });
 })();
+
+// ------------------------------------------------ ampliação ao passar o mouse
+// Mostra a carta grande ao lado do cursor (imagem; sem imagem, uma placa com os dados).
+var JKZoom = { el: null, cur: null };
+function JKZoomHTML(title, $src) {
+  var c = (typeof RV != "undefined" && RV.db[title]) || null;
+  if (!c) return "";
+  var code = c.code, img = "";
+  if (code && !JK.imgBad[code]) {
+    var src = JK.imgGood[code] || JKImgFirst(code);
+    if (src) img = "<img src='" + src + "' data-code='" + code + "' alt='' referrerpolicy='no-referrer' onload='JKImgOk(this);this.parentNode.classList.add(\"has-img\")' onerror='JKImgNext(this)'>";
+  }
+  var stats = [];
+  if (c.co != null) stats.push((c.ty == "ice" || c.ty == "asset" || c.ty == "upgrade" ? "Rez " : c.ty == "operation" || c.ty == "event" ? "Custo " : "Instalar ") + c.co);
+  if (c.str != null) stats.push("Força " + c.str);
+  if (c.adv != null) stats.push("Avanço " + c.adv + " · " + c.ap + " pt");
+  if (c.tc != null) stats.push("Trash " + c.tc);
+  if (c.mu != null) stats.push(c.mu + " MU");
+  var badges = $src && $src.find(".jk-badges").length ? "<div class='jkz-state'>" + $src.find(".jk-badges").html() + "</div>" : "";
+  return "<div class='jkz-card" + (JK.imgGood[code] ? " has-img" : "") + "'>" + img +
+    "<div class='jkz-plate'><b>" + JKEsc(c.t) + "</b><span class='jkz-type'>" + JKEsc((typeof TYPES != "undefined" && TYPES[c.ty]) || c.ty || "") + (c.kw ? " · " + JKEsc(c.kw) : "") + "</span>" +
+    (stats.length ? "<span class='jkz-stats'>" + stats.join(" · ") + "</span>" : "") +
+    "<p>" + JKEsc(c.tx || "").replace(/\n/g, "<br>") + "</p></div></div>" + badges;
+}
+function JKZoomShow(card) {
+  var $c = $(card), title = $c.attr("data-title");
+  if (!title) return;
+  if (!JKZoom.el) JKZoom.el = $("<div id='jk-zoom' aria-hidden='true'></div>").appendTo("body");
+  if (JKZoom.cur !== card) { JKZoom.el.html(JKZoomHTML(title, $c)); JKZoom.cur = card; }
+  if (!JKZoom.el.html()) return;
+  var r = card.getBoundingClientRect(), W = 270, H = 380, gap = 14;
+  var x = r.right + gap;
+  if (x + W > window.innerWidth - 8) x = r.left - gap - W;
+  if (x < 8) x = Math.max(8, Math.min(window.innerWidth - W - 8, r.left + r.width / 2 - W / 2));
+  var y = Math.max(60, Math.min(window.innerHeight - H - 12, r.top + r.height / 2 - H / 2));
+  JKZoom.el.css({ left: x + "px", top: y + "px" }).addClass("on");
+}
+function JKZoomHide() { if (JKZoom.el) JKZoom.el.removeClass("on"); JKZoom.cur = null; }
+$(function () {
+  if (!window.matchMedia || !window.matchMedia("(hover: hover)").matches) return; // telas de toque: só o clique
+  $(document).on("mouseenter", ".jk-card[data-title]", function () { JKZoomShow(this); });
+  $(document).on("mouseleave", ".jk-card[data-title]", JKZoomHide);
+  $(document).on("mousedown scroll", JKZoomHide);
+  // a mesa é redesenhada o tempo todo: some a ampliação se a carta sair da tela
+  setInterval(function () { if (JKZoom.cur && !document.body.contains(JKZoom.cur)) JKZoomHide(); }, 400);
+});

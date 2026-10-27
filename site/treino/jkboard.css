@@ -3,7 +3,7 @@
 :root{
   --ink:#08111b; --panel:#0f1d2b; --panel2:#132435; --line:#1b3043; --text:#dbe6f2; --dim:#8da0b6;
   --acc:#5fd3ff; --runner:#ffb347; --corp:#7aa7ff; --warn:#ffd28a; --danger:#ff4f6d; --gold:#e8c46a;
-  --cw:78px; --ch:109px;
+  --cw:88px; --ch:123px;
   --f-ui:"IBM Plex Sans","Segoe UI Variable","Segoe UI",system-ui,sans-serif; --f-head:"Chakra Petch","Bahnschrift","Segoe UI",system-ui,sans-serif;
   --f-mono:"Cascadia Mono","Consolas",ui-monospace,monospace;
   color-scheme:dark;
@@ -46,12 +46,13 @@ body.jk-ui #menubar button::before{content:"";position:absolute;left:11px;right:
 
 /* servidores */
 .jk-servers{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
-.jk-server{flex:0 0 auto;min-width:calc(var(--cw) + 24px);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:8px}
+.jk-server{flex:0 0 auto;min-width:calc(var(--ch) + 24px);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:8px}
 .jk-server header{display:flex;align-items:center;justify-content:space-between;gap:6px}
 .jk-server h3{margin:0;font:600 13px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--corp)}
 .jk-server.jk-attacked{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc),0 0 22px #5fd3ff33}
 .jk-run-tag{font-size:10px;text-transform:uppercase;letter-spacing:.08em;background:var(--acc);color:#04121c;border-radius:4px;padding:1px 6px}
 .jk-ice{display:flex;flex-direction:column;gap:6px;align-items:center;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+.jk-ice-below .jk-ice{padding:8px 0 0;border-bottom:0;border-top:1px dashed var(--line)}
 .jk-noice{font-size:12px;color:var(--dim);padding:6px 0}
 .jk-root{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:flex-start}
 .jk-archives{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:calc(var(--cw)*1.6)}
@@ -78,7 +79,7 @@ body.jk-ui #menubar button::before{content:"";position:absolute;left:11px;right:
 .jk-empty span{font-size:11px;color:var(--dim)}
 .jk-mini{--cw:56px;--ch:78px}
 .jk-mini .jk-name{font-size:9px;padding:3px}
-.jk-hand{--cw:96px;--ch:134px}
+.jk-hand{--cw:104px;--ch:145px}
 .jk-badges{position:absolute;right:3px;top:3px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;z-index:1}
 .bd{font:700 12px/1 var(--f-mono);padding:3px 6px;border-radius:999px;background:#000c;border:1px solid #fff3;color:#fff;font-variant-numeric:tabular-nums}
 .bd-adv{background:#5b3fa0} .bd-cr{background:#1d6b4a} .bd-pw{background:#8a5a10} .bd-vi{background:#7a1e3a} .bd-ag{background:#6b5a14}
@@ -206,3 +207,36 @@ body.x1-host.x1-lobby #jk-board{margin-right:0}
 .x1-seg button{background:transparent;border:0;padding:8px 16px;font:600 14px var(--f-head);color:var(--dim);cursor:pointer}
 .x1-seg button+button{border-left:1px solid var(--line)}
 .x1-seg button[aria-checked="true"]{background:#10202f;color:var(--text);box-shadow:inset 0 -2px 0 var(--acc)}
+
+/* ---------------- destaque das cartas ---------------- */
+.jk-card[data-title]{box-shadow:0 2px 8px #0008}
+.jk-card[data-title]:hover{transform:translateY(-4px) scale(1.06);box-shadow:0 10px 26px #000c,0 0 0 1px var(--acc);z-index:3}
+.jk-card.has-img{border-color:#0000;background:#0a0f15}
+/* ice deitado (horizontal), como na mesa de verdade */
+.jk-landscape{width:var(--ch);height:var(--cw)}
+.jk-landscape img{inset:auto;left:50%;top:50%;width:var(--cw);height:var(--ch);transform:translate(-50%,-50%) rotate(90deg)}
+.jk-landscape.jk-back{width:var(--ch);height:var(--cw)}
+.jk-landscape .jk-name{font-size:12px}
+.jk-landscape .jk-badges{flex-direction:row;top:auto;bottom:3px}
+/* ampliação flutuante */
+#jk-zoom{position:fixed;z-index:1200;width:270px;pointer-events:none;opacity:0;transform:scale(.96);transition:opacity .1s,transform .1s}
+#jk-zoom.on{opacity:1;transform:none}
+.jkz-card{position:relative;width:270px;height:377px;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#1c2a3a,#0d1520);
+  border:1px solid var(--acc);box-shadow:0 18px 50px #000e,0 0 0 1px #5fd3ff33}
+.jkz-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.jkz-plate{position:absolute;inset:0;padding:16px;display:flex;flex-direction:column;gap:6px;font:13px/1.45 var(--f-ui);color:var(--text)}
+.jkz-plate b{font:600 17px/1.2 var(--f-head);color:var(--acc)}
+.jkz-type{color:var(--dim);font-size:12px}
+.jkz-stats{font:600 12px var(--f-mono);color:var(--warn)}
+.jkz-plate p{margin:6px 0 0;overflow:hidden}
+.jkz-card.has-img .jkz-plate{display:none}
+.jkz-state{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.jkz-state .bd{font-size:13px;padding:4px 8px}
+/* visualizador central (clique) */
+body.jk-ui #card-view .rv-box{max-width:820px;background:var(--panel);border:1px solid var(--acc);border-radius:14px;padding:22px 24px}
+body.jk-ui .rv-view{gap:24px;flex-wrap:nowrap}
+body.jk-ui .rv-img{width:320px;flex:0 0 auto;border-radius:14px;box-shadow:0 14px 40px #000c}
+body.jk-ui .rv-text h2{font:600 24px/1.2 var(--f-head);color:var(--acc)}
+body.jk-ui .rv-state{display:flex;align-items:center;gap:8px;margin:10px 0}
+body.jk-ui .rv-state .bd{font-size:13px;padding:4px 9px}
+@media (max-width:720px){ body.jk-ui .rv-view{flex-wrap:wrap} body.jk-ui .rv-img{width:min(320px,100%)} }

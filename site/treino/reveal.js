@@ -131,7 +131,7 @@ function RevealFindTitle(text) {
   return best;
 }
 
-function RevealShowCard(title) {
+function RevealShowCard(title, stateHtml) {
   var c = RV.db[title];
   if (!c) return;
   var stats = [];
@@ -147,6 +147,7 @@ function RevealShowCard(title) {
     "<div class='rv-text'><h2>" + RevealEsc(c.t) + "</h2>" +
     "<p class='rv-type'>" + (TYPES[c.ty] || c.ty || "") + (c.kw ? ": " + RevealEsc(c.kw) : "") + "</p>" +
     (stats.length ? "<p class='rv-stats'>" + stats.join(" · ") + "</p>" : "") +
+    (stateHtml ? "<div class='rv-state'><span class='rv-k'>Na mesa</span>" + stateHtml + "</div>" : "") +
     "<p class='rv-body'>" + RevealEsc(c.tx || "").replace(/\n/g, "<br>") + "</p>" +
     (c.fl ? "<p class='rv-flavor'>" + RevealEsc(c.fl) + "</p>" : "") +
     RevealActionButtons(title) +
