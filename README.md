@@ -12,7 +12,7 @@ Mesa online de **Netrunner** para jogar com **cartas físicas e câmeras**. Cada
 - Painel lateral recolhível, tela cheia com o placar dos dois jogadores.
 
 ## Treino contra a IA
-Em [`site/treino/`](site/treino/) (publicado em https://jack-in.netlify.app/treino/) fica o **Jack In Treino**: uma partida inteira contra a IA, de Runner ou de Corp, com as cartas físicas na mão ou só pela tela. É derivado do motor [Chiriboga](https://github.com/bobtheuberfish/chiriboga) e, por isso, está sob a **GPL-3.0** (veja `site/treino/LICENSE`), não sob a MIT.
+Em [`site/treino/`](site/treino/) (publicado em https://jack-in.netlify.app/treino/) fica o **Jack In Treino**: uma partida inteira contra a IA ou contra outra pessoa (cartas digitais, com microfone aberto, via PeerJS), de Runner ou de Corp, com cartas digitais ou com as cartas físicas na mão. É derivado do motor [Chiriboga](https://github.com/bobtheuberfish/chiriboga) e, por isso, está sob a **GPL-3.0** (veja `site/treino/LICENSE`), não sob a MIT.
 
 ## Como rodar
 É uma página única, sem etapa de build: abra `site/index.html` no navegador (Chrome, Edge ou Firefox) ou publique a pasta `site/` em qualquer hospedagem estática. No Netlify, o arquivo `netlify.toml` já aponta para `site/`.
