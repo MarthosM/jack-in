@@ -331,6 +331,24 @@ cardSet[35039] = {
   cardType: "asset",
   rezCost: 1,
   trashCost: 1,
+  JKCPlayOp: function () {
+    var self = this;
+    var ops = corp.HQ.cards.filter(function (c) { return c.cardType == "operation" && FullCheckPlay(c, false); });
+    if (!ops.length) return;
+    var choices = ChoicesArrayCards(ops);
+    choices.push({ skip: true, label: "Não jogar", button: "Não jogar" });
+    DecisionPhase(corp, choices, function (p) {
+      if (p.skip) return;
+      Play(p.card);
+    }, "Humanoid Resources", "Humanoid Resources: jogar 1 operação do HQ", self);
+    if (corp.AI != null) {
+      var econ = [];
+      try { econ = corp.AI._economyCards(true); } catch (e) {}
+      var pick = choices.find(function (o) { return o.card && econ.indexOf(o.card.title) > -1; });
+      if (!pick) pick = choices.find(function (o) { return o.card && typeof o.card.AIWouldPlay == "function" && o.card.AIWouldPlay.call(o.card); });
+      corp.AI.preferred = { title: "Humanoid Resources", option: pick || choices[choices.length - 1] };
+    }
+  },
   JKCInstallStep: function () {
     var self = this;
     var opts = ChoicesHandInstall(corp).filter(function (o) {

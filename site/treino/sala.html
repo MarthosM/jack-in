@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="robots" content="noindex">
+		<title>Jack In — Treino · Sala</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" href="physical.css">
+		<link rel="stylesheet" href="jkboard.css">
+		<script src="jquery/jquery-3.2.1.min.js"></script>
+		<script src="deck/lz-string.min.js"></script>
+		<script src="decklist.js"></script>
+		<script src="jkboard.js"></script>
+		<script src="reveal.js"></script>
+		<script src="x1.js"></script>
+	</head>
+	<body id="body">
+		<div id="contentcontainer" class="content"><div id="output"></div></div>
+		<div id="menubar"><button id="menubutton" onclick="$('#menu').css('display','flex');"><img src="images/chiriboga_withtext.png" alt=""></button></div>
+		<div id="header"><h2>Jack In · Treino</h2></div>
+		<div id="footer"></div>
+		<div id="modal" class="modal" style="display:none">
+			<div id="modalcontent" class="modal-content"></div>
+		</div>
+		<div id="menu" class="modal">
+			<div id="menucontent" class="modal-content-inactive">
+				<span onclick="$('#menu').css('display','none');" class="close-cross">X</span>
+				<h1>Jack In · Treino</h1>
+				<button id="exittomenu" onclick="window.location.href='index.html';" class="button">Sair da sala</button>
+				<p class="muted" style="font-size:13px">Você está jogando pela sala de outra pessoa: o motor do jogo roda no navegador dela. Se a página travar, recarregue com o mesmo link para voltar à partida.</p>
+			</div>
+		</div>
+	</body>
+</html>

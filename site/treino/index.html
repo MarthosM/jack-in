@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>Jack In — Treino contra a IA</title>
-<meta name="description" content="Treine Netrunner contra a IA, de Runner ou de Corp, com as suas cartas físicas na mão ou só pela tela.">
+<title>Jack In — Treino</title>
+<meta name="description" content="Netrunner contra a IA ou contra outra pessoa, com cartas digitais ou físicas.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-52 -64 150 150%22%3E%3Crect x=%22-52%22 y=%22-64%22 width=%22150%22 height=%22150%22 rx=%2226%22 fill=%22#08111b%22/%3E%3Cpath d=%22M-44 -78 C-6 -82 16 -52 14 -20 C13 -6 12 6 8 20 C5 32 10 46 36 60%22 fill=%22none%22 stroke=%22#dbe6f2%22 stroke-width=%227%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M1 0 H-18 L-28 -10 H-42 M-18 0 L-27 10 H-40 M-6 -30 H-26 L-34 -38%22 fill=%22none%22 stroke=%22#5fd3ff%22 stroke-width=%224.5%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3Ccircle cx=%22-45%22 cy=%22-10%22 r=%225%22 fill=%22#5fd3ff%22/%3E%3Ccircle cx=%22-43%22 cy=%2210%22 r=%225%22 fill=%22#5fd3ff%22/%3E%3Ccircle cx=%22-37%22 cy=%22-40%22 r=%225%22 fill=%22#5fd3ff%22/%3E%3Ccircle cx=%22-3%22 cy=%22-30%22 r=%225%22 fill=%22#5fd3ff%22/%3E%3Crect x=%223%22 y=%22-11%22 width=%2214%22 height=%2222%22 rx=%223%22 fill=%22#08111b%22 stroke=%22#dbe6f2%22 stroke-width=%224%22/%3E%3Crect x=%228%22 y=%22-4%22 width=%229%22 height=%228%22 fill=%22#5fd3ff%22/%3E%3Crect x=%2218%22 y=%22-8%22 width=%225%22 height=%2216%22 rx=%222%22 fill=%22#5fd3ff%22/%3E%3Crect x=%2225%22 y=%22-10%22 width=%2226%22 height=%2220%22 rx=%225%22 fill=%22none%22 stroke=%22#5fd3ff%22 stroke-width=%225%22/%3E%3Cpath d=%22M51 0 H59 L64 -12 L71 12 L76 0 H90 Q102 0 102 14 V30%22 fill=%22none%22 stroke=%22#ffb347%22 stroke-width=%227%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,11 +73,12 @@ main{min-height:100vh; display:flex; flex-direction:column; align-items:center; 
 .choice{padding:24px; display:flex; flex-direction:column; gap:12px}
 .choice h2{font-family:var(--fh); font-weight:600; font-size:1.35rem; margin:0; color:var(--acc2)}
 .choice p{margin:0; color:var(--muted)}
-.choice .btn{align-self:flex-start; margin-top:auto}
+.choice .pick{display:flex; gap:10px; flex-wrap:wrap; margin-top:auto; padding-top:6px}
+.choice .small{font-size:.85rem; color:var(--dim)}
 .choice.main{background:linear-gradient(160deg, rgba(122,167,255,.12), rgba(15,29,43,.95) 55%)}
 .choice.cam{background:linear-gradient(160deg, rgba(255,179,71,.10), rgba(15,29,43,.95) 55%)}
-.choice.cam .btn{border-color:var(--run); color:#ffd28a}
-.choice.cam .btn:hover{background:rgba(255,179,71,.12)}
+.choice.cam .btn:not(.pri){border-color:var(--run); color:#ffd28a}
+.choice.cam .btn:not(.pri):hover{background:rgba(255,179,71,.12)}
 .how{margin:28px 0 0; padding:0 0 0 1.2em; color:var(--muted); columns:2; column-gap:40px}
 .how li{margin:0 0 8px; break-inside:avoid}
 @media (max-width:820px){.how{columns:1}}
@@ -131,29 +132,36 @@ footer{margin-top:30px; text-align:center; font-size:.85rem; color:var(--muted);
       <svg><use href="#i-logo"/></svg>
       <div>
         <h1><span class="c">Jack</span> <span class="r">In</span> <span class="t">// Treino</span></h1>
-        <p>Netrunner contra a IA, quando não há ninguém para jogar. De Runner ou de Corp, com as suas cartas físicas na mão ou só pela tela.</p>
+        <p>Netrunner contra a IA ou contra outra pessoa, de Runner ou de Corp, com cartas digitais ou com as suas cartas físicas na mão.</p>
       </div>
     </div>
 
     <div class="choices">
       <section class="frame choice main">
-        <h2>Treinar contra a IA</h2>
+        <h2>Contra a IA</h2>
         <p>A IA do Chiriboga joga do outro lado da mesa. Você escolhe o lado, cola a sua lista do NetrunnerDB e joga uma partida inteira: créditos, cliques, runs, acessos e marcadores ficam por conta do programa.</p>
-        <p>Dá para jogar com o seu baralho de verdade, informando cada carta que sai dele, ou deixar o programa comprar por você e ver a mão na tela.</p>
-        <button class="btn pri big" id="goSetup">Treinar contra a IA</button>
+        <div class="pick">
+          <button class="btn pri big" id="goIA0">Cartas digitais</button>
+          <button class="btn big" id="goIA1">Com as cartas físicas</button>
+        </div>
+        <p class="small">Digitais: o programa compra por você e mostra a mão na tela. Físicas: você usa o seu baralho e informa cada carta que sai dele.</p>
       </section>
       <section class="frame choice cam">
-        <h2>Jogar com amigos pela câmera</h2>
-        <p>Cada um com as suas cartas físicas, numa mesa online com vídeo: Corporação de um lado, Runner do outro, marcadores e cliques na tela.</p>
-        <a class="btn big" href="https://jack-in.netlify.app/" target="_blank" rel="noopener">Abrir a mesa do Jack In</a>
+        <h2>Contra uma pessoa</h2>
+        <p>Duas pessoas, cada uma no seu navegador, com microfone aberto. Quem cria a sala manda o link; o outro cola a lista dele e entra.</p>
+        <div class="pick">
+          <button class="btn pri big" id="goX1">Cartas digitais</button>
+          <a class="btn big" href="https://jack-in.netlify.app/" target="_blank" rel="noopener">Cartas físicas pela câmera</a>
+        </div>
+        <p class="small">Digitais: a partida inteira na tela, aqui mesmo, com as regras pelo programa. Físicas: cada um com o seu baralho e a câmera aberta, na mesa do Jack In.</p>
       </section>
     </div>
 
     <ol class="how">
-      <li><b>Escolha o lado</b> (Runner ou Corp) e como vai jogar: com as cartas físicas ou só pela tela.</li>
-      <li><b>Cole a sua lista</b> exportada do NetrunnerDB. A IA pode usar um deck seu ou montar um sozinha.</li>
+      <li><b>Escolha o modo</b> (contra a IA ou contra uma pessoa) e como vai jogar: cartas digitais ou físicas.</li>
+      <li><b>Cole a sua lista</b> exportada do NetrunnerDB. Contra a IA, ela pode usar um deck seu ou montar um sozinha.</li>
       <li><b>Jogue pelos botões da mesa:</b> instalar, fazer run, avançar, ativar. O programa cuida das regras.</li>
-      <li><b>Clique em qualquer carta</b> para ver o texto e a imagem; o painel lateral mostra o que a IA revelou.</li>
+      <li><b>Clique em qualquer carta</b> para ver o texto e a imagem; o painel lateral mostra o que o oponente revelou.</li>
     </ol>
     <p class="pool">Cartas disponíveis: System Gateway, System Update 2021, Midnight Sun (parcial), o deck Vic (Criminal) e os decks de Corp Ob Superheavy, Jinteki: Restoring Humanity, AU Co., Earth Station e LEO Construction. Cartas fora desse pool ainda não rodam.</p>
 
@@ -252,56 +260,55 @@ footer{margin-top:30px; text-align:center; font-size:.85rem; color:var(--muted);
   </div>
 </main>
 
+<!-- ================= CONTRA UMA PESSOA ================= -->
+<main id="x1setup" hidden>
+  <div class="wrap">
+    <div class="topline">
+      <h1>Contra uma <span>pessoa</span> · cartas digitais</h1>
+      <button class="btn ghost" id="goIntro2">‹ Início</button>
+    </div>
+    <div class="grid2" style="margin-top:0">
+      <section class="frame card">
+        <h2 class="sub"><span class="n">1</span> Criar uma sala</h2>
+        <p class="hint" style="margin:0 0 8px">Você cria a sala, escolhe o seu lado e manda o link para o oponente. O motor do jogo roda no seu navegador, então deixe esta aba aberta.</p>
+        <label class="lbl" for="x1Name">Seu nome</label>
+        <input class="input" id="x1Name" maxlength="24" placeholder="Como o oponente vai te ver">
+        <label class="lbl">Você joga de</label>
+        <div class="seg" role="radiogroup" aria-label="Seu lado na sala">
+          <button type="button" class="x1-side runner" data-side="r" role="radio" aria-checked="true">Runner</button>
+          <button type="button" class="x1-side corp" data-side="c" role="radio" aria-checked="false">Corp</button>
+        </div>
+        <label class="lbl" for="x1List" id="x1ListLabel">Sua lista de Runner (texto exportado do NetrunnerDB)</label>
+        <textarea class="input" id="x1List" spellcheck="false" style="min-height:200px" placeholder="Identidade
+3x Carta
+..."></textarea>
+        <div class="report" id="x1Report"></div>
+        <div class="row" style="margin-top:12px"><label class="lbl" for="x1Ap" style="margin:0">Pontos de agenda para vencer</label><input class="input" id="x1Ap" type="number" min="1" max="10" value="7" style="width:90px"></div>
+        <div class="actions"><button class="btn pri big" id="x1Create" disabled>Criar sala</button><span class="muted" id="x1Hint">Cole a sua lista para liberar o botão.</span></div>
+      </section>
+      <section class="frame card">
+        <h2 class="sub"><span class="n">2</span> Entrar numa sala</h2>
+        <p class="hint" style="margin:0 0 8px">Recebeu um link? Abra o link direto, ou digite o código da sala aqui. A sua lista você cola na tela seguinte.</p>
+        <label class="lbl" for="x1Code">Código da sala</label>
+        <div class="row"><input class="input" id="x1Code" maxlength="5" placeholder="ABCDE" style="width:140px;text-transform:uppercase;font-family:ui-monospace,monospace;letter-spacing:.15em"><button class="btn" id="x1Join">Entrar</button></div>
+        <h2 class="sub" style="margin-top:26px">Como funciona</h2>
+        <ol class="how" style="columns:1;margin-top:0">
+          <li>Os dois lados são pessoas; o programa só aplica as regras e compra as cartas.</li>
+          <li>O microfone abre quando a partida começa (o navegador pede permissão). O botão 🎙 no canto liga e desliga.</li>
+          <li>Só entram cartas já programadas no treino (a lista avisa o que não é reconhecido).</li>
+          <li>Se alguém cair, basta abrir o mesmo link de novo para voltar à partida.</li>
+        </ol>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="decklist.js"></script>
 <script>
 let CARDS = null;
-const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[“”"']/g,'').replace(/\s+/g,' ').trim().toLowerCase();
-let byName = {};
 const $ = id => document.getElementById(id);
-
-fetch('cards.json').then(r=>r.json()).then(d=>{
-  CARDS = d;
-  for (const id in d) {
-    const c = d[id], n = norm(c.t);
-    if (!byName[n]) byName[n] = id;
-    if (c.ty==='identity') { const short = norm(c.t.split(':')[0]); if(!byName[short]) byName[short]=id; }
-  }
-  restore(); check();
-});
-
-function parse(text, side){
-  const ids = []; let identity = null; const unknown = []; const wrongSide = [];
-  let first = true;
-  for (let raw of text.split(/\r?\n/)) {
-    const wasFirst = first && raw.trim() !== '';
-    if (raw.trim() !== '') first = false;
-    let line = raw.replace(/\(.*?\)/g,'').replace(/[•●★☆]+/g,'').trim();
-    if (!line || /^#|^(event|hardware|resource|program|agenda|asset|upgrade|operation|ice|barrier|code gate|sentry|icebreaker|cards?|deck|total|influence|identity)\b.*\(?\d*\)?\s*:?$/i.test(line)) continue;
-    let qty = 1, m;
-    if ((m = line.match(/^(\d+)\s*x?\s+(.+)$/i))) { qty = +m[1]; line = m[2]; }
-    else if ((m = line.match(/^(.+?)\s+x\s*(\d+)$/i))) { qty = +m[2]; line = m[1]; }
-    if (/influence|spent|agenda points|^cards\b|decklist|netrunnerdb/i.test(line)) continue;
-    const id = byName[norm(line)];
-    if (!id && wasFirst) continue;
-    if (!id) { if (line.length > 2 && !/^\d+ (cards|influence)/i.test(line)) unknown.push(line); continue; }
-    const c = CARDS[id];
-    if (c.s !== side) { wrongSide.push(c.t); continue; }
-    if (c.ty === 'identity') { identity = +id; continue; }
-    for (let i=0;i<qty;i++) ids.push(+id);
-  }
-  return {identity, ids, unknown, wrongSide};
-}
-
-function report(el, r, side){
-  const idName = r.identity ? CARDS[r.identity].t : null;
-  const min = idName ? CARDS[r.identity].ds : (side==='r'?40:45);
-  let h = '';
-  h += idName ? `<div class="ok">Identidade: ${idName}</div>` : `<div class="err">Identidade não encontrada</div>`;
-  h += `<div class="${r.ids.length>=min?'ok':'warn'}">${r.ids.length} cartas reconhecidas (mínimo ${min})</div>`;
-  if (r.unknown.length) h += `<div class="err">Fora do pool ou não reconhecidas:<ul>${r.unknown.map(u=>`<li>${u}</li>`).join('')}</ul></div>`;
-  if (r.wrongSide.length) h += `<div class="warn">Cartas do outro lado ignoradas: ${r.wrongSide.join(', ')}</div>`;
-  el.innerHTML = h;
-  return !!r.identity && r.ids.length > 0;
-}
+DeckList.onReady = () => { CARDS = DeckList.cards; restore(); check(); x1check(); };
+const parse = DeckList.parse, report = DeckList.report, noAI = DeckList.noAI, pack = DeckList.pack;
 
 let SIDE = 'r', PHYS = 0;
 function setSide(v){
@@ -334,7 +341,6 @@ function setPhys(v){
 }
 document.querySelectorAll('.side-btn').forEach(b=>b.addEventListener('click', ()=>setSide(b.dataset.side)));
 document.querySelectorAll('.mode').forEach(b=>b.addEventListener('click', ()=>setPhys(b.dataset.phys)));
-function noAI(r){ return r.ids.filter(id=>CARDS[id] && CARDS[id].na).map(id=>CARDS[id].t); }
 function check(){
   if (!CARDS) return;
   const useR = SIDE==='r' || $('runnerMode').value==='paste';
@@ -355,7 +361,7 @@ function check(){
   }
   $('start').disabled = !ok;
   $('startHint').hidden = ok;
-  try { localStorage.setItem('jackin-treino', JSON.stringify({r:$('runnerList').value,c:$('corpList').value,m:$('corpMode').value,rm:$('runnerMode').value,side:SIDE,ap:$('ap').value,phys:PHYS,seen:1})); } catch(e){}
+  try { const sv = JSON.parse(localStorage.getItem('jackin-treino')||'{}'); Object.assign(sv, {r:$('runnerList').value,c:$('corpList').value,m:$('corpMode').value,rm:$('runnerMode').value,side:SIDE,ap:$('ap').value,phys:PHYS,seen:1}); localStorage.setItem('jackin-treino', JSON.stringify(sv)); } catch(e){}
 }
 function restore(){
   let s = null;
@@ -363,10 +369,13 @@ function restore(){
   if (s){ $('runnerList').value=s.r||''; $('corpList').value=s.c||''; $('corpMode').value=s.m||'random'; $('runnerMode').value=s.rm||'random'; $('ap').value=s.ap||7; SIDE=s.side||'r'; PHYS = s.phys!=null ? +s.phys : 0; }
   setPhys(PHYS);
   setSide(SIDE);
-  // quem já configurou antes vai direto para a configuração
-  if (location.hash === '#treinar' || (s && s.seen && location.hash !== '#inicio')) show('setup');
+  if (s){ $('x1Name').value = s.name||''; $('x1List').value = s.x1list||''; X1SIDE = s.x1side||'r'; }
+  x1side(X1SIDE);
+  const m = location.hash.match(/sala=([A-Za-z0-9]+)/);
+  if (m) { location.replace('sala.html?sala=' + m[1].toUpperCase()); return; }
+  if (location.hash === '#treinar') show('setup');
+  else if (location.hash === '#pessoa') show('x1setup');
 }
-const pack = r => LZString.compressToEncodedURIComponent(JSON.stringify({identity:r.identity, cards:r.ids}));
 
 ['runnerList','corpList','ap'].forEach(id=>$(id).addEventListener('input', check));
 $('corpMode').addEventListener('change', ()=>setSide(SIDE));
@@ -375,11 +384,49 @@ $('runnerMode').addEventListener('change', ()=>setSide(SIDE));
 function show(which){
   $('intro').hidden = which!=='intro';
   $('setup').hidden = which!=='setup';
-  history.replaceState(null, '', which==='setup' ? '#treinar' : '#inicio');
+  $('x1setup').hidden = which!=='x1setup';
+  history.replaceState(null, '', which==='setup' ? '#treinar' : which==='x1setup' ? '#pessoa' : '#inicio');
   window.scrollTo(0,0);
 }
-$('goSetup').addEventListener('click', ()=>show('setup'));
+$('goIA0').addEventListener('click', ()=>{ setPhys(0); show('setup'); });
+$('goIA1').addEventListener('click', ()=>{ setPhys(1); show('setup'); });
+$('goX1').addEventListener('click', ()=>show('x1setup'));
 $('goIntro').addEventListener('click', ()=>show('intro'));
+$('goIntro2').addEventListener('click', ()=>show('intro'));
+
+// ---- contra uma pessoa
+let X1SIDE = 'r';
+function x1side(v){
+  X1SIDE = v;
+  document.querySelectorAll('.x1-side').forEach(b=>b.setAttribute('aria-checked', b.dataset.side===v ? 'true' : 'false'));
+  $('x1ListLabel').textContent = 'Sua lista de ' + (v==='r' ? 'Runner' : 'Corp') + ' (texto exportado do NetrunnerDB)';
+  x1check();
+}
+document.querySelectorAll('.x1-side').forEach(b=>b.addEventListener('click', ()=>x1side(b.dataset.side)));
+function x1check(){
+  if (!CARDS) return;
+  const t = $('x1List').value.trim();
+  const ok = t ? report($('x1Report'), parse(t, X1SIDE), X1SIDE) : false;
+  if (!t) $('x1Report').innerHTML = '';
+  $('x1Create').disabled = !ok;
+  $('x1Hint').hidden = ok;
+  try { const s = JSON.parse(localStorage.getItem('jackin-treino')||'{}'); s.name = $('x1Name').value; s.x1side = X1SIDE; s.x1list = $('x1List').value; localStorage.setItem('jackin-treino', JSON.stringify(s)); } catch(e){}
+}
+['x1List','x1Name'].forEach(id=>$(id).addEventListener('input', x1check));
+$('x1Create').addEventListener('click', ()=>{
+  const r = parse($('x1List').value, X1SIDE);
+  const params = {x1:'host', sala: genCode(), p:X1SIDE, ap:(parseInt($('x1Ap').value)||7), physical:0, nome: $('x1Name').value.trim() || 'Anfitrião'};
+  params[X1SIDE] = pack(r);
+  go(params);
+});
+function genCode(){ const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c=''; for(let i=0;i<5;i++) c+=A[Math.floor(Math.random()*A.length)]; return c; }
+function x1join(){
+  const code = $('x1Code').value.trim().toUpperCase();
+  if (code.length < 4) { $('x1Code').focus(); return; }
+  location.href = 'sala.html?sala=' + encodeURIComponent(code) + ($('x1Name').value.trim() ? '&nome=' + encodeURIComponent($('x1Name').value.trim()) : '');
+}
+$('x1Join').addEventListener('click', x1join);
+$('x1Code').addEventListener('keydown', e=>{ if (e.key==='Enter') x1join(); });
 
 $('start').addEventListener('click', ()=>{
   const params = {p:SIDE, ap:(parseInt($('ap').value)||7), physical:PHYS};

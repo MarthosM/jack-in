@@ -157,3 +157,47 @@ body.jk-ui #modalcontent .jk-cancel{align-self:flex-end;margin-top:6px;backgroun
 body.jk-ui #modalcontent .jk-cancel:hover{background:var(--panel2);color:var(--text)}
 .jk-arch-down{opacity:.75;outline:1px dashed #8fa3a2;outline-offset:-1px}
 .jk-side b{font-size:13px;white-space:normal;max-width:190px;display:block;line-height:1.25}
+
+/* ---------------- X1 (duas pessoas) ---------------- */
+body.x1 #jk-board{padding-top:100px}
+#x1-bar{position:fixed;top:52px;left:0;right:0;z-index:945;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:6px 16px;min-height:34px;
+  background:#0b1724;border-bottom:1px solid var(--line);font:13px var(--f-ui);color:var(--dim)}
+#x1-bar b{color:var(--text)}
+#x1-bar.err{color:#ffb0bd;border-bottom-color:#ff4f6d}
+#x1-bar input{background:#07101a;border:1px solid var(--line);color:var(--text);border-radius:4px;padding:3px 8px;font:12px var(--f-mono);width:min(420px,60vw)}
+#x1-bar button{background:#10202f;border:1px solid var(--acc);color:var(--text);border-radius:4px;padding:3px 10px;font:600 12px var(--f-head);cursor:pointer}
+#x1-voice{position:fixed;top:7px;right:14px;z-index:961;display:flex;align-items:center;gap:8px;font:12px var(--f-ui);color:var(--dim)}
+#x1-mic{width:38px;height:38px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);cursor:pointer;font-size:18px;line-height:1}
+#x1-mic.st-on,#x1-mic.st-ouvindo{border-color:var(--acc);box-shadow:0 0 0 2px #5fd3ff33}
+#x1-mic.st-mudo{border-color:#ff4f6d}
+body.x1 #header h2{padding-right:0}
+body.x1-waiting #footer button, body.x1-waiting #footer .button, body.x1-host.x1-waiting #modal{display:none!important}
+#x1-waiting{position:fixed;left:0;right:0;bottom:0;z-index:951;text-align:center;padding:18px;font:600 16px var(--f-head);letter-spacing:.04em;color:var(--dim);
+  background:linear-gradient(0deg,#0f1d2b,#0b1724);border-top:1px solid var(--line);display:none}
+body.x1-waiting #x1-waiting{display:block}
+body.x1-waiting #footer{visibility:hidden}
+#x1-their-turn,.x1-over{font:600 16px var(--f-head);letter-spacing:.04em;color:var(--dim);margin:0 12px}
+.x1-over{color:var(--text)}
+.x1-toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,10px);z-index:970;background:#132435;border:1px solid var(--acc);color:var(--text);
+  padding:10px 16px;border-radius:8px;font:14px var(--f-ui);opacity:0;transition:.25s;max-width:min(560px,90vw)}
+.x1-toast.show{opacity:1;transform:translate(-50%,0)}
+body.x1-lobby #footer,body.x1-lobby #x1-waiting{display:none!important}
+#x1-lobby{position:fixed;inset:52px 0 0 0;z-index:940;overflow:auto;background:var(--ink);padding:40px 16px}
+.x1-lobby-box{max-width:720px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+.x1-lobby-box h1{font:600 24px var(--f-head);margin:0 0 8px;color:var(--acc)}
+.x1-lobby-box p{color:var(--dim);margin:0 0 6px}
+.x1-lobby-box .lbl{display:block;font:12px var(--f-head);color:var(--dim);margin:14px 0 4px}
+.x1-lobby-box .input{width:100%;box-sizing:border-box;background:#07101a;border:1px solid var(--line);border-radius:4px;padding:8px 10px;color:var(--text);font:14px var(--f-ui)}
+.x1-lobby-box textarea.input{min-height:220px;resize:vertical;font:13px/1.45 var(--f-mono)}
+.x1-lobby-box .report{font-size:13px;margin-top:8px;min-height:1.4em}
+.x1-lobby-box .report .ok{color:#5fe0a0}.x1-lobby-box .report .warn{color:#ffd28a}.x1-lobby-box .report .err{color:#ffb0bd}
+.x1-lobby-box .report ul{margin:4px 0 0;padding-left:18px}
+.x1-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.x1-lobby-box .btn{background:#10202f;border:1px solid var(--acc);color:var(--text);padding:10px 18px;border-radius:6px;font:600 15px var(--f-head);cursor:pointer}
+.x1-lobby-box .btn.pri{background:var(--acc);color:#04121c}
+.x1-lobby-box .btn[disabled]{opacity:.4;cursor:not-allowed}
+.x1-lobby-box .muted,.x1-lobby-box .pool{color:var(--dim);font-size:13px}
+body.x1-host.x1-lobby #jk-board::before{content:"A mesa aparece aqui quando o oponente entrar na sala. Deixe esta aba aberta: o jogo roda no seu navegador.";display:block;color:var(--dim);font:600 18px/1.5 var(--f-head);padding:80px 24px;text-align:center}
+body.x1-lobby #loading, body.x1-lobby #reveal-panel{display:none!important}
+body.x1-host.x1-lobby #jk-board{margin-right:0}
+#x1-wait{color:var(--text)}

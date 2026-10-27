@@ -40,9 +40,12 @@ function RevealOpp() {
 function RevealOppName() { return RevealOpp() == runner ? "Runner" : "Corp"; }
 
 function RevealAdd(kind, card) {
-  if (!card || card.player != RevealOpp()) return;
-  // o Runner (IA) não "revela" ao acessar suas próprias cartas — isso só vale para a Corp IA
-  if (RevealOpp() == runner && (kind == "access" || kind == "score" || kind == "expose")) return;
+  if (!card || !card.player) return;
+  // com uma IA, só guarda o lado dela; com dois humanos (X1) guarda os dois lados e filtra ao mostrar
+  var x1 = typeof runner != "undefined" && runner.AI == null && corp.AI == null;
+  if (!x1 && card.player != RevealOpp()) return;
+  // o Runner não "revela" ao acessar suas próprias cartas — isso só vale para a Corp
+  if (card.player == runner && (kind == "access" || kind == "score" || kind == "expose")) return;
   var title = card.title;
   if (!title) return;
   // evita duplicar o mesmo evento em sequência (gatilhos podem disparar mais de uma vez)
@@ -53,11 +56,12 @@ function RevealAdd(kind, card) {
   if (!where && kind == "access" && typeof attackedServer != "undefined" && attackedServer) {
     try { where = ServerName(attackedServer); } catch (e) {}
   }
-  RV.entries.push({ kind: kind, title: title, where: where, n: RV.count, card: card });
+  RV.entries.push({ kind: kind, title: title, where: where, n: RV.count, card: card, player: card.player });
   RevealRender(true);
 }
 
 (function () {
+  if (typeof AutomaticTriggers != "function") return;
   var _AutomaticTriggers = AutomaticTriggers;
   AutomaticTriggers = function (callbackName, parameters) {
     try {
@@ -85,15 +89,17 @@ function RevealAdd(kind, card) {
 function RevealRender(flash) {
   var $p = $("#reveal-panel");
   if (!$p.length) return;
+  if (typeof runner == "undefined" || !runner) return;
   var opp = RevealOpp();
   var idt = opp && opp.identityCard ? opp.identityCard.title : "";
   $("#reveal-who").text(RevealOppName());
   var html = "";
   if (idt) html += "<div class='rv-id'><span class='rv-k'>Identidade</span><a class='rv-card' data-title=\"" + RevealEsc(idt) + "\">" + RevealEsc(idt) + "</a></div>";
-  if (!RV.entries.length) html += "<p class='rv-empty'>" + (RevealOpp() == runner ? "Nada ainda. Eventos jogados e cartas instaladas pelo Runner aparecem aqui." : "Nada revelado ainda. Operações jogadas, ices rezzados e cartas acessadas aparecem aqui.") + "</p>";
+  var entries = RV.entries.filter(function (e) { return !e.player || e.player == opp; });
+  if (!entries.length) html += "<p class='rv-empty'>" + (RevealOpp() == runner ? "Nada ainda. Eventos jogados e cartas instaladas pelo Runner aparecem aqui." : "Nada revelado ainda. Operações jogadas, ices rezzados e cartas acessadas aparecem aqui.") + "</p>";
   html += "<ol class='rv-list'>";
-  for (var i = RV.entries.length - 1; i >= 0; i--) {
-    var e = RV.entries[i];
+  for (var i = entries.length - 1; i >= 0; i--) {
+    var e = entries[i];
     var db = RV.db[e.title] || {};
     var type = db.ty ? (TYPES[db.ty] || db.ty) : "";
     html += "<li class='rv-" + e.kind + "'><span class='rv-k'>" + REVEAL_KIND[e.kind] + (type ? " · " + type : "") + (e.where ? " · " + RevealEsc(e.where) : "") + "</span>" +
@@ -101,7 +107,7 @@ function RevealRender(flash) {
   }
   html += "</ol>";
   $("#reveal-body").html(html);
-  $("#reveal-count").text(RV.entries.length);
+  $("#reveal-count").text(entries.length);
   if (flash) {
     $p.removeClass("rv-flash");
     void $p[0].offsetWidth;
@@ -152,7 +158,7 @@ function RevealShowCard(title) {
 // carta em Archives com habilidade (Petty Cash) que agora não pode ser usada: diz por quê
 function RevealWhyNot(title) {
   try {
-    if (typeof PhysicalHuman != "function" || PhysicalHuman() != corp) return "";
+    if (typeof PhysicalHuman != "function" || typeof corp == "undefined" || PhysicalHuman() != corp) return "";
     var c = corp.archives.cards.find(function (x) { return x.title == title && x.abilitiesFromArchives; });
     if (!c) return "";
     var why = "";
@@ -166,7 +172,9 @@ function RevealWhyNot(title) {
 // se o jogador humano pode usar uma habilidade desta carta agora, oferece o botão no visualizador
 function RevealActionButtons(title) {
   try {
-    if (!activePlayer || activePlayer.AI != null) return "";
+    if (typeof X1 != "undefined" && X1.role == "guest") return X1.canTrigger(title) ? "<div class='rv-actions'><button type='button' class='rv-act' data-cmd='trigger'>Usar habilidade desta carta</button></div>" : "";
+    if (typeof activePlayer == "undefined" || !activePlayer || activePlayer.AI != null) return "";
+    if (typeof X1 != "undefined" && X1.role == "host" && activePlayer == X1.guestSide()) return "";
     var opts = (phaseOptions && phaseOptions.trigger) || [];
     var mine = opts.filter(function (o) { return o.card && o.card.title == title; });
     if (!mine.length) return RevealWhyNot(title);

@@ -448,6 +448,7 @@ class RunCalculator {
     this.reason = "error in directions"; //for reporting
 
     var iceAI = this.precalculated.iceAIs[point.iceIdx];
+    if (!iceAI) return result; //Jack In: o servidor mudou durante o cálculo assíncrono
 
     //create list of unbroken subroutines (each is an array of 'or' choices)
     var unbroken_sr = [];

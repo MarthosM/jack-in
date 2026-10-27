@@ -2163,6 +2163,8 @@ console.log(this.preferred);
 
         //and calculate best path
 		var bestpath = await this._commonRunCalculationChecksAsync(this.serverList[i].server,this.serverList[i].useRunEvent,this.serverList[i].bonusBreaker,false); //the false is for foresight, i.e. run now not later
+        //Jack In: a lista pode ter sido refeita enquanto o cálculo assíncrono rodava
+        if (!this.serverList[i]) break;
         this.serverList[i].bestpath = bestpath;
 		this.serverList[i].bestcost = Infinity;
         if (bestpath && bestpath.length > 0) {

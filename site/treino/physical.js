@@ -29,6 +29,11 @@ var Physical = {
 };
 
 function PhysicalHuman() {
+  // dois humanos (X1): o "humano" é quem está olhando a tela neste momento
+  if (runner.AI == null && corp.AI == null) {
+    if (typeof X1 != "undefined" && X1.role == "host" && X1.started) return X1.renderingFor || X1.mySide();
+    return typeof viewingPlayer != "undefined" && viewingPlayer ? viewingPlayer : runner;
+  }
   if (runner.AI == null) return runner;
   if (corp.AI == null) return corp;
   return null;

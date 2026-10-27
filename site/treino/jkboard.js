@@ -86,6 +86,7 @@ function JKTranslateUI() {
 
 // --------------------------------------------------------- registro (log)
 (function () {
+  if (typeof Log != "function") return;
   var _Log = Log;
   Log = function (src) {
     var r = _Log.apply(this, arguments);
@@ -100,6 +101,7 @@ function JKTranslateUI() {
 
 // --------------------------------------------------------------- render
 (function () {
+  if (typeof Render != "function") return;
   var _Render = Render;
   Render = function () {
     var r = _Render.apply(this, arguments);
@@ -260,7 +262,22 @@ function JKStat(label, value, cls, title) {
 }
 
 function JKRender() {
-  if (!$("#jk-board").length || !runner || !corp || !corp.HQ) return;
+  if (!$("#jk-board").length || typeof runner == "undefined" || !runner || !corp || !corp.HQ) return;
+  // X1 (anfitrião): a mesa é sempre desenhada pelo ponto de vista de quem está nesta tela
+  var me = typeof X1 != "undefined" && X1.role == "host" && X1.started ? X1.mySide() : null;
+  var saveV = viewingPlayer;
+  if (me) viewingPlayer = me;
+  try {
+    $("#jk-board").html(JKBoardHTML());
+    // registro
+    var lines = typeof JK.logOverride == "function" ? JK.logOverride() : JK.log;
+    var log = lines.slice(-60).map(function (l) { return "<li>" + JKEsc(l) + "</li>"; }).reverse().join("");
+    $("#jk-log").html(log);
+    JKTranslateUI();
+  } finally { if (me) viewingPlayer = saveV; }
+}
+// HTML da mesa para quem está olhando (viewingPlayer)
+function JKBoardHTML() {
   // ---- Corp
   var cAP = AgendaPoints(corp), rAP = AgendaPoints(runner), win = AgendaPointsToWin();
   var corpSide = corp.identityCard && typeof corp.identityCard.JKCSideLabel == "function" ? JKStat("Identidade", corp.identityCard.JKCSideLabel(), "jk-side") : "";
@@ -305,14 +322,14 @@ function JKRender() {
     : "<div class='jk-grip'><h4>Sua mão <b>" + runner.grip.length + "</b></h4><div class='jk-cards'>" + grip + "</div></div>";
   var corpHalf =
     "<div class='jk-half jk-corp'>" +
-      "<div class='jk-side-head'><div class='jk-who'>" + (corp.identityCard ? JKCard(corp.identityCard, { forceVisible: true, cls: "jk-mini jk-idcard" }) : "") + "<span class='jk-dot corp'></span>" + (meCorp ? "Você · Corp" : "Corp") + "<em class='jk-idname' data-title=\"" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "\">" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "</em></div><div class='jk-stats'>" + corpStats + "</div></div>" +
+      "<div class='jk-side-head'><div class='jk-who'>" + (corp.identityCard ? JKCard(corp.identityCard, { forceVisible: true, cls: "jk-mini jk-idcard" }) : "") + "<span class='jk-dot corp'></span>" + (meCorp ? "Você · Corp" : (corp.AI ? "Corp (IA)" : "Corp")) + "<em class='jk-idname' data-title=\"" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "\">" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "</em></div><div class='jk-stats'>" + corpStats + "</div></div>" +
       "<div class='jk-servers'>" + servers + "</div>" +
       (corpScore ? "<div class='jk-score'><h4>Agendas pontuadas</h4><div class='jk-cards'>" + corpScore + "</div></div>" : "") +
       corpHand +
     "</div>";
   var runnerHalf =
     "<div class='jk-half jk-runner" + (runner.tags ? " is-tagged" : "") + "'>" +
-      "<div class='jk-side-head'><div class='jk-who'><span class='jk-dot runner'></span>" + (meCorp ? "Runner (IA)" : "Runner") + "<em class='jk-idname' data-title=\"" + JKEsc(runner.identityCard ? runner.identityCard.title : "") + "\">" + JKEsc(runner.identityCard ? runner.identityCard.title : "") + "</em></div><div class='jk-stats'>" + runnerStats + "</div></div>" +
+      "<div class='jk-side-head'><div class='jk-who'><span class='jk-dot runner'></span>" + (meCorp ? (runner.AI ? "Runner (IA)" : "Runner") : "Runner") + "<em class='jk-idname' data-title=\"" + JKEsc(runner.identityCard ? runner.identityCard.title : "") + "\">" + JKEsc(runner.identityCard ? runner.identityCard.title : "") + "</em></div><div class='jk-stats'>" + runnerStats + "</div></div>" +
       "<div class='jk-rig'>" +
         "<div class='jk-id'>" + (runner.identityCard ? JKCard(runner.identityCard, { forceVisible: true }) : "") + "</div>" +
         "<div class='jk-rows'>" + row("Programas", runner.rig.programs) + row("Hardware", runner.rig.hardware) + row("Recursos", runner.rig.resources) + "</div>" +
@@ -322,13 +339,7 @@ function JKRender() {
       runnerHand +
     "</div>";
   // o seu lado fica embaixo
-  var html = meCorp ? runnerHalf + corpHalf : corpHalf + runnerHalf;
-  $("#jk-board").html(html);
-
-  // registro
-  var log = JK.log.slice(-60).map(function (l) { return "<li>" + JKEsc(l) + "</li>"; }).reverse().join("");
-  $("#jk-log").html(log);
-  JKTranslateUI();
+  return meCorp ? runnerHalf + corpHalf : corpHalf + runnerHalf;
 }
 
 // --------------------------------------------------------------- montagem
@@ -350,7 +361,7 @@ $(function () {
   $("#menucontent .close-cross").attr({ role: "button", "aria-label": "Fechar menu", tabindex: 0 }).html("&times;");
   $("#menu").on("click", function (e) { if (e.target === this) $("#menu").hide(); });
   $(document).on("keydown", function (e) { if (e.key == "Escape") $("#menu").hide(); });
-  $("body").append("<div id='jk-version'>Jack In Treino · v2.1</div>");
+  $("body").append("<div id='jk-version'>Jack In Treino · v2.2</div>");
   $(document).on("click", "#jk-board .jk-card[data-title], #jk-board .jk-idname", function (e) {
     e.stopPropagation();
     if (typeof RevealShowCard == "function") RevealShowCard($(this).attr("data-title"));
@@ -392,6 +403,7 @@ setInterval(function () {
     var sigH = (currentPhase ? currentPhase.identifier : "") + "|" + JK.log.length + "|" + (activePlayer == corp ? "C" : "R");
     if (sigH != JKWatch.sigH) { JKWatch.sigH = sigH; JKWatch.humanSince = 0; }
     if (activePlayer.AI == null) {
+      if ($("body").hasClass("x1-waiting")) { JKWatch.humanSince = 0; JKWatch.since = Date.now(); return; }
       // vez do humano sem nenhum botão nem janela na tela: o laço do jogo não foi retomado
       var nothing = !$("#footer button:visible").length && !$("#modal").is(":visible") &&
         !$("#physical-modal").is(":visible") && !$("#card-view").is(":visible") &&
