@@ -361,7 +361,7 @@ $(function () {
   $("#menucontent .close-cross").attr({ role: "button", "aria-label": "Fechar menu", tabindex: 0 }).html("&times;");
   $("#menu").on("click", function (e) { if (e.target === this) $("#menu").hide(); });
   $(document).on("keydown", function (e) { if (e.key == "Escape") $("#menu").hide(); });
-  $("body").append("<div id='jk-version'>Jack In Treino · v2.3</div>");
+  $("body").append("<div id='jk-version'>Jack In Treino · v2.4</div>");
   $(document).on("click", "#jk-board .jk-card[data-title], #jk-board .jk-idname", function (e) {
     e.stopPropagation();
     if (typeof RevealShowCard == "function") RevealShowCard($(this).attr("data-title"));

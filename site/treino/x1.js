@@ -226,6 +226,8 @@ function X1GuestView() {
     var sig = (v.mine ? 1 : 0) + "|" + (currentPhase ? currentPhase.identifier : "") + "|" + v.footer + "|" + (v.modalOn ? v.modal : "");
     if (sig !== X1.lastSig) { X1.lastSig = sig; X1.seq++; }
     v.seq = X1.seq;
+    v.run = typeof attackedServer != "undefined" && !!attackedServer;
+    v.fx = (X1.fx || []).splice(0);
     v.triggerable = [];
     try { if (v.mine && phaseOptions && phaseOptions.trigger) phaseOptions.trigger.forEach(function (o) { if (o.card && v.triggerable.indexOf(o.card.title) < 0) v.triggerable.push(o.card.title); }); } catch (e) {}
   } finally {
@@ -384,6 +386,7 @@ function X1Send(m) { try { if (X1.conn && X1.conn.open) X1.conn.send(m); } catch
 // lobby do convidado: nome + lista do deck (o lado é o oposto do anfitrião)
 function X1GuestLobby(room) {
   $("body").addClass("x1-lobby");
+  if (typeof SomMusic == "function") SomMusic("abertura");
   var side = X1.side;
   var html =
     "<div id='x1-lobby'><div class='x1-lobby-box'>" +
@@ -434,6 +437,14 @@ function X1GuestLobby(room) {
 function X1GuestRender(v) {
   X1.seq = v.seq;
   X1.view = v;
+  if (typeof SOM != "undefined") {
+    SOM.ready = true;
+    (v.fx || []).forEach(function (n) { SomFx(n); });
+    if (v.over) SomMusicStop();
+    else if (v.run) { clearTimeout(SOM.backT); SomMusic("run"); }
+    else if (SOM.cur && SOM.cur.name == "run") { clearTimeout(SOM.backT); SOM.backT = setTimeout(function () { if (!X1.view || !X1.view.run) SomMusic("partida"); }, 2500); }
+    else SomMusic("partida");
+  }
   $("#header").html("<h2>" + X1Esc(v.phase) + "</h2>");
   if (!$("#jk-board").length) $("#contentcontainer").before("<main id='jk-board' aria-label='Mesa'></main>");
   $("#jk-board").html(v.board);

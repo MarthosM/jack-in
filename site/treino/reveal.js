@@ -194,6 +194,8 @@ $(function () {
     "<div id='card-view' class='phys-modal'><div class='phys-box rv-box'>" +
     "<button id='card-view-close' type='button' aria-label='Fechar'>×</button><div id='card-view-content'></div></div></div>";
   $("body").append(panel);
+  // o painel é redesenhado quando a partida começa (os lados só ficam definidos depois do carregamento)
+  setTimeout(function () { RevealRender(); }, 1500);
   var stored = null;
   try { stored = localStorage.getItem("jackin-reveal-collapsed"); } catch (e) {}
   if (stored == "1" || (stored === null && window.innerWidth < 900)) $("#reveal-panel").addClass("rv-collapsed");
