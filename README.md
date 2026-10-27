@@ -11,6 +11,9 @@ Mesa online de **Netrunner** para jogar com **cartas físicas e câmeras**. Cada
 - Observadores com microfone opcional, controlados pelo anfitrião (mutar e remover).
 - Painel lateral recolhível, tela cheia com o placar dos dois jogadores.
 
+## Treino contra a IA
+Em [`site/treino/`](site/treino/) (publicado em https://jack-in.netlify.app/treino/) fica o **Jack In Treino**: uma partida inteira contra a IA, de Runner ou de Corp, com as cartas físicas na mão ou só pela tela. É derivado do motor [Chiriboga](https://github.com/bobtheuberfish/chiriboga) e, por isso, está sob a **GPL-3.0** (veja `site/treino/LICENSE`), não sob a MIT.
+
 ## Como rodar
 É uma página única, sem etapa de build: abra `site/index.html` no navegador (Chrome, Edge ou Firefox) ou publique a pasta `site/` em qualquer hospedagem estática. No Netlify, o arquivo `netlify.toml` já aponta para `site/`.
 
@@ -20,7 +23,7 @@ Detalhes técnicos: [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 Sugestões, relatos de erro e pull requests são bem-vindos. Abra uma issue descrevendo o problema ou a ideia. Todas as interações seguem o [Código de conduta](CODE_OF_CONDUCT.md).
 
 ## Licença
-O código deste projeto está sob a [licença MIT](LICENSE). Partes de terceiros mantêm as próprias licenças; veja [THIRD-PARTY.md](THIRD-PARTY.md). Em especial, os **símbolos de jogo e de facção da Null Signal Games** embutidos em `site/index.html` continuam sob **CC BY-ND 4.0** e **não** são cobertos pela licença MIT.
+O código deste projeto está sob a [licença MIT](LICENSE), exceto a pasta `site/treino/` (Jack In Treino), que é derivada do Chiriboga e está sob a [GPL-3.0](site/treino/LICENSE). Partes de terceiros mantêm as próprias licenças; veja [THIRD-PARTY.md](THIRD-PARTY.md). Em especial, os **símbolos de jogo e de facção da Null Signal Games** embutidos em `site/index.html` continuam sob **CC BY-ND 4.0** e **não** são cobertos pela licença MIT.
 
 Projeto de fãs, gratuito e sem fins lucrativos. Não é afiliado à Null Signal Games, à Fantasy Flight Games nem à Wizards of the Coast.
 
@@ -29,4 +32,4 @@ Projeto de fãs, gratuito e sem fins lucrativos. Não é afiliado à Null Signal
 ## English summary
 **Jack In** is a free, open-source web table for playing **Netrunner** with **physical cards over webcams**. It handles peer-to-peer video/audio (WebRTC via PeerJS), the game state (clicks, credits, hand size, agenda points, tags, turns), spectators with host moderation, and **card identification** by clicking a card in the video (OpenCV.js image matching + Tesseract.js OCR, restricted to the player's NetrunnerDB decklist). It is a single static page with no build step (`site/index.html`).
 
-Code: MIT License. Third-party assets keep their own licenses (see THIRD-PARTY.md); Null Signal Games symbols are CC BY-ND 4.0. Contributions are welcome under our [Code of Conduct](CODE_OF_CONDUCT.md). Non-commercial fan project, not affiliated with Null Signal Games, Fantasy Flight Games or Wizards of the Coast.
+Code: MIT License, except `site/treino/` (a training mode against the AI, derived from the GPL-3.0 [Chiriboga](https://github.com/bobtheuberfish/chiriboga) engine and therefore GPL-3.0). Third-party assets keep their own licenses (see THIRD-PARTY.md); Null Signal Games symbols are CC BY-ND 4.0. Contributions are welcome under our [Code of Conduct](CODE_OF_CONDUCT.md). Non-commercial fan project, not affiliated with Null Signal Games, Fantasy Flight Games or Wizards of the Coast.

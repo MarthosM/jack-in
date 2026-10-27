@@ -91,6 +91,8 @@ details.adv[open] summary{margin-bottom:10px}
 .lobby-tabs{display:flex; gap:4px; margin:0 0 18px; border-bottom:1px solid var(--line); width:min(1040px,100%)}
 .lobby-tabs button{background:none; border:none; border-bottom:2px solid transparent; padding:8px 16px; font-family:var(--fh); font-weight:600; color:var(--muted)}
 .lobby-tabs button.on{color:var(--acc2); border-bottom-color:var(--acc)}
+.lobby-tabs .treino-link{margin-left:auto; align-self:center; padding:6px 12px; border:1px solid var(--run); border-radius:4px; color:#ffd28a; text-decoration:none; font-family:var(--fh); font-weight:600; font-size:.85rem}
+.lobby-tabs .treino-link:hover{background:rgba(255,179,71,.12)}
 
 /* ---------- jogo ---------- */
 #game{position:relative; height:100vh; display:grid; grid-template-rows:auto 1fr}
@@ -386,6 +388,7 @@ body.obs .clickctl{display:none!important}
   <nav class="lobby-tabs" role="tablist">
     <button class="on" data-ltab="play" role="tab">Entrar na mesa</button>
     <button data-ltab="credits" role="tab">Créditos</button>
+    <a class="treino-link" href="treino/" title="Treine contra a IA, de Runner ou de Corp, com as cartas físicas ou só pela tela">Treinar contra a IA ›</a>
   </nav>
   <div class="lobby-grid" id="lobbyPlay">
     <div class="frame lobby-card">

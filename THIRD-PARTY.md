@@ -3,6 +3,7 @@
 A [licença MIT](LICENSE) cobre apenas o código escrito para este projeto. Os itens abaixo mantêm as próprias licenças e termos.
 
 ## Incluídos no repositório
+- **Chiriboga** (GPL-3.0, [github.com/bobtheuberfish/chiriboga](https://github.com/bobtheuberfish/chiriboga)) — motor de regras, IA e definições de cartas usados pelo **Jack In Treino** (`site/treino/`). Toda a pasta `site/treino/` é um trabalho derivado e está sob a GPL-3.0 (`site/treino/LICENSE`), não sob a MIT. Inclui também PixiJS (MIT), pixi-particles (MIT), jQuery (MIT), lz-string (MIT) e seedrandom (MIT), que acompanham o Chiriboga.
 - **Símbolos de jogo e de facção da Null Signal Games** — [NSG Visual Assets v1.5](https://nullsignal.games/about/nsg-visual-assets/), licença [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/). Embutidos em `site/index.html`. Alteração feita: apenas a cor dos símbolos monocromáticos (para seguir as cores da interface) e a conversão dos símbolos de facção em imagens pequenas. Não são cobertos pela licença MIT e não podem ser redesenhados. A Null Signal Games não é associada a este projeto nem o endossa. Conforme a orientação da NSG, os símbolos só aparecem junto de cartas impressas pela NSG, nunca com arte da Fantasy Flight Games.
 
 ## Carregados pelo navegador (não incluídos no repositório)
