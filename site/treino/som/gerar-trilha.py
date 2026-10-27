@@ -168,65 +168,100 @@ def piece_intro():
     mono = mono[:int((dur + 4) * SR)]
     master(stereo(mono), "trilha-1-abertura-chuva-na-arcologia")
 
-# ------------------------------------------------------------ 2) Partida: "Servidores em Repouso" (loop calmo)
+# ------------------------------------------------------------ 2) Partida: "Subsolo" (sombria, loop)
+def drone(n, dur, cutoff=260, amp=0.4):
+    t = t_(dur)
+    f = midi(n)
+    s = sum(saw(f * 2 ** (d / 1200), t) for d in (-9, 0, 7)) / 3
+    s = lp(s, cutoff) * amp
+    # respiração lenta do volume
+    return s * (0.75 + 0.25 * np.sin(2 * np.pi * t / 11.0))
+
+def metal_hit(dur=3.5, f0=140, amp=0.18):
+    # batida metálica distante: parciais inarmônicas graves com decaimento longo
+    t = t_(dur)
+    parts = [1.0, 1.47, 2.09, 2.56, 3.18]
+    s = sum(np.sin(2 * np.pi * f0 * p * t + rng.uniform(0, 6)) * np.exp(-t * (1.2 + i * 0.6)) for i, p in enumerate(parts))
+    s += lp(rng.standard_normal(len(t)), 900) * np.exp(-t * 25) * 0.6
+    return s * amp
+
+def low_pulse(n, at_list, beat, amp=0.3):
+    out = []
+    for at in at_list:
+        t = t_(beat * 0.9)
+        s = lp(saw(midi(n), t) + saw(midi(n) * 0.5, t) * 0.7, 180) * np.exp(-t * 3.5) * amp
+        out.append((s, at))
+    return out
+
 def piece_ambient():
+    dur = 64
+    buf = np.zeros(int((dur + 6) * SR))
+    # drone em Ré, com a segunda menor (Mi bemol) aparecendo: modo frígio, sombrio
+    place(buf, drone(26, dur + 2, 240, 0.45), 0)
+    place(buf, drone(38, dur + 2, 320, 0.22), 0)
+    beat = 60 / 64
+    # pulso grave lento, como coração de máquina: dois toques, pausa
+    hits = []
+    tpos = 4.0
+    while tpos < dur - 2:
+        hits += [tpos, tpos + beat * 0.5]
+        tpos += beat * 4
+    for s, at in low_pulse(26, hits, beat, 0.32):
+        place(buf, s, at)
+    # acordes escuros, longos, que mal abrem o filtro (Dm, Eb, Dm(add9), Bbmaj7/D)
+    chords = [[50, 53, 57, 62], [51, 55, 58, 63], [50, 53, 57, 64], [50, 53, 58, 62]]
+    for k, ch in enumerate(chords * 2):
+        place(buf, cs_pad(ch, 9.0, atk=3.0, rel=4.0, bright=(260, 900), detune=0.14, vib=0.15) * 0.75, 2.0 + k * 7.6)
+    # tema lento e grave (3-4 notas por frase), em registro médio-baixo
+    mel = [(62, 10.0, 3.0), (63, 13.2, 1.6), (62, 15.0, 4.0), (60, 25.0, 2.0), (58, 27.2, 2.0), (57, 29.4, 5.0),
+           (62, 41.0, 2.5), (65, 43.6, 1.5), (63, 45.3, 6.0)]
+    for n, at, d in mel:
+        place(buf, cs_pad([n], d, atk=0.6, rel=2.5, bright=(500, 1500), detune=0.07, vib=4.5) * 0.9, at)
+    # batidas metálicas distantes, esparsas
+    for at in (7.0, 22.5, 36.0, 51.5):
+        place(buf, metal_hit(4.0, float(rng.choice([96, 110, 123]))), at)
+    mono = reverb(buf, wet=0.45, size=1.4)
+    mono = mono / (np.max(np.abs(mono)) or 1)
+    # chuva bem baixa e escura (filtrada)
+    r = lp(rain(len(mono) / SR, 0.006)[:len(mono)], 3000)
+    mono = mono + r
+    master(stereo(mono), "trilha-2-partida-subsolo")
+
+# ------------------------------------------------------------ 3) Run: "Intrusão" (tensa, industrial, grave)
+def piece_run():
     dur = 40
     buf = np.zeros(int((dur + 6) * SR))
-    bpm = 84; beat = 60 / bpm
-    # pulso de baixo em colcheias com filtro respirando
-    notes = [33, 33, 40, 33, 31, 31, 38, 31, 29, 29, 36, 29, 31, 31, 38, 31]
-    i = 0; tpos = 0.0
-    while tpos < dur:
-        n = notes[i % len(notes)]
-        t = t_(beat * 0.5)
-        s = lp(saw(midi(n), t), 300 + 250 * (1 + np.sin(2 * np.pi * tpos / 16))) * env(len(t), 0.005, 0.12, 0.3, 0.05, beat * 0.3) * 0.32
-        place(buf, s, tpos); tpos += beat * 0.5; i += 1
-    # pads suspensos por cima
-    chords = [[57, 60, 64, 71], [55, 59, 62, 69], [53, 57, 60, 67], [55, 59, 62, 66]]
-    for k, ch in enumerate(chords * 2):
-        place(buf, cs_pad(ch, beat * 8 + 1, atk=1.2, rel=2.5, bright=(450, 1800), detune=0.1) * 0.8, k * beat * 8 * 0.62)
-    # arpejo cristalino ao fundo (eco)
-    arp = [69, 72, 76, 79, 76, 72]
-    tpos = 2.0; j = 0
-    while tpos < dur - 2:
-        b = bell(arp[j % len(arp)] + 12, 1.2, 0.05)
-        place(buf, b, tpos); place(buf, b * 0.5, tpos + beat * 0.75); place(buf, b * 0.25, tpos + beat * 1.5)
-        tpos += beat; j += 1
-    mono = reverb(buf, wet=0.38, size=1.0)
-    master(stereo(mono), "trilha-2-partida-servidores-em-repouso")
-
-# ------------------------------------------------------------ 3) Run: "Jack In" (tensão)
-def piece_run():
-    dur = 34
-    buf = np.zeros(int((dur + 6) * SR))
-    bpm = 112; beat = 60 / bpm
-    # baixo em semicolcheias, nota pedal com saltos de oitava
+    bpm = 96; beat = 60 / bpm
+    # baixo em semicolcheias, Ré grave com Mi bemol (frígio), filtro abrindo devagar
+    seqn = [26, 26, 26, 27, 26, 26, 38, 26, 26, 26, 27, 26, 24, 26, 25, 26]
     tpos = 0.0; k = 0
-    seq = [26, 26, 38, 26, 26, 26, 38, 29]
     while tpos < dur:
-        n = seq[k % len(seq)] + (0 if (tpos // (beat * 8)) % 2 == 0 else -2)
+        n = seqn[k % len(seqn)]
         t = t_(beat * 0.25)
-        s = lp(saw(midi(n), t), 700 + 500 * min(1, tpos / dur * 2)) * env(len(t), 0.002, 0.06, 0.25, 0.03, beat * 0.12) * 0.36
+        cut = 260 + 520 * min(1, tpos / dur * 1.4)
+        s = lp(saw(midi(n), t) + saw(midi(n) * 1.005, t), cut) * env(len(t), 0.002, 0.08, 0.3, 0.03, beat * 0.1) * 0.38
         place(buf, s, tpos); tpos += beat * 0.25; k += 1
-    # bumbo eletrônico e caixa com ruído
+    # bumbo grave e "porta de ferro" no contratempo
     tpos = 0.0; b = 0
     while tpos < dur:
-        t = t_(0.35)
-        kick = np.sin(2 * np.pi * (50 + 120 * np.exp(-t * 30)) * t) * np.exp(-t * 9) * 0.6
+        t = t_(0.5)
+        kick = np.sin(2 * np.pi * (38 + 90 * np.exp(-t * 28)) * t) * np.exp(-t * 7) * 0.7
         place(buf, kick, tpos)
-        if b % 2 == 1:
-            sn = bp(rng.standard_normal(len(t)), 1200, 6000) * np.exp(-t * 18) * 0.25
-            place(buf, sn, tpos)
+        if b % 4 == 2:
+            place(buf, metal_hit(1.4, 180, 0.22), tpos)
         tpos += beat; b += 1
-    # acordes de "alarme" (brass) que crescem
-    stabs = [[50, 53, 57, 60], [48, 51, 55, 58], [46, 50, 53, 57], [45, 49, 52, 55]]
+    # acordes graves de tensão (diminutos / menor com segunda menor), crescendo
+    stabs = [[38, 41, 44, 47], [39, 42, 45, 48], [38, 41, 45, 50], [37, 40, 43, 46]]
     for i, ch in enumerate(stabs * 2):
-        place(buf, cs_pad(ch, beat * 7, atk=0.08, rel=0.8, bright=(1200, 2600), detune=0.15, vib=0.4) * (0.5 + 0.06 * i), 2.0 + i * beat * 8 * 0.5)
-    # linha de "sinal" aguda (glitch)
-    for at in np.arange(4.0, dur - 2, beat * 4):
-        place(buf, bell(86 + int(rng.integers(0, 3)) * 2, 0.6, 0.06), at)
-    mono = reverb(buf, wet=0.28, size=0.8)
-    master(stereo(mono), "trilha-3-run-jack-in")
+        place(buf, cs_pad(ch, beat * 7, atk=0.4, rel=1.5, bright=(300, 1100), detune=0.18, vib=0.3) * (0.55 + 0.05 * i), 1.0 + i * beat * 4)
+    # ruído de estática passando (varredura), a cada 8 tempos
+    for at in np.arange(beat * 8, dur - 2, beat * 8):
+        t = t_(1.6)
+        nz = rng.standard_normal(len(t))
+        sw = sweep_lp(nz, 200, 2200) * np.sin(np.pi * np.clip(t / 1.6, 0, 1)) ** 2 * 0.12
+        place(buf, sw, at)
+    mono = reverb(buf, wet=0.3, size=0.9)
+    master(stereo(mono), "trilha-3-run-intrusao")
 
 if __name__ == "__main__":
     which = sys.argv[1:] or ["1", "2", "3"]
