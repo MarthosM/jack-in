@@ -283,7 +283,7 @@ footer{margin-top:30px; text-align:center; font-size:.85rem; color:var(--muted);
 
     <div class="actions">
       <button class="btn pri big" id="start" disabled>Começar partida</button>
-      <span class="muted" id="startHint">Cole a sua lista para liberar o botão, ou escolha "Deck montado pela IA".</span>
+      <span class="muted" id="startHint" style="color:#ffd28a"></span>
     </div>
     <p class="pool">Cartas disponíveis: System Gateway, System Update 2021, Midnight Sun (parcial), o deck Vic (Criminal) e os decks de Corp Ob Superheavy, Jinteki: Restoring Humanity, AU Co., Earth Station e LEO Construction.</p>
   </div>
@@ -395,28 +395,31 @@ function check(){
   if (!CARDS) return;
   const useR = SIDE==='r' ? MYDECK==='paste' : $('runnerMode').value==='paste';
   const useC = SIDE==='c' ? MYDECK==='paste' : $('corpMode').value==='paste';
-  let ok = true;
+  const missing = [];
+  const who = s => (s===SIDE ? 'o seu deck' : 'o deck da IA');
   if (useR) {
     const rt = $('runnerList').value.trim();
     if (rt) {
       const r = parse(rt,'r');
-      ok = report($('runnerReport'), r, 'r') && ok;
-      if (SIDE==='c') { const bad=[...new Set(noAI(r))]; if (bad.length){ $('runnerReport').innerHTML += `<div class="err">A IA de Runner não sabe jogar: ${bad.join(', ')}</div>`; ok=false; } }
-    } else { $('runnerReport').innerHTML=''; ok = false; }
+      if (!report($('runnerReport'), r, 'r')) missing.push('a lista de Runner não tem identidade ou cartas reconhecidas');
+      if (SIDE==='c') { const bad=[...new Set(noAI(r))]; if (bad.length){ $('runnerReport').innerHTML += `<div class="err">A IA de Runner não sabe jogar: ${bad.join(', ')}</div>`; missing.push('a IA de Runner não sabe jogar algumas cartas da lista'); } }
+    } else { $('runnerReport').innerHTML=''; missing.push('cole a lista de Runner (' + who('r') + ')' + (SIDE==='r' ? ' ou escolha "Deck montado pela IA"' : ' ou escolha "Aleatório" no deck da IA')); }
   }
   if (useC) {
     const ct = $('corpList').value.trim();
-    ok = (ct ? report($('corpReport'), parse(ct,'c'), 'c') : false) && ok;
-    if (!ct) $('corpReport').innerHTML='';
+    if (ct) { if (!report($('corpReport'), parse(ct,'c'), 'c')) missing.push('a lista de Corp não tem identidade ou cartas reconhecidas'); }
+    else { $('corpReport').innerHTML=''; missing.push('cole a lista de Corp (' + who('c') + ')' + (SIDE==='c' ? ' ou escolha "Deck montado pela IA"' : ' ou escolha "Aleatório" no deck da IA')); }
   }
+  const ok = !missing.length;
   $('start').disabled = !ok;
   $('startHint').hidden = ok;
+  $('startHint').textContent = ok ? '' : 'Para começar: ' + missing.join('; ') + '.';
   try { const sv = JSON.parse(localStorage.getItem('jackin-treino')||'{}'); Object.assign(sv, {r:$('runnerList').value,c:$('corpList').value,m:$('corpMode').value,rm:$('runnerMode').value,side:SIDE,ap:$('ap').value,phys:PHYS,mydeck:MYDECK,seen:1}); localStorage.setItem('jackin-treino', JSON.stringify(sv)); } catch(e){}
 }
 function restore(){
   let s = null;
   try { s = JSON.parse(localStorage.getItem('jackin-treino')||'null'); } catch(e){}
-  if (s){ $('runnerList').value=s.r||''; $('corpList').value=s.c||''; $('corpMode').value=s.m||'random'; $('runnerMode').value=s.rm||'random'; $('ap').value=s.ap||7; SIDE=s.side||'r'; PHYS = s.phys!=null ? +s.phys : 0; }
+  if (s){ $('runnerList').value=s.r||''; $('corpList').value=s.c||''; $('corpMode').value=(s.m==='paste' && !(s.c||'').trim())?'random':(s.m||'random'); $('runnerMode').value=(s.rm==='paste' && !(s.r||'').trim())?'random':(s.rm||'random'); $('ap').value=s.ap||7; SIDE=s.side||'r'; PHYS = s.phys!=null ? +s.phys : 0; }
   if (s && s.mydeck) MYDECK = s.mydeck;
   setPhys(PHYS);
   setMyDeck(MYDECK);
