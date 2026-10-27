@@ -147,7 +147,7 @@ function X1HostOnData(d) {
     if (!X1.started) {
       // o deck do convidado entra como parâmetro do motor e a partida começa
       X1.params = X1.params || {};
-      X1.params[X1.side == "c" ? "r" : "c"] = d.deck;
+      if (d.deck) X1.params[X1.side == "c" ? "r" : "c"] = d.deck;
       X1.started = true;
       $("body").removeClass("x1-lobby");
       X1Status("<b>Sala " + X1.code + "</b> · " + X1Esc(X1.names.host) + " (" + X1.sideName(X1.side) + ") × " + X1Esc(X1.names.guest) + " (" + X1.sideName(X1.side == "c" ? "r" : "c") + ")");
@@ -390,31 +390,42 @@ function X1GuestLobby(room) {
     "<h1>Sala " + X1Esc(room.code) + "</h1>" +
     "<p>" + X1Esc(room.hostName) + " joga de <b>" + X1.sideName(room.hostSide) + "</b>. Você joga de <b>" + X1.sideName(side) + "</b>. Partida até " + room.ap + " pontos de agenda, com cartas digitais: o programa compra por você e mostra a sua mão na tela.</p>" +
     "<label class='lbl' for='x1-name'>Seu nome</label><input class='input' id='x1-name' maxlength='24' value='" + X1Esc(X1.names.guest) + "' placeholder='Como o oponente vai te ver'>" +
-    "<label class='lbl' for='x1-deck'>Sua lista de " + X1.sideName(side) + " (texto exportado do NetrunnerDB)</label>" +
+    "<label class='lbl'>Seu deck de " + X1.sideName(side) + "</label>" +
+    "<div class='x1-seg' id='x1-deckmode'><button type='button' data-d='paste' aria-checked='true'>Colar a minha lista</button><button type='button' data-d='ai' aria-checked='false'>Deck montado pela IA</button></div>" +
+    "<div id='x1-pastebox'><label class='lbl' for='x1-deck'>Lista exportada do NetrunnerDB (texto)</label>" +
     "<textarea class='input' id='x1-deck' spellcheck='false' placeholder='Identidade\n3x Carta\n...'></textarea>" +
-    "<div class='report' id='x1-report'></div>" +
+    "<div class='report' id='x1-report'></div></div>" +
+    "<p class='muted' id='x1-aihint' style='display:none'>A IA monta um deck de " + X1.sideName(side) + " com as cartas do treino.</p>" +
     "<div class='x1-actions'><button class='btn pri big' id='x1-join' disabled>Entrar na partida</button><span class='muted' id='x1-hint'>Cole a lista para liberar o botão.</span></div>" +
     "<p class='pool'>Só cartas programadas no treino: System Gateway, System Update 2021, Midnight Sun (parcial), o deck Vic e os decks de Corp Ob Superheavy, Jinteki: Restoring Humanity, AU Co., Earth Station e LEO Construction.</p>" +
     "</div></div>";
   $("body").append(html);
   try { var saved = JSON.parse(localStorage.getItem("jackin-treino") || "null"); if (saved) { $("#x1-deck").val(side == "c" ? (saved.c || "") : (saved.r || "")); if (!X1.names.guest && saved.name) $("#x1-name").val(saved.name); } } catch (e) {}
-  var parsed = null;
+  var parsed = null, mode = "paste";
+  try { var sv = JSON.parse(localStorage.getItem("jackin-treino") || "null"); if (sv && sv.guestdeck) mode = sv.guestdeck; } catch (e) {}
+  function setMode(m) {
+    mode = m;
+    $("#x1-deckmode button").each(function () { $(this).attr("aria-checked", $(this).attr("data-d") == m ? "true" : "false"); });
+    $("#x1-pastebox").toggle(m == "paste"); $("#x1-aihint").toggle(m == "ai");
+    check();
+  }
+  $(document).on("click", "#x1-deckmode button", function () { setMode($(this).attr("data-d")); });
   function check() {
     if (typeof DeckList == "undefined" || !DeckList.ready) { setTimeout(check, 200); return; }
     var txt = $("#x1-deck").val().trim();
     parsed = txt ? DeckList.parse(txt, side) : null;
-    var ok = !!(parsed && DeckList.report($("#x1-report")[0], parsed, side));
+    var ok = mode == "ai" || !!(parsed && DeckList.report($("#x1-report")[0], parsed, side));
     if (!txt) $("#x1-report").html("");
     $("#x1-join").prop("disabled", !ok);
     $("#x1-hint").toggle(!ok);
   }
   $("#x1-deck").on("input", check);
-  check();
+  setMode(mode);
   $("#x1-join").on("click", function () {
     X1.names.guest = $("#x1-name").val().trim() || "Oponente";
-    try { var s = JSON.parse(localStorage.getItem("jackin-treino") || "{}"); s.name = X1.names.guest; if (side == "c") s.c = $("#x1-deck").val(); else s.r = $("#x1-deck").val(); localStorage.setItem("jackin-treino", JSON.stringify(s)); } catch (e) {}
+    try { var s = JSON.parse(localStorage.getItem("jackin-treino") || "{}"); s.name = X1.names.guest; s.guestdeck = mode; if (side == "c") s.c = $("#x1-deck").val(); else s.r = $("#x1-deck").val(); localStorage.setItem("jackin-treino", JSON.stringify(s)); } catch (e) {}
     X1Status("Entrando…");
-    var go = function () { X1Send({ t: "hello", name: X1.names.guest, deck: DeckList.pack(parsed) }); };
+    var go = function () { X1Send({ t: "hello", name: X1.names.guest, deck: mode == "ai" ? null : DeckList.pack(parsed), aiDeck: mode == "ai" }); };
     if (!X1.voice.stream) X1VoiceStart(go); else go();
   });
 }
