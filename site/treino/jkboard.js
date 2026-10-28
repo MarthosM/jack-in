@@ -78,6 +78,11 @@ function JKTranslateUI() {
       if ($t.length && $t.text() != "Usar habilidade de início de turno") $t.text("Usar habilidade de início de turno");
     }
   } catch (e) {}
+  $("#footer h2").each(function () {
+    var t = $(this).text().trim();
+    var m = { "Drag to Archives": "Escolha uma carta para descartar (vai para Archives)", "Drag to Heap": "Escolha uma carta para descartar (vai para o Heap)" };
+    if (m[t]) $(this).text(m[t]);
+  });
   var h = $("#header h2").first();
   var ht = h.text().trim();
   var pt = JKPhasePT(ht);
@@ -365,11 +370,27 @@ $(function () {
       try { localStorage.setItem("jackin-log-open", $("#reveal-panel").hasClass("log-open") ? "1" : "0"); } catch (e) {}
     });
   }, 100);
+  // tela cheia
+  var de = document.documentElement;
+  if (de.requestFullscreen || de.webkitRequestFullscreen) {
+    $("body").append("<button id='jk-fs' type='button' title='Tela cheia' aria-label='Tela cheia'>⛶</button>");
+    var isFs = function () { return !!(document.fullscreenElement || document.webkitFullscreenElement); };
+    $("#jk-fs").on("click", function () {
+      try {
+        if (isFs()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+        else (de.requestFullscreen || de.webkitRequestFullscreen).call(de);
+      } catch (e) {}
+    });
+    $(document).on("fullscreenchange webkitfullscreenchange", function () {
+      var on = isFs();
+      $("#jk-fs").toggleClass("on", on).attr({ title: on ? "Sair da tela cheia" : "Tela cheia", "aria-label": on ? "Sair da tela cheia" : "Tela cheia" });
+    });
+  }
   $("#menucontent h1").text("Jack In · Treino");
   $("#menucontent .close-cross").attr({ role: "button", "aria-label": "Fechar menu", tabindex: 0 }).html("&times;");
   $("#menu").on("click", function (e) { if (e.target === this) $("#menu").hide(); });
   $(document).on("keydown", function (e) { if (e.key == "Escape") $("#menu").hide(); });
-  $("body").append("<div id='jk-version'>Jack In Treino · v2.7</div>");
+  $("body").append("<div id='jk-version'>Jack In Treino · v2.8</div>");
   $(document).on("click", "#jk-board .jk-card[data-title], #jk-board .jk-idname", function (e) {
     e.stopPropagation();
     JKZoomHide();

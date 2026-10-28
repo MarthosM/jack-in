@@ -240,3 +240,37 @@ body.jk-ui .rv-text h2{font:600 24px/1.2 var(--f-head);color:var(--acc)}
 body.jk-ui .rv-state{display:flex;align-items:center;gap:8px;margin:10px 0}
 body.jk-ui .rv-state .bd{font-size:13px;padding:4px 9px}
 @media (max-width:720px){ body.jk-ui .rv-view{flex-wrap:wrap} body.jk-ui .rv-img{width:min(320px,100%)} }
+
+/* ---------------- v2.8: mais espaço para a mesa ----------------
+   Topo mais baixo, painel lateral mais estreito e cartas que crescem com a tela (e mais ainda em tela cheia). */
+:root{--base:clamp(80px, min(6.4vw, 10.4vh), 140px); --cw:var(--base); --ch:calc(var(--base)*1.4)}
+.jk-hand{--cw:calc(var(--base)*1.18);--ch:calc(var(--base)*1.65)}
+.jk-mini,.jk-mini-pile .jk-card{--cw:calc(var(--base)*.64);--ch:calc(var(--base)*.89)}
+.jk-name{font-size:calc(var(--cw)*.125)}
+body.jk-ui #header{height:40px}
+body.jk-ui #header h2{font-size:15px}
+body.jk-ui #menubar{top:3px}
+body.jk-ui #menubar button{width:34px;height:34px}
+body.jk-ui #menubar button::before{left:9px;right:9px;top:10px}
+body.jk-ui #som-wrap{top:3px}
+body.jk-ui #som-btn{width:34px;height:34px;font-size:16px}
+body.jk-ui #som-pop{top:40px}
+#x1-voice{top:3px} #x1-mic{width:34px;height:34px;font-size:16px}
+#x1-bar{top:40px;min-height:30px;padding:4px 16px}
+#jk-board{padding:48px 12px 80px;margin-right:244px;gap:10px}
+body.x1 #jk-board{padding-top:82px}
+body.x1 #reveal-panel{top:82px}
+.jk-half{padding:10px 12px}
+.jk-side-head{margin-bottom:8px}
+body.jk-ui #reveal-panel{top:48px;right:8px;bottom:68px;width:228px;font-size:13px}
+body.jk-ui #footer{min-height:58px;padding:8px 16px}
+#jk-version{bottom:4px}
+#jk-fs{position:fixed;top:3px;right:56px;z-index:962;width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--dim);cursor:pointer;font-size:17px;line-height:1;padding:0}
+#jk-fs:hover,#jk-fs.on{color:var(--acc);border-color:#28465f}
+body.x1 #jk-fs{right:auto;left:100px}
+body.x1-host.x1-lobby #jk-board{margin-right:0}
+@media (max-width:900px){
+  :root{--base:72px}
+  #jk-board{margin-right:0;padding-bottom:110px}
+  body.jk-ui #reveal-panel{top:auto;bottom:68px;left:12px;right:12px;width:auto}
+}
