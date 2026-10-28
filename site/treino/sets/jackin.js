@@ -629,11 +629,11 @@ cardSet[26018] = {
     Resolve: function (card) { if (card == this) this.installedThisTurn = true; },
   },
   responseOnRunnerTurnBegins: {
-    Resolve: function () { this.installedThisTurn = false; this.drewThisTurn = false; },
+    Resolve: function () { this.installedThisTurn = false; this.drewThisTurn = false; this.classActPending = false; },
     automatic: true,
   },
   responseOnCorpTurnBegins: {
-    Resolve: function () { this.installedThisTurn = false; this.drewThisTurn = false; },
+    Resolve: function () { this.installedThisTurn = false; this.drewThisTurn = false; this.classActPending = false; },
     automatic: true,
   },
   responseOnRunnerDiscardEnds: {
@@ -646,17 +646,56 @@ cardSet[26018] = {
     Resolve: function () { this.installedThisTurn = false; Draw(runner, 4); },
     text: "The Class Act: comprar 4 cartas",
   },
-  // A segunda habilidade mexe só na ordem do baralho físico: o sistema apenas lembra o jogador.
+  // Segunda habilidade. No modo digital o efeito é aplicado de verdade; com baralho físico, só o lembrete.
+  // Equivalência usada no digital: olhar as X do topo (compra + 1), pôr 1 no fundo e comprar as outras
+  // dá o mesmo resultado que comprar e então escolher 1 entre as compradas + a próxima do topo para ir ao fundo.
   modifyDraw: {
     Resolve: function (player) {
-      if (player == runner && !this.drewThisTurn && CheckInstalled(this)) {
+      if (player == runner && !this.drewThisTurn && CheckInstalled(this) && runner.stack.length > 0) {
         this.drewThisTurn = true;
-        Log("The Class Act: antes de comprar, olhe o topo do seu baralho (cartas a comprar + 1) e coloque 1 no fundo.");
-        if (typeof PhysicalNotice === "function") PhysicalNotice("The Class Act: antes de comprar, olhe as cartas do topo (quantidade a comprar + 1) e coloque 1 delas no fundo do baralho.");
+        var physicalHuman = typeof Physical != "undefined" && Physical.enabled && typeof PhysicalHuman == "function" && PhysicalHuman() == runner;
+        if (physicalHuman) {
+          Log("The Class Act: antes de comprar, olhe o topo do seu baralho (cartas a comprar + 1) e coloque 1 no fundo.");
+          if (typeof PhysicalNotice === "function") PhysicalNotice("The Class Act: antes de comprar, olhe as cartas do topo (quantidade a comprar + 1) e coloque 1 delas no fundo do baralho.");
+        } else this.classActPending = true;
       }
       return 0;
     },
     automatic: true,
+  },
+  responseOnCardsDrawn: {
+    Enumerate: function (cards) {
+      if (!this.classActPending) return [];
+      var opts = [];
+      (cards || []).forEach(function (c) { if (c && runner.grip.includes(c)) opts.push({ cact: c, drawn: true, label: "Pôr no fundo: " + c.title + " (comprada)" }); });
+      var top = runner.stack[runner.stack.length - 1];
+      if (top) opts.push({ cact: top, drawn: false, label: "Pôr no fundo: " + top.title + " (próxima do topo)" });
+      if (opts.length < 2) { this.classActPending = false; return []; }
+      if (runner.AI) {
+        // IA: devolve a carta mais cara que não dá para pagar agora; se não houver, a próxima do topo
+        var best = opts[opts.length - 1], worst = -1;
+        opts.forEach(function (o) {
+          var cost = o.cact.installCost != null ? o.cact.installCost : (o.cact.playCost != null ? o.cact.playCost : 0);
+          if (cost > runner.creditPool && cost > worst) { worst = cost; best = o; }
+        });
+        return [best];
+      }
+      return opts;
+    },
+    Resolve: function (params) {
+      this.classActPending = false;
+      var c = params.cact;
+      if (!c) return;
+      var title = GetTitle(c, true);
+      MoveCard(c, runner.stack, 0);
+      if (params.drawn) {
+        // a carta devolvida não chega a ser comprada: a próxima do topo entra no lugar dela
+        var next = runner.stack[runner.stack.length - 1];
+        if (next && next !== c) MoveCard(next, runner.grip);
+      }
+      Log("The Class Act: " + title + " foi para o fundo do baralho");
+    },
+    text: "The Class Act: escolha 1 carta para o fundo do baralho",
   },
 };
 
