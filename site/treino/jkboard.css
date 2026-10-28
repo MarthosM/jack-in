@@ -243,9 +243,9 @@ body.jk-ui .rv-state .bd{font-size:13px;padding:4px 9px}
 
 /* ---------------- v2.8: mais espaço para a mesa ----------------
    Topo mais baixo, painel lateral mais estreito e cartas que crescem com a tela (e mais ainda em tela cheia). */
-:root{--base:clamp(80px, min(6.4vw, 10.4vh), 140px); --cw:var(--base); --ch:calc(var(--base)*1.4)}
+:root{--base:clamp(92px, min(7.4vw, 12vh), 164px); --cw:var(--base); --ch:calc(var(--base)*1.4)}
 .jk-hand{--cw:calc(var(--base)*1.18);--ch:calc(var(--base)*1.65)}
-.jk-mini,.jk-mini-pile .jk-card{--cw:calc(var(--base)*.64);--ch:calc(var(--base)*.89)}
+.jk-mini,.jk-mini-pile .jk-card{--cw:calc(var(--base)*.72);--ch:calc(var(--base)*1.01)}
 .jk-name{font-size:calc(var(--cw)*.125)}
 body.jk-ui #header{height:40px}
 body.jk-ui #header h2{font-size:15px}
@@ -270,7 +270,7 @@ body.jk-ui #footer{min-height:58px;padding:8px 16px}
 body.x1 #jk-fs{right:auto;left:100px}
 body.x1-host.x1-lobby #jk-board{margin-right:0}
 @media (max-width:900px){
-  :root{--base:72px}
+  :root{--base:84px}
   #jk-board{margin-right:0;padding-bottom:110px}
   body.jk-ui #reveal-panel{top:auto;bottom:68px;left:12px;right:12px;width:auto}
 }
@@ -288,7 +288,7 @@ body.x1-host.x1-lobby #jk-board{margin-right:0}
   @media (prefers-reduced-motion:reduce){#jk-rotate .rot-ico{animation:none;transform:rotate(-90deg)}}
 }
 @media (orientation:landscape) and (max-height:500px){
-  :root{--base:clamp(46px, 11.5vh, 60px)}
+  :root{--base:clamp(52px, 14.5vh, 72px)}
   .jk-hand{--cw:calc(var(--base)*1.12);--ch:calc(var(--base)*1.57)}
   .jk-name{font-size:8px;padding:3px}
   .jk-unrezzed::after{font-size:7px}
