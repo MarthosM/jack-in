@@ -64,6 +64,7 @@ main{min-height:100vh; display:flex; flex-direction:column; align-items:center; 
 .brand{display:flex; align-items:center; gap:18px; margin-bottom:26px}
 .brand svg{width:66px; height:66px; flex:none}
 .brand h1{font-family:var(--fh); font-weight:700; font-size:clamp(2rem,6vw,3.4rem); line-height:1; margin:0; letter-spacing:-.01em}
+.brand h1 .ver{font:600 .9rem/1 var(--fb, inherit);letter-spacing:.04em;color:var(--muted);border:1px solid currentColor;border-radius:999px;padding:.25em .6em;vertical-align:middle;white-space:nowrap}
 .brand h1 .c{color:var(--corp)} .brand h1 .r{color:var(--run)} .brand h1 .t{color:var(--acc); font-weight:600}
 .brand p{margin:.4em 0 0; color:var(--muted); max-width:62ch}
 
@@ -136,7 +137,7 @@ footer{margin-top:30px; text-align:center; font-size:.85rem; color:var(--muted);
     <div class="brand">
       <svg><use href="#i-logo"/></svg>
       <div>
-        <h1><span class="c">Jack</span> <span class="r">In</span> <span class="t">// Treino</span></h1>
+        <h1><span class="c">Jack</span> <span class="r">In</span> <span class="t">// Treino</span> <span class="ver" id="jkVer">v3.2</span></h1>
         <p>Netrunner pela câmera, com as suas cartas físicas, ou digital, contra a IA ou contra outra pessoa.</p>
       </div>
     </div>
@@ -189,7 +190,7 @@ footer{margin-top:30px; text-align:center; font-size:.85rem; color:var(--muted);
     Feito por Marthos Freitas · <a href="mailto:marthosfreitas@gmail.com">marthosfreitas@gmail.com</a></p>
 
     <footer>
-      Jack In Treino é software livre, sob a <a href="https://github.com/MarthosM/jack-in/blob/main/site/treino/LICENSE" target="_blank" rel="noopener">GPL-3.0</a>
+      Jack In Treino <span id="jkVerF">v3.2</span> é software livre, sob a <a href="https://github.com/MarthosM/jack-in/blob/main/site/treino/LICENSE" target="_blank" rel="noopener">GPL-3.0</a>
       · <a href="https://github.com/MarthosM/jack-in" target="_blank" rel="noopener">Código-fonte no GitHub</a>
       · <a href="https://github.com/MarthosM/jack-in/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener">Código de conduta</a>
       · <a href="https://www.netlify.com" target="_blank" rel="noopener">This site is powered by Netlify</a>
@@ -339,6 +340,8 @@ footer{margin-top:30px; text-align:center; font-size:.85rem; color:var(--muted);
   </div>
 </main>
 
+<script src="version.js"></script>
+<script>document.querySelectorAll("#jkVer,#jkVerF").forEach(function(e){e.textContent="v"+JK_VERSION;});</script>
 <script src="decklist.js"></script>
 <script src="som.js"></script>
 <script>SomMusic("abertura");</script>
