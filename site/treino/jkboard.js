@@ -356,6 +356,17 @@ function JKBoardHTML() {
 }
 
 // --------------------------------------------------------------- montagem
+// tela cheia e, no celular, tenta travar em paisagem (Android; no iPhone o navegador não deixa)
+function JKFullscreenLandscape() {
+  var de = document.documentElement;
+  var req = de.requestFullscreen || de.webkitRequestFullscreen;
+  if (!req) return;
+  try {
+    var pr = req.call(de);
+    var lock = function () { try { if (screen.orientation && screen.orientation.lock) screen.orientation.lock("landscape").catch(function () {}); } catch (e) {} };
+    if (pr && pr.then) pr.then(lock).catch(function () {}); else lock();
+  } catch (e) {}
+}
 $(function () {
   $("body").addClass("jk-ui");
   $("#contentcontainer").before("<main id='jk-board' aria-label='Mesa'></main>");
@@ -370,6 +381,16 @@ $(function () {
       try { localStorage.setItem("jackin-log-open", $("#reveal-panel").hasClass("log-open") ? "1" : "0"); } catch (e) {}
     });
   }, 100);
+  var de0 = document.documentElement;
+  // celular em pé: pede para girar (a mesa é só em paisagem)
+  $("body").append("<div id='jk-rotate' role='alert'><div class='rot-ico' aria-hidden='true'>📱</div><p>Gire o celular para jogar</p>" +
+    "<small>No celular, a mesa funciona deitada. Dica: trave a rotação depois de girar.</small>" +
+    ((de0.requestFullscreen || de0.webkitRequestFullscreen) ? "<button type='button' id='jk-rotate-fs'>Tela cheia e paisagem</button>" : "") + "</div>");
+  $(document).on("click", "#jk-rotate-fs", function () { JKFullscreenLandscape(); });
+  // celular deitado: tocar na mesa fecha o painel de reveladas
+  $(document).on("click", "#jk-board", function () {
+    if (window.matchMedia && matchMedia("(orientation:landscape) and (max-height:500px)").matches) $("#reveal-panel").addClass("rv-collapsed");
+  });
   // tela cheia
   var de = document.documentElement;
   if (de.requestFullscreen || de.webkitRequestFullscreen) {
@@ -378,7 +399,7 @@ $(function () {
     $("#jk-fs").on("click", function () {
       try {
         if (isFs()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-        else (de.requestFullscreen || de.webkitRequestFullscreen).call(de);
+        else JKFullscreenLandscape();
       } catch (e) {}
     });
     $(document).on("fullscreenchange webkitfullscreenchange", function () {
@@ -390,7 +411,7 @@ $(function () {
   $("#menucontent .close-cross").attr({ role: "button", "aria-label": "Fechar menu", tabindex: 0 }).html("&times;");
   $("#menu").on("click", function (e) { if (e.target === this) $("#menu").hide(); });
   $(document).on("keydown", function (e) { if (e.key == "Escape") $("#menu").hide(); });
-  $("body").append("<div id='jk-version'>Jack In Treino · v2.8</div>");
+  $("body").append("<div id='jk-version'>Jack In Treino · v2.9</div>");
   $(document).on("click", "#jk-board .jk-card[data-title], #jk-board .jk-idname", function (e) {
     e.stopPropagation();
     JKZoomHide();

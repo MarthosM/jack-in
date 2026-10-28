@@ -274,3 +274,94 @@ body.x1-host.x1-lobby #jk-board{margin-right:0}
   #jk-board{margin-right:0;padding-bottom:110px}
   body.jk-ui #reveal-panel{top:auto;bottom:68px;left:12px;right:12px;width:auto}
 }
+
+/* ---------------- v2.9: celular ----------------
+   No celular a mesa é só em paisagem: em pé aparece um aviso para girar. Deitado, tudo fica compacto. */
+#jk-rotate{display:none}
+@media (orientation:portrait) and (max-width:600px){
+  #jk-rotate{display:flex;position:fixed;inset:0;z-index:2000;background:var(--ink);color:var(--text);flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center;font:600 18px/1.4 var(--f-head);letter-spacing:.03em}
+  #jk-rotate .rot-ico{font-size:56px;line-height:1;animation:jkrot 2.2s ease-in-out infinite}
+  #jk-rotate p{margin:0;max-width:300px}
+  #jk-rotate small{font:14px/1.5 var(--f-ui);color:var(--dim);letter-spacing:0;max-width:300px}
+  #jk-rotate button{font:600 15px var(--f-head);padding:10px 18px;border-radius:8px;border:1px solid var(--acc);background:#10202f;color:var(--text)}
+  @keyframes jkrot{0%,30%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
+  @media (prefers-reduced-motion:reduce){#jk-rotate .rot-ico{animation:none;transform:rotate(-90deg)}}
+}
+@media (orientation:landscape) and (max-height:500px){
+  :root{--base:clamp(46px, 11.5vh, 60px)}
+  .jk-hand{--cw:calc(var(--base)*1.12);--ch:calc(var(--base)*1.57)}
+  .jk-name{font-size:8px;padding:3px}
+  .jk-unrezzed::after{font-size:7px}
+  .bd{font-size:10px;padding:2px 4px}
+  /* topo */
+  body.jk-ui #header{height:30px}
+  body.jk-ui #header h2{font-size:12px}
+  body.jk-ui #menubar{top:2px;left:6px}
+  body.jk-ui #menubar button{width:26px;height:26px}
+  body.jk-ui #menubar button::before{left:7px;right:7px;top:7px;height:2px;box-shadow:0 5px 0 var(--dim),0 10px 0 var(--dim)}
+  body.jk-ui #som-wrap{top:2px;right:6px}
+  body.jk-ui #som-btn,#jk-fs{width:26px;height:26px;font-size:13px}
+  #jk-fs{top:2px;right:38px}
+  body.x1 #jk-fs{left:72px}
+  body.x1 #som-wrap{left:38px}
+  body.jk-ui #som-pop{top:30px}
+  #x1-voice{top:2px;right:6px} #x1-mic{width:26px;height:26px;font-size:13px}
+  #x1-bar{top:30px;min-height:24px;padding:2px 10px;font-size:11px}
+  #x1-bar input{font-size:11px;padding:2px 6px}
+  #jk-version{display:none}
+  /* mesa */
+  #jk-board{padding:34px 6px 52px;margin-right:0;gap:6px}
+  body.x1 #jk-board{padding-top:58px}
+  .jk-half{padding:6px 8px;border-radius:8px}
+  .jk-side-head{margin-bottom:5px;gap:4px 10px}
+  .jk-who{font-size:12px;gap:6px}
+  .jk-who em{font-size:11px}
+  .jk-stats{gap:4px}
+  .jk-stat{padding:1px 6px;min-width:38px;border-radius:6px}
+  .jk-stat span{font-size:8px}
+  .jk-stat b{font-size:13px}
+  .jk-stat.jk-big b{font-size:15px}
+  .jk-clicks b{height:18px;gap:3px}
+  .jk-clicks i{width:9px;height:9px;border-width:1.5px}
+  .jk-servers{gap:6px;padding-bottom:4px}
+  .jk-server{padding:4px 6px;gap:4px;border-radius:8px;min-width:calc(var(--ch) + 12px)}
+  .jk-server h3{font-size:10px}
+  .jk-ice{gap:4px;padding-bottom:4px}
+  .jk-ice-below .jk-ice{padding-top:4px}
+  .jk-noice{font-size:10px;padding:2px 0}
+  .jk-root{gap:4px}
+  .jk-rig{grid-template-columns:auto minmax(0,1fr) auto;gap:6px}
+  .jk-rows{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  .jk-row{padding:4px 5px;gap:4px;border-radius:8px}
+  .jk-row h4,.jk-grip h4,.jk-score h4{font-size:9px}
+  .jk-piles{gap:5px}
+  .jk-pile-lbl{font-size:9px} .jk-pile-lbl b{font-size:11px}
+  .jk-grip{margin-top:6px;padding-top:5px}
+  .jk-grip h4{margin-bottom:4px}
+  .jk-grip .jk-cards{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+  /* painel de reveladas: vira uma aba no canto, abre por cima da mesa */
+  body.jk-ui #reveal-panel{top:34px;right:6px;bottom:auto;left:auto;width:230px;max-height:calc(100vh - 92px);font-size:12px;box-shadow:0 8px 28px #000a}
+  body.jk-ui #reveal-panel.rv-collapsed{width:auto;opacity:.92}
+  body.jk-ui #reveal-panel.rv-collapsed{top:2px;right:72px;border-radius:7px;box-shadow:none;z-index:961}
+  body.x1 #reveal-panel.rv-collapsed{right:auto;left:106px;top:2px}
+  body.jk-ui #reveal-panel.rv-collapsed #reveal-toggle{padding:5px 9px;line-height:14px}
+  body.jk-ui #reveal-panel.rv-collapsed #jk-log-toggle, body.jk-ui #reveal-panel.rv-collapsed #jk-log{display:none}
+  #reveal-toggle{padding:6px 10px;font-size:10px;gap:6px}
+  /* rodapé */
+  body.jk-ui #footer{min-height:44px;padding:4px 8px;gap:6px;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start}
+  body.jk-ui #footer::before,body.jk-ui #footer::after{content:"";margin:auto}
+  body.jk-ui #footer h2{font-size:12px;white-space:nowrap}
+  body.jk-ui #footer button, body.jk-ui #modal button{font-size:12px;padding:7px 11px;white-space:nowrap;flex:0 0 auto}
+  #x1-waiting{padding:10px;font-size:13px}
+  /* escolhas e carta ampliada */
+  body.jk-ui #modal{padding:6px}
+  body.jk-ui #modalcontent{max-height:calc(100vh - 60px);padding:8px;gap:4px}
+  body.jk-ui #modalcontent p, body.jk-ui #modalcontent span{padding:6px 10px;font-size:13px}
+  .phys-box{max-height:94vh;padding:10px 12px;overflow:auto}
+  body.jk-ui .rv-img{width:auto;height:calc(100vh - 56px);max-height:300px;border-radius:9px}
+  body.jk-ui #card-view .rv-box{padding:12px 14px;max-height:calc(100vh - 16px)}
+  body.jk-ui .rv-view{flex-wrap:nowrap;gap:14px}
+  body.jk-ui .rv-text{font-size:13px}
+  body.jk-ui .rv-text h2,body.jk-ui .rv-text h3{font-size:17px;margin:0 0 4px}
+  .phys-modal{padding:6px}
+}
