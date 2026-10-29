@@ -483,3 +483,11 @@ body:has(#jk-runbox.jkr-summary) #reveal-panel{visibility:visible}
   #jk-runbox.jkr-summary{top:auto;bottom:50px;width:min(560px,calc(100vw - 12px));padding:8px 12px}
   .jkr-sum{font-size:11px}
 }
+
+/* v3.4: ações na janela da carta */
+body.jk-ui .rv-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+body.jk-ui .rv-opt{font:600 15px var(--f-head);letter-spacing:.02em;padding:11px 16px;border-radius:8px;border:1px solid var(--acc);background:var(--acc);color:#04121c;min-height:44px;cursor:pointer}
+body.jk-ui .rv-opt + .rv-opt{background:#10202f;color:var(--text)}
+body.jk-ui .rv-opt:hover{filter:brightness(1.12)}
+body.jk-ui .rv-opt:focus-visible{outline:2px solid #fff;outline-offset:2px}
+@media (orientation:landscape) and (max-height:500px){ body.jk-ui .rv-opt{font-size:13px;padding:8px 12px;min-height:40px} body.jk-ui .rv-actions{margin-top:8px;gap:6px} }

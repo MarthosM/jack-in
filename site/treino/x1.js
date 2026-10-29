@@ -187,6 +187,9 @@ function X1HostAct(d) {
       $("#modal").hide();
       if (currentPhase && currentPhase.Cancel && typeof currentPhase.Cancel[executingCommand] == "function") currentPhase.Cancel[executingCommand]();
       else Cancel();
+    } else if (d.kind == "opt") {
+      // ação escolhida na janela da carta do convidado (jogar, instalar, usar, rezzar...)
+      if (typeof JKOptRun == "function" && /^(play|install|trigger|rez|advance|score|trash)$/.test(d.cmd)) JKOptRun(d.cmd, parseInt(d.k, 10));
     } else if (d.kind == "trig") {
       // habilidade escolhida na caixa da run do convidado
       if (typeof JKRunTrigger == "function") JKRunTrigger(parseInt(d.k, 10));
@@ -233,6 +236,8 @@ function X1GuestView() {
     v.fx = (X1.fx || []).splice(0);
     v.triggerable = [];
     try { if (v.mine && phaseOptions && phaseOptions.trigger) phaseOptions.trigger.forEach(function (o) { if (o.card && v.triggerable.indexOf(o.card.title) < 0) v.triggerable.push(o.card.title); }); } catch (e) {}
+    v.cardopts = [];
+    try { if (v.mine && typeof JKAllCardOpts == "function") v.cardopts = JKAllCardOpts(); } catch (e) {}
   } finally {
     viewingPlayer = saveV;
     X1.renderingFor = null;

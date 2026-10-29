@@ -275,6 +275,67 @@ function JKRunSync() {
   var _RC = ResolveChoice;
   ResolveChoice = function () { JKRun.lastResolve = Date.now(); return _RC.apply(this, arguments); };
 })();
+// ---------------------------------------------------------------- ações pela janela da carta
+// Opções que o motor oferece agora para uma carta (pelo título; "hand" = na mão, "table" = na mesa).
+// Cópias iguais na mão são equivalentes: fica uma opção por ação.
+function JKCardOpts(title, loc) {
+  var out = [];
+  try {
+    if (typeof activePlayer == "undefined" || !activePlayer || activePlayer.AI != null || activePlayer !== viewingPlayer) return out;
+    if (!phaseOptions) return out;
+    var cmds = loc == "hand" ? ["play", "install"] : ["trigger", "rez", "advance", "score", "trash"];
+    var seen = {};
+    cmds.forEach(function (cmd) {
+      (phaseOptions[cmd] || []).forEach(function (o, k) {
+        if (!o || !o.card || o.card.title !== title) return;
+        var inHand = PlayerHand(o.card.player || activePlayer).indexOf(o.card) > -1;
+        if ((loc == "hand") !== inHand) return;
+        var c = o.card, lbl = "";
+        if (cmd == "play") lbl = "Jogar" + (c.playCost ? " · " + c.playCost + "¢" : "");
+        else if (cmd == "install") {
+          if (c.player == corp) lbl = o.server ? "Instalar em " + ServerName(o.server) : "Instalar num servidor novo";
+          else lbl = (o.host ? "Instalar em " + o.host.title : "Instalar") + (c.installCost ? " · " + c.installCost + "¢" : "");
+        }
+        else if (cmd == "trigger") lbl = "Usar: " + JKRunPT(String(o.label || (o.ability && o.ability.text) || "habilidade").replace(/^\([^)]*\)\s*/, ""));
+        else if (cmd == "rez") lbl = "Rezzar" + (c.rezCost ? " · " + c.rezCost + "¢" : "");
+        else if (cmd == "advance") lbl = "Avançar · 1¢";
+        else if (cmd == "score") lbl = "Pontuar";
+        else if (cmd == "trash") lbl = "Lixar";
+        var key = cmd + "|" + lbl;
+        if (seen[key]) return;
+        seen[key] = 1;
+        out.push({ title: title, loc: loc, cmd: cmd, k: k, label: lbl });
+      });
+    });
+  } catch (e) {}
+  return out;
+}
+// todas as opções por carta (vai na visão do convidado do X1)
+function JKAllCardOpts() {
+  var all = [], done = {};
+  ["play", "install", "trigger", "rez", "advance", "score", "trash"].forEach(function (cmd) {
+    ((typeof phaseOptions != "undefined" && phaseOptions && phaseOptions[cmd]) || []).forEach(function (o) {
+      if (!o || !o.card) return;
+      var inHand = PlayerHand(o.card.player || activePlayer).indexOf(o.card) > -1;
+      var key = o.card.title + "|" + inHand;
+      if (done[key]) return;
+      done[key] = 1;
+      all = all.concat(JKCardOpts(o.card.title, inHand ? "hand" : "table"));
+    });
+  });
+  return all;
+}
+function JKOptRun(cmd, k) {
+  var gap = (typeof mainLoopDelay == "number" ? mainLoopDelay : 350) + 80;
+  if (JKRun.lastResolve && Date.now() - JKRun.lastResolve < gap) { JKSchedule(); return false; }
+  var o = ((typeof phaseOptions != "undefined" && phaseOptions && phaseOptions[cmd]) || [])[k];
+  if (!o) { JKSchedule(); return false; }
+  ExecuteChosen(cmd);
+  var i = validOptions.indexOf(o);
+  if (i > -1) ResolveChoice(i);
+  return true;
+}
+
 function JKRunTrigger(k) {
   var gap = (typeof mainLoopDelay == "number" ? mainLoopDelay : 350) + 80;
   if (JKRun.lastResolve && Date.now() - JKRun.lastResolve < gap) { JKSchedule(); return false; }

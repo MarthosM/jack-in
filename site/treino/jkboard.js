@@ -417,7 +417,7 @@ $(function () {
     e.stopPropagation();
     JKZoomHide();
     var $b = $(this).find(".jk-badges");
-    if (typeof RevealShowCard == "function") RevealShowCard($(this).attr("data-title"), $b.length ? $b.html() : "");
+    if (typeof RevealShowCard == "function") RevealShowCard($(this).attr("data-title"), $b.length ? $b.html() : "", $(this).hasClass("jk-hand") ? "hand" : "table");
   });
   // traduz botões assim que o rodapé muda
   var obs = new MutationObserver(function () { JKTranslateUI(); });

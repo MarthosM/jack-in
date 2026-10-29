@@ -131,7 +131,7 @@ function RevealFindTitle(text) {
   return best;
 }
 
-function RevealShowCard(title, stateHtml) {
+function RevealShowCard(title, stateHtml, loc) {
   var c = RV.db[title];
   if (!c) return;
   var stats = [];
@@ -150,7 +150,7 @@ function RevealShowCard(title, stateHtml) {
     (stateHtml ? "<div class='rv-state'><span class='rv-k'>Na mesa</span>" + stateHtml + "</div>" : "") +
     "<p class='rv-body'>" + RevealEsc(c.tx || "").replace(/\n/g, "<br>") + "</p>" +
     (c.fl ? "<p class='rv-flavor'>" + RevealEsc(c.fl) + "</p>" : "") +
-    RevealActionButtons(title) +
+    RevealActionButtons(title, loc) +
     "</div></div>";
   $("#card-view-content").html(html);
   $("#card-view").css("display", "flex");
@@ -171,8 +171,26 @@ function RevealWhyNot(title) {
 }
 
 // se o jogador humano pode usar uma habilidade desta carta agora, oferece o botão no visualizador
-function RevealActionButtons(title) {
+function RevealOptButtons(list) {
+  if (!list.length) return "";
+  return "<div class='rv-actions'>" + list.map(function (o) {
+    return "<button type='button' class='rv-act rv-opt' data-opt-cmd='" + o.cmd + "' data-opt-k='" + o.k + "'>" + RevealEsc(o.label) + "</button>";
+  }).join("") + "</div>";
+}
+function RevealActionButtons(title, loc) {
   try {
+    loc = loc || "table";
+    // botões específicos: jogar, instalar (em qual servidor), usar cada habilidade, rezzar...
+    if (typeof X1 != "undefined" && X1.role == "guest") {
+      var gl = (X1.view && X1.view.mine && X1.view.cardopts || []).filter(function (o) { return o.title == title && o.loc == loc; });
+      if (gl.length) return RevealOptButtons(gl);
+    } else if (typeof JKCardOpts == "function") {
+      var me = typeof X1 != "undefined" && X1.role == "host" && X1.started ? X1.mySide() : null;
+      var save = viewingPlayer; if (me) viewingPlayer = me;
+      var l;
+      try { l = JKCardOpts(title, loc); } finally { if (me) viewingPlayer = save; }
+      if (l.length) return RevealOptButtons(l);
+    }
     if (typeof X1 != "undefined" && X1.role == "guest") return X1.canTrigger(title) ? "<div class='rv-actions'><button type='button' class='rv-act' data-cmd='trigger'>Usar habilidade desta carta</button></div>" : "";
     if (typeof activePlayer == "undefined" || !activePlayer || activePlayer.AI != null) return "";
     if (typeof X1 != "undefined" && X1.role == "host" && activePlayer == X1.guestSide()) return "";
@@ -184,7 +202,14 @@ function RevealActionButtons(title) {
 }
 
 $(function () {
-  $(document).on("click", ".rv-act", function () {
+  $(document).on("click", ".rv-opt", function (e) {
+    e.stopImmediatePropagation();
+    $("#card-view").hide();
+    var cmd = $(this).attr("data-opt-cmd"), k = parseInt($(this).attr("data-opt-k"), 10);
+    if (typeof X1 != "undefined" && X1.role == "guest") { if (typeof X1Send == "function") X1Send({ t: "act", kind: "opt", cmd: cmd, k: k, seq: X1.seq }); return; }
+    try { JKOptRun(cmd, k); } catch (err) { console.error(err); }
+  });
+  $(document).on("click", ".rv-act:not(.rv-opt)", function () {
     $("#card-view").hide();
     try { ExecuteChosen($(this).attr("data-cmd")); } catch (e) { console.error(e); }
   });
