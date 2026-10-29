@@ -296,7 +296,7 @@ function JKBoardHTML() {
   var corpSide = corp.identityCard && typeof corp.identityCard.JKCSideLabel == "function" ? JKStat("Identidade", corp.identityCard.JKCSideLabel(), "jk-side") : "";
   var corpPower = corp.identityCard && typeof corp.identityCard.power == "number" && corp.identityCard.cardDefinition && typeof corp.identityCard.cardDefinition.power == "number" ? JKStat("Poder (ID)", corp.identityCard.power) : "";
   var corpStats = corpSide + corpPower + JKStat("Créditos", corp.creditPool, "jk-big") + JKStat("Cliques", corp.clickTracker) +
-    JKStat("Pontos", cAP + "/" + win) + JKStat("HQ", corp.HQ.cards.length) + JKStat("R&D", corp.RnD.cards.length) +
+    JKStat("Mão (HQ)", corp.HQ.cards.length, "jk-hand-n", "Cartas na mão da Corp") + JKStat("Pontos", cAP + "/" + win) + JKStat("R&D", corp.RnD.cards.length) +
     (corp.badPublicity ? JKStat("Bad pub.", corp.badPublicity, "jk-warn") : "");
   var iceBelow = !(typeof viewingPlayer != "undefined" && viewingPlayer == corp);
   var servers = JKServer(corp.archives, "Archives", iceBelow) + JKServer(corp.RnD, "R&D", iceBelow) + JKServer(corp.HQ, "HQ", iceBelow);
@@ -308,7 +308,7 @@ function JKBoardHTML() {
   var clicks = "";
   var maxC = Math.max(4, runner.clickTracker);
   for (var i = 0; i < maxC; i++) clicks += "<i class='" + (i < runner.clickTracker ? "on" : "") + "'></i>";
-  var runnerStats = JKStat("Créditos", runner.creditPool, "jk-big") +
+  var runnerStats = JKStat("Créditos", runner.creditPool, "jk-big") + JKStat("Mão", runner.grip.length, "jk-hand-n" + (runner.grip.length > MaxHandSize(runner) ? " jk-warn" : ""), "Cartas na mão do Runner") +
     "<div class='jk-stat jk-clicks'><span>Cliques</span><b>" + clicks + "</b></div>" +
     JKStat("Tags", runner.tags, runner.tags ? "jk-tagged" : "", "Tags recebidas") +
     JKStat("MU", muUsed + "/" + mu) + JKStat("Mão máx.", MaxHandSize(runner)) +
@@ -325,7 +325,7 @@ function JKBoardHTML() {
     var cclicks = "";
     for (var k = 0; k < Math.max(3, corp.clickTracker); k++) cclicks += "<i class='" + (k < corp.clickTracker ? "on" : "") + "'></i>";
     corpStats = corpSide + corpPower + JKStat("Créditos", corp.creditPool, "jk-big") + "<div class='jk-stat jk-clicks'><span>Cliques</span><b>" + cclicks + "</b></div>" +
-      JKStat("Pontos", cAP + "/" + win) + JKStat("Mão máx.", MaxHandSize(corp)) + JKStat("R&D", corp.RnD.cards.length) +
+      JKStat("Mão (HQ)", corp.HQ.cards.length, "jk-hand-n", "Cartas na sua mão") + JKStat("Pontos", cAP + "/" + win) + JKStat("Mão máx.", MaxHandSize(corp)) + JKStat("R&D", corp.RnD.cards.length) +
       (corp.badPublicity ? JKStat("Bad pub.", corp.badPublicity, "jk-warn") : "") +
       JKStat("Tags do Runner", runner.tags, runner.tags ? "jk-tagged" : "");
   }
