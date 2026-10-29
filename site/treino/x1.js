@@ -187,6 +187,9 @@ function X1HostAct(d) {
       $("#modal").hide();
       if (currentPhase && currentPhase.Cancel && typeof currentPhase.Cancel[executingCommand] == "function") currentPhase.Cancel[executingCommand]();
       else Cancel();
+    } else if (d.kind == "trig") {
+      // habilidade escolhida na caixa da run do convidado
+      if (typeof JKRunTrigger == "function") JKRunTrigger(parseInt(d.k, 10));
     } else if (d.kind == "arch") {
       var opts = (phaseOptions && phaseOptions.trigger) || [];
       var o = opts.find(function (x) { return x.card && x.card.title == d.title && x.card.cardLocation === corp.archives.cards; });

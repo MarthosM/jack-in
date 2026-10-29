@@ -86,6 +86,7 @@ function JKTranslateUI() {
   var h = $("#header h2").first();
   var ht = h.text().trim();
   var pt = JKPhasePT(ht);
+  if (!pt && typeof JKRunPT == "function" && /\bBreak\b|strength|subroutine/i.test(ht)) pt = JKRunPT(ht);
   if (pt && pt !== ht) h.text(pt);
 }
 
