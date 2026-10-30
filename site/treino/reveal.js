@@ -78,12 +78,41 @@ function RevealAdd(kind, card) {
     try { RevealAdd("score", card); } catch (e) {}
     return _Score.apply(this, arguments);
   };
+  // carta revelada (ex.: Mutual Favor revela o quebra-gelo buscado): entra no painel e abre a carta
+  // para quem está recebendo a revelação, já que a animação original do motor não aparece nesta mesa
+  if (typeof Reveal == "function") {
+    var _Reveal = Reveal;
+    Reveal = function (card, callback, context, playerToRevealTo) {
+      try {
+        RevealAdd("reveal", card);
+        var to = typeof playerToRevealTo != "undefined" && playerToRevealTo ? playerToRevealTo : (card.player == corp ? runner : corp);
+        RV.revealSeq = (RV.revealSeq || 0) + 1;
+        RV.pendingShow = { title: card.title, to: to, by: card.player == corp ? "Corp" : "Runner", id: RV.revealSeq };
+        setTimeout(RevealAutoShow, 60);
+      } catch (e) {}
+      return _Reveal.apply(this, arguments);
+    };
+  }
   var _Expose = Expose;
   Expose = function (card) {
     try { RevealAdd("expose", card); } catch (e) {}
     return _Expose.apply(this, arguments);
   };
 })();
+
+// abre a carta revelada para o humano que está recebendo a revelação (nesta tela)
+function RevealAutoShow() {
+  var p = RV.pendingShow;
+  if (!p || p.shown) return;
+  var me = null;
+  try {
+    if (typeof X1 != "undefined" && X1.role == "host" && X1.started) me = X1.mySide();
+    else if (typeof PhysicalHuman == "function") me = PhysicalHuman();
+  } catch (e) {}
+  if (!me || me !== p.to || (p.to && p.to.AI)) return;
+  p.shown = true;
+  RevealShowCard(p.title, "", "revealed", p.by);
+}
 
 // ---------------------------------------------------------------- painel
 function RevealRender(flash) {
@@ -131,7 +160,7 @@ function RevealFindTitle(text) {
   return best;
 }
 
-function RevealShowCard(title, stateHtml, loc) {
+function RevealShowCard(title, stateHtml, loc, by) {
   var c = RV.db[title];
   if (!c) return;
   var stats = [];
@@ -144,7 +173,7 @@ function RevealShowCard(title, stateHtml, loc) {
   var img = c.code && typeof JKImgTag == "function" ? JKImgTag(c.code, "rv-img") : "";
   var html =
     "<div class='rv-view'>" + img +
-    "<div class='rv-text'><h2>" + RevealEsc(c.t) + "</h2>" +
+    "<div class='rv-text'>" + (loc == "revealed" ? "<p class='rv-revealed'>Revelada pel" + (by == "Corp" ? "a Corp" : "o Runner") + "</p>" : "") + "<h2>" + RevealEsc(c.t) + "</h2>" +
     "<p class='rv-type'>" + (TYPES[c.ty] || c.ty || "") + (c.kw ? ": " + RevealEsc(c.kw) : "") + "</p>" +
     (stats.length ? "<p class='rv-stats'>" + stats.join(" · ") + "</p>" : "") +
     (stateHtml ? "<div class='rv-state'><span class='rv-k'>Na mesa</span>" + stateHtml + "</div>" : "") +

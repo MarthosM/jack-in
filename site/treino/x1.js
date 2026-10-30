@@ -225,6 +225,8 @@ function X1GuestView() {
     }
     RevealRender();
     v.reveal = $("#reveal-body").html() || "";
+    // carta revelada para o convidado: ele abre a janela da carta uma vez
+    try { if (RV.pendingShow && RV.pendingShow.to === guest) v.revealShow = { title: RV.pendingShow.title, by: RV.pendingShow.by, id: RV.pendingShow.id }; } catch (e) {}
     v.who = $("#reveal-who").text();
     v.count = $("#reveal-count").text();
     v.log = X1.log.slice(-60).map(function (e) { return X1Sanitize(e, guest); });
@@ -459,6 +461,10 @@ function X1GuestRender(v) {
   JK.log = v.log || [];
   $("#jk-log").html(JK.log.slice(-60).map(function (l) { return "<li>" + X1Esc(l) + "</li>"; }).reverse().join(""));
   $("#reveal-body").html(v.reveal); $("#reveal-who").text(v.who); $("#reveal-count").text(v.count);
+  if (v.revealShow && v.revealShow.id !== X1.lastRevealShown) {
+    X1.lastRevealShown = v.revealShow.id;
+    if (typeof RevealShowCard == "function") RevealShowCard(v.revealShow.title, "", "revealed", v.revealShow.by);
+  }
   if (v.over) {
     $("#footer").html("<h2 class='x1-over'>" + X1Esc(v.phase) + "</h2><button class='button' type='button' onclick=\"location.href='index.html'\">Voltar ao início</button>").show();
     $("#modal").hide();

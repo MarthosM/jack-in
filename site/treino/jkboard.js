@@ -87,6 +87,7 @@ function JKTranslateUI() {
   var ht = h.text().trim();
   var pt = JKPhasePT(ht);
   if (!pt && typeof JKRunPT == "function" && /\bBreak\b|strength|subroutine/i.test(ht)) pt = JKRunPT(ht);
+  if (!pt && /^Revealing /.test(ht)) pt = "Revelando: " + ht.replace(/^Revealing /, "");
   if (pt && pt !== ht) h.text(pt);
 }
 

@@ -26,6 +26,8 @@ function JKRunPT(s) {
     .replace(/\bfor the remainder of this run\b/g, "até o fim da run").replace(/\bfor the remainder of this encounter\b/g, "até o fim do encontro")
     // habilidades de agendas pontuadas
     .replace(/^Search R&D for 1 card and reveal it\. Add it to HQ\.?$/i, "Gastar 1 marcador de agenda: procurar 1 carta no R&D, revelar e pôr no HQ")
+    // escolhas de busca (Mutual Favor e parecidas)
+    .replace(/^Add (.+) to grip$/i, "Pôr $1 na mão").replace(/^Add (.+) to HQ$/i, "Pôr $1 no HQ").replace(/^Install (.+)$/i, "Instalar $1")
     // subrotinas mais comuns
     .replace(/^End the run\.?$/i, "Termina a run.").replace(/\bEnd the run\b/g, "termina a run")
     .replace(/^The Runner loses clique, if able\.?$/i, "O Runner perde 1 clique, se puder.")
@@ -185,12 +187,21 @@ function JKRunTrigCount() {
   if (me) viewingPlayer = me;
   try { return JKRunTriggers().length; } finally { if (me) viewingPlayer = save; }
 }
+// escolhas abertas (qual subrotina quebrar, Mutual Favor...): traduz os textos simples, dentro ou fora da run
+function JKModalPT() {
+  $("#modalcontent p, #modalcontent span, #modalcontent button").each(function () {
+    if (this.children.length) return;
+    var t = this.textContent, pt = JKRunPT(t);
+    if (pt !== t) this.textContent = pt;
+  });
+}
 function JKRunSync() {
+  JKModalPT();
   var $box = $("#jk-runbox");
   var guest = typeof X1 != "undefined" && X1.role == "guest";
   if (!guest && typeof JKRender == "function") {
     // o motor mudou as opções depois do último desenho da mesa: redesenha (caixa aparece, some ou ganha botões)
-    var want = JKRunActive(), has = $box.length > 0;
+    var want = JKRunActive(), has = $box.length > 0 && !$box.hasClass("jkr-summary");
     if (want != has || (has && JKRunTrigCount() != $box.find("[data-jk-trig]").length)) {
       if ((JKRun.redraws = (JKRun.redraws || 0) + 1) < 5) { JKRender(); return; }
     } else JKRun.redraws = 0;
@@ -214,12 +225,7 @@ function JKRunSync() {
   // compara com o último conteúdo escrito (a caixa fica dentro da mesa observada: reescrever à toa vira um laço)
   if ($proxy.attr("data-sig") !== html) $proxy.attr("data-sig", html).html(html);
   if ($hint.text() !== h) $hint.text(h);
-  // escolhas abertas durante a run (ex.: qual subrotina quebrar): traduz os textos simples
-  $("#modalcontent p, #modalcontent span").each(function () {
-    if (this.children.length) return;
-    var t = this.textContent, pt = JKRunPT(t);
-    if (pt !== t) this.textContent = pt;
-  });
+
 }
 
 (function () {

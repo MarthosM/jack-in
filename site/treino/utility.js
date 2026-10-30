@@ -2213,6 +2213,8 @@ function ChoicesArrayCards(src, Check) {
     var params = {};
     params.card = card;
     params.label = GetTitle(card, true);
+    //Jack In Treino: busca no próprio baralho (Mutual Favor, Project Atlas...): quem procura vê os nomes
+    if (src === runner.stack || src === corp.RnD.cards) params.label = card.title;
     ret.push(params);
   }
   return ret;
