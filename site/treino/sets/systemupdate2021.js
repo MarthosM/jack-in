@@ -3476,6 +3476,8 @@ cardSet[31041] = {
 	  if (intended.score == this) {
 		  var advancementOverThree = this.advancement - 3;
 		  if (advancementOverThree > 0) AddCounters(this, "agenda", advancementOverThree);
+		  //Jack In Treino: explica no registro quantos marcadores a agenda ganhou
+		  Log("Project Atlas pontuada com " + this.advancement + " avanços: " + (advancementOverThree > 0 ? advancementOverThree + " marcador(es) de agenda (1 por avanço acima de 3)" : "nenhum marcador (só ganha com mais de 3 avanços)"));
 	  }
     },
 	automatic:true,
@@ -5677,6 +5679,8 @@ cardSet[31073] = {
 	  if (intended.score == this) {
 		  var advancementOverThree = this.advancement - 3;
 		  if (advancementOverThree > 0) AddCounters(this, "agenda", advancementOverThree);
+		  //Jack In Treino: explica no registro quantos marcadores a agenda ganhou
+		  Log("Project Atlas pontuada com " + this.advancement + " avanços: " + (advancementOverThree > 0 ? advancementOverThree + " marcador(es) de agenda (1 por avanço acima de 3)" : "nenhum marcador (só ganha com mais de 3 avanços)"));
 	  }
     },
 	automatic:true,

@@ -24,6 +24,8 @@ function JKRunPT(s) {
     .replace(/\bQuebrar (\d+|até \d+) (barrier|code gate|sentry) subrotinas?\b/g, function (m, n, t) { return "Quebrar " + n + (n == "1" ? " subrotina" : " subrotinas") + " de " + t; })
     .replace(/\+(\d+) strength\b/g, "+$1 de força").replace(/\bstrength\b/g, "força")
     .replace(/\bfor the remainder of this run\b/g, "até o fim da run").replace(/\bfor the remainder of this encounter\b/g, "até o fim do encontro")
+    // habilidades de agendas pontuadas
+    .replace(/^Search R&D for 1 card and reveal it\. Add it to HQ\.?$/i, "Gastar 1 marcador de agenda: procurar 1 carta no R&D, revelar e pôr no HQ")
     // subrotinas mais comuns
     .replace(/^End the run\.?$/i, "Termina a run.").replace(/\bEnd the run\b/g, "termina a run")
     .replace(/^The Runner loses clique, if able\.?$/i, "O Runner perde 1 clique, se puder.")
