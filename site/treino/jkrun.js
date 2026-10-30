@@ -131,7 +131,9 @@ function JKRunRig() {
     mine.forEach(function (t) { used[t.k] = 1; });
     var hint = "";
     if (!mine.length && ice && ice.rezzed && c.subTypes && c.subTypes.indexOf("Icebreaker") > -1) hint = "<small>Nada a fazer agora</small>";
-    return { c: c, html: "<div class='jkr-prog" + (mine.length ? " jkr-on" : " jkr-off") + "'>" + JKCard(c, { forceVisible: true }) +
+    // força aumentada vale só até o fim do encontro com esta ice (regra padrão dos quebra-gelos)
+    var boost = c.strengthBoost > 0 ? "<small class='jkr-boost'>+" + c.strengthBoost + " de força só neste encontro</small>" : "";
+    return { c: c, html: "<div class='jkr-prog" + (mine.length ? " jkr-on" : " jkr-off") + "'>" + JKCard(c, { forceVisible: true }) + boost +
       (mine.length ? "<div class='jkr-acts'>" + mine.map(JKRunTrigBtn).join("") + "</div>" : hint) + "</div>", on: mine.length };
   });
   cards.sort(function (a, b) { return b.on - a.on; }); // primeiro o que serve agora
