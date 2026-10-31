@@ -1095,6 +1095,9 @@ phases.runnerActionMain = {
       return [];
     },
     trigger: function () {
+      //Jack In Treino: o Runner humano também pode usar habilidades pagas (sem clique) na fase de ações;
+      //a IA continua só com as de clique (a lógica dela foi escrita assim)
+      if (runner.AI == null) return ChoicesTriggerableAbilities(runner);
       return ChoicesTriggerableAbilities(runner, "click"); //click abilities only
     },
   },
