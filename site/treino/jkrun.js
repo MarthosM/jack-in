@@ -173,7 +173,7 @@ function JKRunHTML() {
   JKRun.ended = null;
   var head = "<div class='jkr-head'><span class='jkr-badge'>RUN</span><h2>" + JKEsc(name) + "</h2><span class='jkr-dim'>" +
     attackedServer.ice.length + (attackedServer.ice.length == 1 ? " ice protegendo" : " ices protegendo") + "</span><span class='jkr-grow'></span>" +
-    JKStat("Créditos", runner.creditPool, "jk-big jkr-cr") + JKStat("Cliques", runner.clickTracker) +
+    JKStat("Créditos", runner.creditPool + (runner.temporaryCredits > 0 ? " <small class='jk-temp' title='Créditos da bad publicity: só valem nesta run'>+" + runner.temporaryCredits + " BP</small>" : ""), "jk-big jkr-cr") + JKStat("Cliques", runner.clickTracker) +
     "<button type='button' class='jkr-peek-btn' data-jk-peek='1'>Ver a mesa</button></div>";
   var body = head + JKRunSequence(info) + JKRunIcePanel(info) + JKRunRig() +
     "<div class='jkr-foot'><span class='jkr-hint'></span><div class='jkr-proxy'></div></div>";

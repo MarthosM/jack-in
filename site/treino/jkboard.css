@@ -495,3 +495,4 @@ body.jk-ui .rv-opt:focus-visible{outline:2px solid #fff;outline-offset:2px}
 body.jk-ui .rv-revealed{display:inline-block;margin:0 0 6px;font:700 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;background:var(--warn);color:#2a1a04;border-radius:4px;padding:3px 8px}
 .jkr-boost{display:block;text-align:center;font:600 11px var(--f-mono);color:var(--acc);max-width:160px}
 .jkr-off .jkr-boost{color:var(--dim)}
+.jk-temp{font:600 12px var(--f-mono);color:var(--warn);margin-left:2px}
