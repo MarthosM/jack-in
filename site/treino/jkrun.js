@@ -149,21 +149,54 @@ function JKRunRig() {
 }
 
 // resumo que fica alguns segundos na tela quando a run termina (runs rápidas não somem sem explicação)
+// fim da run: com sucesso, um resumo pequeno que some sozinho; sem sucesso, a caixa fica aberta mostrando
+// a última situação (a ice e a subrotina que encerrou a run) até o jogador clicar em Fechar
+function JKRunEndReason(lines) {
+  for (var i = lines.length - 1; i >= 0; i--) {
+    var m = /^Firing "(.+)" on (.+?) protecting /.exec(lines[i]);
+    if (m) return "A run foi encerrada pela ice " + m[2] + ": " + JKRunPT(m[1].replace(/\[click\]/g, "[click]"));
+    if (/jacked out/i.test(lines[i])) return "Você desconectou (jack out).";
+  }
+  return "A run terminou sem sucesso.";
+}
+// a última ice encontrada, com as subrotinas que dispararam marcadas
+function JKRunEndView(lines) {
+  var ice = JKRun.lastEncIce;
+  if (!ice) return "";
+  var fired = [];
+  lines.forEach(function (l) {
+    var m = /^Firing "(.+)" on (.+?) protecting /.exec(l);
+    if (m && m[2] == ice.title) fired.push(m[1]);
+  });
+  var subs = (ice.subroutines || []).map(function (sb) {
+    var didFire = fired.indexOf(sb.text) > -1;
+    var cls = sb.broken ? "jkr-sub-broken" : (didFire ? "jkr-sub-live" : "jkr-sub-idle");
+    var tag = sb.broken ? "Quebrada" : (didFire ? "Disparou" : "Não disparou");
+    return "<li class='jkr-sub " + cls + "'><span class='jkr-tag'>" + tag + "</span><span class='jkr-sub-t'>" + JKEsc(JKRunPT(sb.text || "")) + "</span></li>";
+  }).join("");
+  return (JKRun.lastEncSeq || "") + "<div class='jkr-main'><div class='jkr-card-col'>" + JKCard(ice, { cls: "jkr-ice jk-landscape", forceVisible: true }) + "</div>" +
+    "<div class='jkr-subs'><h3>Subrotinas de " + JKEsc(ice.title) + "</h3><ul class='jkr-sublist'>" + subs + "</ul></div></div>";
+}
 function JKRunSummaryHTML() {
   var e = JKRun.ended;
-  if (!e || e.closed || Date.now() - e.at > 6000) return "";
-  return "<section id='jk-runbox' class='jkr-summary" + (e.ok ? " jkr-ok" : " jkr-fail") + "' aria-label='Fim da run'>" +
-    "<div class='jkr-head'><span class='jkr-badge'>RUN</span><h2>" + JKEsc(e.name) + "</h2><span class='jkr-result'>" + (e.ok ? "Run com sucesso" : "Run sem sucesso") + "</span><span class='jkr-grow'></span>" +
-    "<button type='button' class='jkr-btn jkr-primary' data-jk-close='1'>Fechar</button></div>" +
-    (e.lines.length ? "<ol class='jkr-sum'>" + e.lines.map(function (l) { return "<li>" + JKEsc(l) + "</li>"; }).join("") + "</ol>" : "") + "</section>";
+  if (!e || e.closed) return "";
+  if (e.ok && Date.now() - e.at > 6000) return "";
+  var log = e.lines.length ? "<ol class='jkr-sum'>" + e.lines.map(function (l) { return "<li>" + JKEsc(l) + "</li>"; }).join("") + "</ol>" : "";
+  var head = "<div class='jkr-head'><span class='jkr-badge'>RUN</span><h2>" + JKEsc(e.name) + "</h2><span class='jkr-result'>" + (e.ok ? "Run com sucesso" : "Run sem sucesso") + "</span><span class='jkr-grow'></span>" +
+    "<button type='button' class='jkr-btn jkr-primary' data-jk-close='1'>Fechar</button></div>";
+  if (e.ok) return "<section id='jk-runbox' class='jkr-summary jkr-ok' aria-label='Fim da run'>" + head + log + "</section>";
+  return "<section id='jk-runbox' class='jkr-summary jkr-fail jkr-ended' aria-label='Fim da run'>" + head +
+    "<p class='jkr-reason'>" + JKEsc(e.reason) + "</p>" + (e.view || "") + log + "</section>";
 }
 function JKRunHTML() {
   if (!JKRunActive()) {
     if (JKRun.cur) {
       var lines = JK.log.slice(JKRun.cur.logStart);
-      JKRun.ended = { name: JKRun.cur.name, at: Date.now(), ok: lines.some(function (l) { return /Run successful/i.test(l); }), lines: lines.slice(-6) };
+      var ok = lines.some(function (l) { return /Run successful/i.test(l); });
+      JKRun.ended = { name: JKRun.cur.name, at: Date.now(), ok: ok, lines: lines.slice(-6), view: ok ? "" : JKRunEndView(lines), reason: ok ? "" : JKRunEndReason(lines) };
+      JKRun.lastEncSeq = null; JKRun.lastEncIce = null;
       JKRun.cur = null;
-      setTimeout(function () { if (typeof JKSchedule == "function") JKSchedule(); }, 6100);
+      if (ok) setTimeout(function () { if (typeof JKSchedule == "function") JKSchedule(); }, 6100);
     }
     return JKRunSummaryHTML();
   }
@@ -175,7 +208,13 @@ function JKRunHTML() {
     attackedServer.ice.length + (attackedServer.ice.length == 1 ? " ice protegendo" : " ices protegendo") + "</span><span class='jkr-grow'></span>" +
     JKStat("Créditos", runner.creditPool + (runner.temporaryCredits > 0 ? " <small class='jk-temp' title='Créditos da bad publicity: só valem nesta run'>+" + runner.temporaryCredits + " BP</small>" : ""), "jk-big jkr-cr") + JKStat("Cliques", runner.clickTracker) +
     "<button type='button' class='jkr-peek-btn' data-jk-peek='1'>Ver a mesa</button></div>";
-  var body = head + JKRunSequence(info) + JKRunIcePanel(info) + JKRunRig() +
+  var view = JKRunSequence(info) + JKRunIcePanel(info);
+  // guarda a sequência do último encontro com ice, para mostrar no fim se a run terminar sem sucesso
+  if (info.where == "ice" && (info.sub == "encontro" || info.sub == "subrotinas disparando")) {
+    JKRun.lastEncSeq = JKRunSequence(info);
+    JKRun.lastEncIce = GetApproachEncounterIce();
+  }
+  var body = head + view + JKRunRig() +
     "<div class='jkr-foot'><span class='jkr-hint'></span><div class='jkr-proxy'></div></div>";
   return "<section id='jk-runbox' class='" + (JKRun.peek ? "jkr-peek" : "") + "' aria-label='Caixa da run'>" + body + "</section>" +
     "<button type='button' id='jk-runpill' data-jk-peek='0'>Voltar à run em " + JKEsc(name) + "</button>";

@@ -496,3 +496,13 @@ body.jk-ui .rv-revealed{display:inline-block;margin:0 0 6px;font:700 11px var(--
 .jkr-boost{display:block;text-align:center;font:600 11px var(--f-mono);color:var(--acc);max-width:160px}
 .jkr-off .jkr-boost{color:var(--dim)}
 .jk-temp{font:600 12px var(--f-mono);color:var(--warn);margin-left:2px}
+/* v4.3: fim da run sem sucesso fica aberto com a última situação */
+#jk-runbox.jkr-summary.jkr-ended{top:48px;bottom:auto;max-height:calc(100vh - 140px);width:min(1000px,calc(100vw - 32px))}
+.jkr-reason{margin:0;padding:10px 14px;border-radius:8px;background:#2a1418;border:1px solid #ff4f6d;color:#ffd0d8;font:600 15px var(--f-ui)}
+body.x1 #jk-runbox.jkr-summary.jkr-ended{top:82px}
+@media (orientation:landscape) and (max-height:500px){
+  #jk-runbox.jkr-summary.jkr-ended{top:34px;bottom:50px;max-height:none;width:calc(100vw - 12px)}
+  .jkr-reason{padding:6px 10px;font-size:12px}
+}
+.jkr-sub-idle{opacity:.6}
+.jkr-sub-idle .jkr-tag{background:#33424a;color:var(--dim)}
