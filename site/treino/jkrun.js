@@ -155,6 +155,12 @@ function JKRunRig() {
 // resumo que fica alguns segundos na tela quando a run termina (runs rápidas não somem sem explicação)
 // fim da run: com sucesso, um resumo pequeno que some sozinho; sem sucesso, a caixa fica aberta mostrando
 // a última situação (a ice e a subrotina que encerrou a run) até o jogador clicar em Fechar
+// linhas do log desde a posição "start" (contada pelo JK.logTotal, que não é afetado pelo corte em 200 linhas)
+function JKLogSince(start) {
+  var n = (JK.logTotal || 0) - start;
+  if (n <= 0) return [];
+  return JK.log.slice(Math.max(0, JK.log.length - n));
+}
 function JKRunEndReason(lines) {
   for (var i = lines.length - 1; i >= 0; i--) {
     var m = /^Firing "(.+)" on (.+?) protecting /.exec(lines[i]);
@@ -195,7 +201,7 @@ function JKRunSummaryHTML() {
 function JKRunHTML() {
   if (!JKRunActive()) {
     if (JKRun.cur) {
-      var lines = JK.log.slice(JKRun.cur.logStart);
+      var lines = JKLogSince(JKRun.cur.logStart);
       var ok = lines.some(function (l) { return /Run successful/i.test(l); });
       JKRun.ended = { name: JKRun.cur.name, at: Date.now(), ok: ok, lines: lines.slice(-6), view: ok ? "" : JKRunEndView(lines), reason: ok ? "" : JKRunEndReason(lines) };
       JKRun.lastEncSeq = null; JKRun.lastEncIce = null;
@@ -206,7 +212,7 @@ function JKRunHTML() {
   }
   var info = JKRunStepInfo();
   var name = ServerName(attackedServer);
-  if (!JKRun.cur || JKRun.cur.server !== attackedServer) JKRun.cur = { server: attackedServer, name: name, logStart: JKRun.logStart != null ? JKRun.logStart : Math.max(0, JK.log.length - 3) };
+  if (!JKRun.cur || JKRun.cur.server !== attackedServer) JKRun.cur = { server: attackedServer, name: name, logStart: JKRun.logStart != null ? JKRun.logStart : Math.max(0, (JK.logTotal || 0) - 3) };
   JKRun.ended = null;
   var head = "<div class='jkr-head'><span class='jkr-badge'>RUN</span><h2>" + JKEsc(name) + "</h2><span class='jkr-dim'>" +
     attackedServer.ice.length + (attackedServer.ice.length == 1 ? " ice protegendo" : " ices protegendo") + "</span><span class='jkr-grow'></span>" +
@@ -406,5 +412,5 @@ function JKRunTrigger(k) {
 (function () {
   if (typeof MakeRun != "function") return;
   var _MR = MakeRun;
-  MakeRun = function () { JKRun.peek = false; JKRun.cur = null; JKRun.ended = null; JKRun.logStart = JK.log.length; return _MR.apply(this, arguments); };
+  MakeRun = function () { JKRun.peek = false; JKRun.cur = null; JKRun.ended = null; JKRun.logStart = JK.logTotal || 0; return _MR.apply(this, arguments); };
 })();

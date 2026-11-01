@@ -102,6 +102,7 @@ function JKTranslateUI() {
     var r = _Log.apply(this, arguments);
     if (typeof src == "string" && src.indexOf("SPOILER") < 0) {
       JK.log.push(src.replace(/<[^>]+>/g, ""));
+      JK.logTotal = (JK.logTotal || 0) + 1; // contador que nunca volta (o JK.log só guarda as últimas 200 linhas)
       if (JK.log.length > 200) JK.log.shift();
       JKSchedule();
     }
@@ -459,7 +460,7 @@ setInterval(function () {
   try {
     if (typeof activePlayer == "undefined" || !activePlayer) return;
     JKWrapAI(corp); JKWrapAI(runner);
-    var sigH = (currentPhase ? currentPhase.identifier : "") + "|" + JK.log.length + "|" + (activePlayer == corp ? "C" : "R");
+    var sigH = (currentPhase ? currentPhase.identifier : "") + "|" + (JK.logTotal || JK.log.length) + "|" + (activePlayer == corp ? "C" : "R");
     if (sigH != JKWatch.sigH) { JKWatch.sigH = sigH; JKWatch.humanSince = 0; }
     if (activePlayer.AI == null) {
       if ($("body").hasClass("x1-waiting")) { JKWatch.humanSince = 0; JKWatch.since = Date.now(); return; }
@@ -480,7 +481,7 @@ setInterval(function () {
     JKWatch.humanSince = 0;
     if ($("#physical-modal").is(":visible")) { JKWatch.since = Date.now(); return; }
     var sig = (currentPhase ? currentPhase.identifier : "") + "|" + (typeof executingCommand != "undefined" ? executingCommand : "") + "|" +
-      JK.log.length + "|" + corp.creditPool + "|" + runner.creditPool + "|" + runner.clickTracker + "|" + corp.clickTracker;
+      (JK.logTotal || JK.log.length) + "|" + corp.creditPool + "|" + runner.creditPool + "|" + runner.clickTracker + "|" + corp.clickTracker;
     if (sig != JKWatch.sig) { JKWatch.sig = sig; JKWatch.since = Date.now(); return; }
     var idle = Date.now() - JKWatch.since;
     var stale = JKWatch.inflight == 0 ? idle > 12000 : (Date.now() - JKWatch.inflightAt > 60000 && idle > 60000);
