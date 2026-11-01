@@ -1,0 +1,1006 @@
+[
+{
+"pt": "Bravado: ganhar créditos",
+"kind": "exact"
+},
+{
+"pt": "Clean Getaway: ganhar 6 créditos",
+"kind": "exact"
+},
+{
+"pt": "Kompromat: escolha da Corp",
+"kind": "exact"
+},
+{
+"pt": ", 2¢ a menos",
+"kind": "frag"
+},
+{
+"pt": "Não instalar recurso",
+"kind": "exact"
+},
+{
+"pt": "Instalar 1 recurso do heap (2 créditos a menos)",
+"kind": "exact"
+},
+{
+"pt": "Privileged Access: nenhum programa no heap que dê para instalar",
+"kind": "exact"
+},
+{
+"pt": "Não instalar programa",
+"kind": "exact"
+},
+{
+"pt": "Threat 3: instalar 1 programa do heap",
+"kind": "exact"
+},
+{
+"pt": "Hermes: carta não rezzada devolvida ao HQ",
+"kind": "exact"
+},
+{
+"pt": "Hermes: devolver 1 carta não rezzada ao HQ",
+"kind": "exact"
+},
+{
+"pt": "WAKE Implant: sofrer 1 dano de carne",
+"kind": "exact"
+},
+{
+"pt": "Não usar",
+"kind": "exact"
+},
+{
+"pt": "DreamNet: comprar 1 carta",
+"kind": "exact"
+},
+{
+"pt": "Pôr no fundo:",
+"kind": "frag"
+},
+{
+"pt": "(próxima do topo)",
+"kind": "frag"
+},
+{
+"pt": "foi para o fundo do baralho",
+"kind": "frag"
+},
+{
+"pt": "Não contornar",
+"kind": "exact"
+},
+{
+"pt": ", da mão)",
+"kind": "frag"
+},
+{
+"pt": ": Corp instala 1 carta",
+"kind": "frag"
+},
+{
+"pt": "Não instalar",
+"kind": "exact"
+},
+{
+"pt": "Ob: busca no R&D por carta com custo de rez",
+"kind": "frag"
+},
+{
+"pt": "Ob: buscar carta no R&D",
+"kind": "exact"
+},
+{
+"pt": "Azef Protocol: 2 de dano de carne",
+"kind": "exact"
+},
+{
+"pt": "Greenmail: ganhar 2 créditos",
+"kind": "exact"
+},
+{
+"pt": "Pôr no HQ",
+"kind": "exact"
+},
+{
+"pt": "Revelar e dar trash da mão: 2 avanços em 1 carta instalada",
+"kind": "exact"
+},
+{
+"pt": "Corp revelou e lixou Slash and Burn Agriculture da mão",
+"kind": "exact"
+},
+{
+"pt": "Anthill: pegar 4 créditos e comprar 1",
+"kind": "exact"
+},
+{
+"pt": "Hostile Architecture: 2 de dano de carne",
+"kind": "exact"
+},
+{
+"pt": "Phật Gioan: 1 marcador de poder",
+"kind": "exact"
+},
+{
+"pt": "de dano neural (remove",
+"kind": "frag"
+},
+{
+"pt": "de dano",
+"kind": "frag"
+},
+{
+"pt": "Não dar trash",
+"kind": "exact"
+},
+{
+"pt": "Sofrer 4 de dano de carne",
+"kind": "exact"
+},
+{
+"pt": "Mavirus: purgar vírus",
+"kind": "exact"
+},
+{
+"pt": "Revelar e dar trash da mão: comprar 1 e devolver agendas ao R&D",
+"kind": "exact"
+},
+{
+"pt": "Trash em 1 carta: +5 de força",
+"kind": "exact"
+},
+{
+"pt": "Stavka: trash em 1 carta para +5 de força",
+"kind": "exact"
+},
+{
+"pt": ", de Archives)",
+"kind": "frag"
+},
+{
+"pt": "vai para a área de pontos da Corp",
+"kind": "frag"
+},
+{
+"pt": "Regenesis: pontuar agenda virada de Archives",
+"kind": "exact"
+},
+{
+"pt": "Pagar 1¢: encontrar de novo",
+"kind": "exact"
+},
+{
+"pt": "de novo",
+"kind": "frag"
+},
+{
+"pt": "Sisyphus Protocol: encontrar o ice de novo",
+"kind": "exact"
+},
+{
+"pt": "Charlotte Caçador",
+"kind": "exact"
+},
+{
+"pt": "Charlotte: remover 1 avanço, ganhar 4 e comprar 1",
+"kind": "exact"
+},
+{
+"pt": "Jogar de Archives (ganha 5¢ e 1 clique, depois sai do jogo)",
+"kind": "exact"
+},
+{
+"pt": "Corp jogou Petty Cash de Archives",
+"kind": "exact"
+},
+{
+"pt": "Ganked!: forçar encontro com ice",
+"kind": "exact"
+},
+{
+"pt": "La Costa Grid: 1 avanço",
+"kind": "exact"
+},
+{
+"pt": "Do 2 net damage.",
+"kind": "exact"
+},
+{
+"pt": "Sofrer 3 de dano neural",
+"kind": "exact"
+},
+{
+"pt": "Sofrer 3 de dano",
+"kind": "exact"
+},
+{
+"pt": "Não trocar",
+"kind": "exact"
+},
+{
+"pt": "Tatu-Bola trocado por um ice do HQ",
+"kind": "exact"
+},
+{
+"pt": "Tatu-Bola: trocar por ice do HQ e ganhar 4",
+"kind": "exact"
+},
+{
+"pt": "de dano neural",
+"kind": "frag"
+},
+{
+"pt": "Comprar 2",
+"kind": "exact"
+},
+{
+"pt": "Comprar 1",
+"kind": "exact"
+},
+{
+"pt": "Não comprar",
+"kind": "exact"
+},
+{
+"pt": "Perder 1 carta",
+"kind": "exact"
+},
+{
+"pt": "Cloud Eater: fim do encontro",
+"kind": "exact"
+},
+{
+"pt": "Do 3 net damage.",
+"kind": "exact"
+},
+{
+"pt": "Não devolver",
+"kind": "exact"
+},
+{
+"pt": "Saisentan: carta do tipo escolhido descartada, +1 dano",
+"kind": "exact"
+},
+{
+"pt": "Do 1 net damage.",
+"kind": "exact"
+},
+{
+"pt": "AU Co.: removeu 2 marcadores de poder para olhar o topo do R&D",
+"kind": "exact"
+},
+{
+"pt": "carta(s) do R&D para o HQ",
+"kind": "frag"
+},
+{
+"pt": "vão",
+"kind": "frag"
+},
+{
+"pt": "para a sua mão.",
+"kind": "frag"
+},
+{
+"pt": "cartas do topo do R&D",
+"kind": "frag"
+},
+{
+"pt": "Olhar o topo do R&D",
+"kind": "exact"
+},
+{
+"pt": "AU Co.: remover 2 de poder, olhar 3 do R&D",
+"kind": "exact"
+},
+{
+"pt": "Fujii Asset Retrieval: 2 de net damage",
+"kind": "exact"
+},
+{
+"pt": "Anemone: 2 de net damage",
+"kind": "exact"
+},
+{
+"pt": "Não colocar",
+"kind": "exact"
+},
+{
+"pt": "¢ de custo adicional (Earth Station) para correr em",
+"kind": "frag"
+},
+{
+"pt": "Vire a sua identidade Earth Station:",
+"kind": "frag"
+},
+{
+"pt": "1 clique da Corp",
+"kind": "exact"
+},
+{
+"pt": "run com sucesso no HQ",
+"kind": "exact"
+},
+{
+"pt": "Não procurar",
+"kind": "exact"
+},
+{
+"pt": "vai para o fundo do R&D",
+"kind": "frag"
+},
+{
+"pt": "vai para a sua mão",
+"kind": "frag"
+},
+{
+"pt": "Colocar no fundo do R&D",
+"kind": "exact"
+},
+{
+"pt": "Fundo do R&D",
+"kind": "exact"
+},
+{
+"pt": "Sacrifice Zone Expansion instalada com a face para cima",
+"kind": "exact"
+},
+{
+"pt": "Sacrifice Zone Expansion: Corp ganha 3¢ (primeiro avanço do turno)",
+"kind": "exact"
+},
+{
+"pt": "Sacrifice Zone Expansion: remove 1 avanço, 1 de meat damage",
+"kind": "exact"
+},
+{
+"pt": "Sacrifice Zone: remover 1 avanço para 1 de meat damage",
+"kind": "exact"
+},
+{
+"pt": "Escolher carta de Archives",
+"kind": "exact"
+},
+{
+"pt": "Não pegar",
+"kind": "exact"
+},
+{
+"pt": "volta de Archives para o HQ",
+"kind": "frag"
+},
+{
+"pt": "de Archives para a mão",
+"kind": "frag"
+},
+{
+"pt": "Digital Rights Management: Corp instala 1 carta num remoto",
+"kind": "exact"
+},
+{
+"pt": "Digital Rights Management",
+"kind": "exact"
+},
+{
+"pt": "Instalar 1 carta do HQ num remoto",
+"kind": "exact"
+},
+{
+"pt": "Digital Rights Management: nenhuma agenda no R&D",
+"kind": "exact"
+},
+{
+"pt": "Digital Rights Management: Corp revela",
+"kind": "frag"
+},
+{
+"pt": "e põe no HQ",
+"kind": "frag"
+},
+{
+"pt": "Digital Rights Management: pegue",
+"kind": "frag"
+},
+{
+"pt": "do R&D e embaralhe o R&D",
+"kind": "frag"
+},
+{
+"pt": "Comprar 1 e embaralhar 1 carta do HQ no R&D",
+"kind": "exact"
+},
+{
+"pt": "Comprar e embaralhar",
+"kind": "exact"
+},
+{
+"pt": "Instalar 1 ice do HQ sem custos",
+"kind": "exact"
+},
+{
+"pt": "Instalar ice",
+"kind": "exact"
+},
+{
+"pt": "Colocar 1 avanço numa carta instalada",
+"kind": "exact"
+},
+{
+"pt": "1 avanço",
+"kind": "exact"
+},
+{
+"pt": "Ganhar 2¢",
+"kind": "exact"
+},
+{
+"pt": "Escolher carta para embaralhar no R&D",
+"kind": "exact"
+},
+{
+"pt": "Key Performance Indicators: 1 carta do HQ embaralhada no R&D",
+"kind": "exact"
+},
+{
+"pt": "no seu R&D",
+"kind": "frag"
+},
+{
+"pt": "Embaralhar 1 carta do HQ no R&D",
+"kind": "exact"
+},
+{
+"pt": "de 2)",
+"kind": "frag"
+},
+{
+"pt": "Revelar e dar trash da mão: 3 avanços em 1 ice instalado",
+"kind": "exact"
+},
+{
+"pt": "Corp revelou e deu trash em Tree Line da mão",
+"kind": "exact"
+},
+{
+"pt": "Syailendra: colocar 1 avanço",
+"kind": "exact"
+},
+{
+"pt": "Instalar do HQ",
+"kind": "exact"
+},
+{
+"pt": "Instalar de Archives",
+"kind": "exact"
+},
+{
+"pt": "clique(s) a mais neste turno",
+"kind": "frag"
+},
+{
+"pt": "Mercia B4LL4RD foi para a raiz de",
+"kind": "frag"
+},
+{
+"pt": "Mercia: instalar 1 gelo do HQ pagando 1 a menos",
+"kind": "exact"
+},
+{
+"pt": "para encerrar a run",
+"kind": "frag"
+},
+{
+"pt": "carta(s) do topo do R&D",
+"kind": "frag"
+},
+{
+"pt": "ADT: instalar e ativar 1 carta ignorando custos",
+"kind": "exact"
+},
+{
+"pt": "Architect Deployment Test: olhar 5 do R&D",
+"kind": "exact"
+},
+{
+"pt": "Méliès City Luxury Line",
+"kind": "exact"
+},
+{
+"pt": "Méliès City Luxury Line: o Runner gastou 1 clique para roubar",
+"kind": "exact"
+},
+{
+"pt": "Méliès City Luxury Line: a Corp ganha 1 clique",
+"kind": "exact"
+},
+{
+"pt": "Méliès: ganhar 1 clique",
+"kind": "exact"
+},
+{
+"pt": "Não jogar",
+"kind": "exact"
+},
+{
+"pt": "Humanoid Resources: jogar 1 operação do HQ",
+"kind": "exact"
+},
+{
+"pt": "Humanoid Resources: instalar 1 carta do HQ",
+"kind": "exact"
+},
+{
+"pt": "Scapenet: remover do jogo 1 chip ou carta virtual instalada",
+"kind": "exact"
+},
+{
+"pt": "Ganhar 2 créditos",
+"kind": "exact"
+},
+{
+"pt": "Comprar 1 carta",
+"kind": "exact"
+},
+{
+"pt": "Tranquility Home Grid: 2 créditos ou 1 carta",
+"kind": "exact"
+},
+{
+"pt": "Não embaralhar",
+"kind": "exact"
+},
+{
+"pt": "1 carta do HQ",
+"kind": "exact"
+},
+{
+"pt": "de Archives",
+"kind": "frag"
+},
+{
+"pt": "Sleipnir: embaralhar 1 carta no R&D",
+"kind": "exact"
+},
+{
+"pt": "Gastar 1 clique",
+"kind": "exact"
+},
+{
+"pt": "M.I.C.: o Runner gastou 1 clique",
+"kind": "exact"
+},
+{
+"pt": "M.I.C.: gastar 1 clique ou a run termina",
+"kind": "exact"
+},
+{
+"pt": "Do 1 core damage.",
+"kind": "exact"
+},
+{
+"pt": "Do 2 core damage.",
+"kind": "exact"
+},
+{
+"pt": "Týr: a Corp ganha +1 clique no próximo turno",
+"kind": "exact"
+},
+{
+"pt": "Não adicionar",
+"kind": "exact"
+},
+{
+"pt": "de Archives para o HQ",
+"kind": "frag"
+},
+{
+"pt": "Drafter: adicionar 1 carta de Archives ao HQ",
+"kind": "exact"
+},
+{
+"pt": "Ansel 2.0: remover do jogo 1 carta do heap",
+"kind": "exact"
+},
+{
+"pt": "\" (e até mais 1)",
+"kind": "exact"
+},
+{
+"pt": "Não quebrar outra",
+"kind": "exact"
+},
+{
+"pt": "Ansel 2.0: quebrar mais 1 subrotina",
+"kind": "exact"
+},
+{
+"pt": "ice não rezzada",
+"kind": "exact"
+},
+{
+"pt": ": agenda (não pode roubar nem lixar neste acesso)",
+"kind": "frag"
+},
+{
+"pt": "¢ e lixar",
+"kind": "frag"
+},
+{
+"pt": "Magdalene: instalar 1 programa ou hardware descartado",
+"kind": "exact"
+},
+{
+"pt": "Burner: revelar 3 cartas do HQ",
+"kind": "exact"
+},
+{
+"pt": "Burner revelou do HQ:",
+"kind": "frag"
+},
+{
+"pt": "no topo do R&D",
+"kind": "frag"
+},
+{
+"pt": "no fundo do R&D",
+"kind": "frag"
+},
+{
+"pt": "foi para o topo do R&D",
+"kind": "frag"
+},
+{
+"pt": "foi para o fundo do R&D",
+"kind": "frag"
+},
+{
+"pt": "Escolha a carta e onde ela vai no R&D (faltam",
+"kind": "frag"
+},
+{
+"pt": "cartas do topo do R&D:",
+"kind": "frag"
+},
+{
+"pt": "Deep Dive: a Corp embaralhou as cartas separadas no R&D",
+"kind": "exact"
+},
+{
+"pt": "Gastar 1 clique e acessar outra",
+"kind": "exact"
+},
+{
+"pt": "Acessar mais uma carta?",
+"kind": "exact"
+},
+{
+"pt": "Escolha 1 das cartas separadas para acessar",
+"kind": "exact"
+},
+{
+"pt": "(1¢ a menos)",
+"kind": "frag"
+},
+{
+"pt": "Parar de instalar",
+"kind": "exact"
+},
+{
+"pt": "Instale até",
+"kind": "frag"
+},
+{
+"pt": "carta(s) da mão, pagando 1¢ a menos",
+"kind": "frag"
+},
+{
+"pt": "Illumination: instalar até 3 cartas da mão",
+"kind": "exact"
+},
+{
+"pt": "Acessar carta na raiz de",
+"kind": "frag"
+},
+{
+"pt": "LilyPAD: comprar 1 carta?",
+"kind": "exact"
+},
+{
+"pt": "Instalar 1 programa do heap pagando 3¢ a menos (lixa o Simulchip).",
+"kind": "exact"
+},
+{
+"pt": "do heap",
+"kind": "exact"
+},
+{
+"pt": "(custo adicional do Simulchip)",
+"kind": "frag"
+},
+{
+"pt": "Escolha o programa instalado para lixar",
+"kind": "exact"
+},
+{
+"pt": "Lixar outra carta instalada sua: ganhar o custo impresso dela e comprar 1.",
+"kind": "exact"
+},
+{
+"pt": ": ganhar",
+"kind": "frag"
+},
+{
+"pt": "¢ e comprar 1",
+"kind": "exact"
+},
+{
+"pt": "Ganhar 1 clique e fazer run num servidor remoto.",
+"kind": "exact"
+},
+{
+"pt": "Ganhar 1 clique e fazer run em",
+"kind": "frag"
+},
+{
+"pt": "Lixar Hannah: ganhar 2 cliques e remover 1 tag.",
+"kind": "exact"
+},
+{
+"pt": "Hannah: a run não teve sucesso, receber 1 tag",
+"kind": "exact"
+},
+{
+"pt": "Gastar 1 marcador de poder: +2 de força.",
+"kind": "exact"
+},
+{
+"pt": "Gastar 1 marcador de poder: ganhar 2¢.",
+"kind": "exact"
+},
+{
+"pt": "Pagar 1¢: hospedar a carta acessada no Cupellation.",
+"kind": "exact"
+},
+{
+"pt": "Pagar 1¢ e lixar Cupellation: acessar +2 cartas",
+"kind": "exact"
+},
+{
+"pt": "Pagar 1¢ e lixar: +2 acessos",
+"kind": "exact"
+},
+{
+"pt": "Cupellation: acessar 2 cartas a mais no HQ?",
+"kind": "exact"
+},
+{
+"pt": "Lixar o Gourmand: lixar a carta acessada e comprar 1.",
+"kind": "exact"
+},
+{
+"pt": "Mover o Hush para outra ice.",
+"kind": "exact"
+},
+{
+"pt": "Mover Hush para",
+"kind": "frag"
+},
+{
+"pt": "Hush agora está hospedado em outra ice",
+"kind": "exact"
+},
+{
+"pt": "do baralho",
+"kind": "exact"
+},
+{
+"pt": "da mão",
+"kind": "exact"
+},
+{
+"pt": "Não instalar nada",
+"kind": "exact"
+},
+{
+"pt": "Runner embaralhou o baralho (Muse)",
+"kind": "exact"
+},
+{
+"pt": "Muse: procurar 1 programa para instalar",
+"kind": "exact"
+},
+{
+"pt": "Gastar 1 marcador de vírus: a ice ganha um subtipo neste encontro.",
+"kind": "exact"
+},
+{
+"pt": "até o fim do encontro",
+"kind": "frag"
+},
+{
+"pt": "Pichação",
+"kind": "exact"
+},
+{
+"pt": "Ganhar 1 clique",
+"kind": "exact"
+},
+{
+"pt": "Não ganhar",
+"kind": "exact"
+},
+{
+"pt": "Pichação volta para a mão (não foi o primeiro clique ganho numa run neste turno)",
+"kind": "exact"
+},
+{
+"pt": "Pichação: ganhar 1 clique?",
+"kind": "exact"
+},
+{
+"pt": "Pagar 2¢ e lixar: procurar 1 programa no baralho e instalar.",
+"kind": "exact"
+},
+{
+"pt": "Runner embaralhou o baralho (Self-modifying Code)",
+"kind": "exact"
+},
+{
+"pt": "Escolha o programa do baralho para instalar",
+"kind": "exact"
+},
+{
+"pt": "The Tungsten Tailor: subrotina quebrada numa ice de força 0, Runner ganha 1¢",
+"kind": "exact"
+},
+{
+"pt": "Quebrar:",
+"kind": "frag"
+},
+{
+"pt": "Não quebrar mais",
+"kind": "exact"
+},
+{
+"pt": "Escolha a subrotina para quebrar (",
+"kind": "frag"
+},
+{
+"pt": "de até",
+"kind": "frag"
+},
+{
+"pt": "Boomerang escolheu uma ice",
+"kind": "exact"
+},
+{
+"pt": "Lixar o Boomerang: quebrar até 2 subrotinas desta ice.",
+"kind": "exact"
+},
+{
+"pt": "Embaralhar 1 Boomerang do heap no baralho",
+"kind": "exact"
+},
+{
+"pt": "Embaralhar de volta",
+"kind": "exact"
+},
+{
+"pt": "Boomerang voltou para o baralho (embaralhado)",
+"kind": "exact"
+},
+{
+"pt": "Boomerang: voltar para o baralho?",
+"kind": "exact"
+},
+{
+"pt": "Lixar o Gachapon: separar as 6 do topo, instalar 1 programa ou recurso virtual com 2¢ a menos.",
+"kind": "exact"
+},
+{
+"pt": "Instalar 1 das cartas separadas?",
+"kind": "exact"
+},
+{
+"pt": "Gachapon: cartas embaralhadas no baralho; as demais saíram do jogo",
+"kind": "exact"
+},
+{
+"pt": "ao baralho",
+"kind": "frag"
+},
+{
+"pt": "Escolha a carta que volta ao baralho (",
+"kind": "frag"
+},
+{
+"pt": "de 3); as outras saem do jogo",
+"kind": "frag"
+},
+{
+"pt": "Gastar 1 marcador: comprar 1 carta",
+"kind": "exact"
+},
+{
+"pt": "Solidarity Badge: usar 1 marcador?",
+"kind": "exact"
+},
+{
+"pt": "Pagar 1¢ para manter o Fencer Fueno",
+"kind": "exact"
+},
+{
+"pt": "Lixar o Fencer Fueno",
+"kind": "exact"
+},
+{
+"pt": "Fencer Fueno: 3 ou mais créditos no fim do turno",
+"kind": "exact"
+},
+{
+"pt": "Paladin Poemu: 3 ou mais créditos, lixar 1 carta instalada",
+"kind": "exact"
+},
+{
+"pt": "Receber 1 tag para manter o Trickster Taka",
+"kind": "exact"
+},
+{
+"pt": "Lixar o Trickster Taka",
+"kind": "exact"
+},
+{
+"pt": "Trickster Taka: 3 ou mais créditos no fim do turno",
+"kind": "exact"
+},
+{
+"pt": "Gastar 1 marcador: acessar +1 carta",
+"kind": "exact"
+},
+{
+"pt": "Gastar 2 marcadores: acessar +2 cartas",
+"kind": "exact"
+},
+{
+"pt": "Gastar 1 marcador de vírus: quebrar até 2 subrotinas.",
+"kind": "exact"
+},
+{
+"pt": "Descartar 1 carta da mão: +3 de força.",
+"kind": "exact"
+},
+{
+"pt": ": +3 de força",
+"kind": "frag"
+},
+{
+"pt": "Project Atlas pontuada com",
+"kind": "frag"
+},
+{
+"pt": "avanços:",
+"kind": "frag"
+},
+{
+"pt": "marcador(es) de agenda (1 por avanço acima de 3)",
+"kind": "frag"
+},
+{
+"pt": "nenhum marcador (só ganha com mais de 3 avanços)",
+"kind": "exact"
+},
+{
+"pt": "Esâ Afontov",
+"kind": "exact"
+},
+{
+"pt": "I could do",
+"kind": "frag"
+},
+{
+"pt": "Not sure what to do",
+"kind": "exact"
+}
+]

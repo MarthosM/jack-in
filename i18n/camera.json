@@ -1,0 +1,1074 @@
+[
+{
+"pt": "Jack In — Netrunner por câmera",
+"kind": "exact"
+},
+{
+"pt": "Netrunner com cartas físicas: câmera aberta, Corporação de um lado, Runner do outro.",
+"kind": "exact"
+},
+{
+"pt": "Entrar na mesa",
+"kind": "exact"
+},
+{
+"pt": "Créditos",
+"kind": "exact"
+},
+{
+"pt": "Contra a IA ou contra outra pessoa, com cartas digitais ou físicas",
+"kind": "exact"
+},
+{
+"pt": "Treino e cartas digitais ›",
+"kind": "exact"
+},
+{
+"pt": "Sua câmera e microfone",
+"kind": "exact"
+},
+{
+"pt": "Câmera",
+"kind": "exact"
+},
+{
+"pt": "Saída de som",
+"kind": "exact"
+},
+{
+"pt": "Nível do microfone",
+"kind": "exact"
+},
+{
+"pt": "Reiniciar áudio",
+"kind": "exact"
+},
+{
+"pt": "Orientação da imagem:",
+"kind": "exact"
+},
+{
+"pt": "Girar 90° no sentido horário",
+"kind": "exact"
+},
+{
+"pt": "🎧 Use fone de ouvido para evitar eco. Se o microfone não funcionar, feche Zoom, Discord, Teams ou WhatsApp e clique em",
+"kind": "exact"
+},
+{
+"pt": "Conectar à mesa",
+"kind": "exact"
+},
+{
+"pt": "Seu nome",
+"kind": "exact"
+},
+{
+"pt": "Lado que você quer jogar",
+"kind": "exact"
+},
+{
+"pt": "Corporação",
+"kind": "exact"
+},
+{
+"pt": "Entrar com o microfone aberto",
+"kind": "exact"
+},
+{
+"pt": "Criar mesa",
+"kind": "exact"
+},
+{
+"pt": "Código da mesa",
+"kind": "exact"
+},
+{
+"pt": "Conexão avançada (TURN)",
+"kind": "exact"
+},
+{
+"pt": "Se alguém não conseguir ver o vídeo (redes corporativas, 4G com NAT restrito), informe um servidor TURN. Os dois jogadores devem usar o mesmo.",
+"kind": "exact"
+},
+{
+"pt": "usuário",
+"kind": "exact"
+},
+{
+"pt": "Quem cria a mesa passa o código (ou o link) para o oponente.",
+"kind": "exact"
+},
+{
+"pt": "O navegador de quem criou guarda o estado da partida: créditos, cliques, pontos de agenda, tags e turnos.",
+"kind": "exact"
+},
+{
+"pt": "Clique numa carta",
+"kind": "exact"
+},
+{
+"pt": "no vídeo para identificá-la, ou arraste para marcar a área exata.",
+"kind": "exact"
+},
+{
+"pt": "Versão",
+"kind": "exact"
+},
+{
+"pt": "Carregando as cartas do NetrunnerDB…",
+"kind": "exact"
+},
+{
+"pt": "Mesa online de Netrunner com cartas físicas e câmeras.",
+"kind": "exact"
+},
+{
+"pt": "Criação",
+"kind": "exact"
+},
+{
+"pt": "Sugestões, erros ou ideias? Mande um e-mail.",
+"kind": "exact"
+},
+{
+"pt": ": banco de cartas, imagens e decks",
+"kind": "exact"
+},
+{
+"pt": ": por manter o Netrunner vivo, e pelos símbolos de jogo e de facção usados na interface (",
+"kind": "exact"
+},
+{
+"pt": "), sob a licença",
+"kind": "exact"
+},
+{
+"pt": ": conexão entre os jogadores",
+"kind": "exact"
+},
+{
+"pt": ": leitura do texto das cartas",
+"kind": "exact"
+},
+{
+"pt": ": contorno e reconhecimento das cartas",
+"kind": "exact"
+},
+{
+"pt": "Projeto de fãs, gratuito e sem fins lucrativos. Netrunner e as imagens das cartas pertencem aos seus respectivos detentores de direitos (Null Signal Games, Fantasy Flight Games, Wizards of the Coast). Este site não é afiliado a eles.",
+"kind": "exact"
+},
+{
+"pt": "Jack In é software livre, sob a",
+"kind": "exact"
+},
+{
+"pt": "licença MIT",
+"kind": "exact"
+},
+{
+"pt": "Código-fonte no GitHub",
+"kind": "exact"
+},
+{
+"pt": "Código de conduta",
+"kind": "exact"
+},
+{
+"pt": "Copiar o link/código da mesa",
+"kind": "exact"
+},
+{
+"pt": "Copiar o link para o oponente entrar e jogar",
+"kind": "exact"
+},
+{
+"pt": "🔗 Link de jogador",
+"kind": "exact"
+},
+{
+"pt": "Copiar o link para alguém assistir à partida",
+"kind": "exact"
+},
+{
+"pt": "👁 Link de observador",
+"kind": "exact"
+},
+{
+"pt": "Tempo desde o início da partida",
+"kind": "exact"
+},
+{
+"pt": "Trocar câmera",
+"kind": "exact"
+},
+{
+"pt": "Microfone, saída de som e teste",
+"kind": "exact"
+},
+{
+"pt": "⚙ Áudio",
+"kind": "exact"
+},
+{
+"pt": "Câmera ligada",
+"kind": "exact"
+},
+{
+"pt": "Mesa de",
+"kind": "exact"
+},
+{
+"pt": "⟫ no painel recolhe a lateral; arraste a borda dele para mudar a largura. Clique numa carta no vídeo para identificá-la ou arraste para selecionar a área. Toque nas bolinhas para gastar cliques. Clique no número de créditos para digitar um valor. ⤢ maximiza uma mesa, ⛶ abre em tela cheia. Carregue seu deck na aba Deck para o reconhecimento por imagem.",
+"kind": "exact"
+},
+{
+"pt": "Arraste para mudar a largura do painel",
+"kind": "exact"
+},
+{
+"pt": "Recolher o painel (mais espaço para as mesas)",
+"kind": "exact"
+},
+{
+"pt": "Buscar carta",
+"kind": "exact"
+},
+{
+"pt": "Nome da carta…",
+"kind": "exact"
+},
+{
+"pt": "Clique numa carta na mesa de qualquer jogador.",
+"kind": "exact"
+},
+{
+"pt": "O nome é lido pela câmera e cruzado com o NetrunnerDB.",
+"kind": "exact"
+},
+{
+"pt": "A partida não começou",
+"kind": "exact"
+},
+{
+"pt": "Próxima fase",
+"kind": "exact"
+},
+{
+"pt": "Passar a vez",
+"kind": "exact"
+},
+{
+"pt": "Ações básicas",
+"kind": "exact"
+},
+{
+"pt": "Trocar de lado",
+"kind": "exact"
+},
+{
+"pt": "Iniciar partida",
+"kind": "exact"
+},
+{
+"pt": "Só quem criou a mesa pode trocar os lados e (re)iniciar a partida.",
+"kind": "exact"
+},
+{
+"pt": "Copiar link de jogador",
+"kind": "exact"
+},
+{
+"pt": "Copiar link de observador",
+"kind": "exact"
+},
+{
+"pt": "Observadores (até 4) veem as duas mesas, o placar e o registro, podem identificar cartas e falar, mas não aparecem em vídeo nem mexem no jogo.",
+"kind": "exact"
+},
+{
+"pt": "Regras rápidas",
+"kind": "exact"
+},
+{
+"pt": "Os dois começam com 5 créditos. A Corporação joga primeiro e não compra carta no primeiro turno.",
+"kind": "exact"
+},
+{
+"pt": "Turno da Corporação: compra obrigatória, 3 cliques, descarte. Turno do Runner: 4 cliques, descarte.",
+"kind": "exact"
+},
+{
+"pt": "Vence quem chegar a 7 pontos de agenda (aplicado automaticamente). O Runner também perde se sofrer dano maior que a mão; a Corporação perde se precisar comprar com o P&D vazio.",
+"kind": "exact"
+},
+{
+"pt": "Memória do Runner (MU): mostra usada / máxima. A máxima começa em 4 e aumenta com hardware ou pela identidade; a usada sobe ao instalar programas. Se passar da máxima, o Runner precisa descartar programas.",
+"kind": "exact"
+},
+{
+"pt": "Todos começam com 5 cartas na mão. Tamanho máximo de mão: 5, menos o dano central do Runner. Comprar soma 1 carta; instalar e jogar operação/evento tiram 1; a compra obrigatória da Corporação é somada no início do turno dela.",
+"kind": "exact"
+},
+{
+"pt": "Importar do NetrunnerDB",
+"kind": "exact"
+},
+{
+"pt": "…ou colar a lista (NetrunnerDB, Jinteki, “3x Nome”)",
+"kind": "exact"
+},
+{
+"pt": "só no seu navegador",
+"kind": "exact"
+},
+{
+"pt": "Mensagem para a mesa…",
+"kind": "exact"
+},
+{
+"pt": "Mostrar o painel de cartas, mesa, deck e registro",
+"kind": "exact"
+},
+{
+"pt": "🔊 Clique aqui para ativar o som da mesa",
+"kind": "exact"
+},
+{
+"pt": "Áudio",
+"kind": "exact"
+},
+{
+"pt": "Som curto ao gastar um clique",
+"kind": "exact"
+},
+{
+"pt": "A barra verde deve se mexer quando você fala. Se não mexer, escolha outro microfone ou clique em Reiniciar áudio.",
+"kind": "exact"
+},
+{
+"pt": "Microfone bloqueado? Clique no cadeado ao lado do endereço do site e permita o microfone.",
+"kind": "exact"
+},
+{
+"pt": "Microfone em uso por outro programa (Zoom, Discord, Teams)? Feche-o e reinicie o áudio.",
+"kind": "exact"
+},
+{
+"pt": "Eco na mesa? Quem está sem fone deve usar fone de ouvido.",
+"kind": "exact"
+},
+{
+"pt": "Não escuta ninguém? Confira a saída de som e o volume do computador.",
+"kind": "exact"
+},
+{
+"pt": "Ações",
+"kind": "exact"
+},
+{
+"pt": "sem lado",
+"kind": "exact"
+},
+{
+"pt": "sem câmera",
+"kind": "exact"
+},
+{
+"pt": "O navegador bloqueou o microfone. Clique no cadeado ao lado do endereço do site, permita o microfone e clique em",
+"kind": "frag"
+},
+{
+"pt": "(⚙ Áudio).",
+"kind": "frag"
+},
+{
+"pt": "Nenhum microfone encontrado. Conecte um e clique em",
+"kind": "frag"
+},
+{
+"pt": "O microfone está em uso por outro programa (Zoom, Discord, Teams, WhatsApp…). Feche-o e clique em",
+"kind": "frag"
+},
+{
+"pt": "Não foi possível abrir o microfone. Clique em",
+"kind": "frag"
+},
+{
+"pt": "(⚙ Áudio) ou escolha outro microfone.",
+"kind": "frag"
+},
+{
+"pt": "Não foi possível abrir a câmera. Verifique a permissão do navegador.",
+"kind": "exact"
+},
+{
+"pt": "— sem microfone —",
+"kind": "exact"
+},
+{
+"pt": "Saída",
+"kind": "exact"
+},
+{
+"pt": "🔇 Mutado pelo anfitrião",
+"kind": "exact"
+},
+{
+"pt": "Sem microfone (ativar)",
+"kind": "exact"
+},
+{
+"pt": "Câmera desligada",
+"kind": "exact"
+},
+{
+"pt": "O anfitrião mutou o seu microfone.",
+"kind": "exact"
+},
+{
+"pt": "Microfone fechado. Clique em “Sem microfone (ativar)” para falar.",
+"kind": "exact"
+},
+{
+"pt": "Nenhum microfone ativo. Clique em Reiniciar áudio.",
+"kind": "exact"
+},
+{
+"pt": "stun:stun.l.google.com:19302",
+"kind": "exact"
+},
+{
+"pt": "stun:stun1.l.google.com:19302",
+"kind": "exact"
+},
+{
+"pt": "stun:global.stun.twilio.com:3478",
+"kind": "exact"
+},
+{
+"pt": "Digite seu nome para entrar.",
+"kind": "exact"
+},
+{
+"pt": "Não foi possível carregar a biblioteca de conexão (PeerJS). Verifique a internet.",
+"kind": "exact"
+},
+{
+"pt": "{0} abriu a mesa {1}.",
+"kind": "tpl"
+},
+{
+"pt": "anfitrião",
+"kind": "exact"
+},
+{
+"pt": "Erro de conexão:",
+"kind": "frag"
+},
+{
+"pt": "Digite o código da mesa.",
+"kind": "exact"
+},
+{
+"pt": "A mesa não respondeu. Confira o código.",
+"kind": "exact"
+},
+{
+"pt": "anfitrião saiu",
+"kind": "exact"
+},
+{
+"pt": "A conexão com o anfitrião foi perdida.",
+"kind": "exact"
+},
+{
+"pt": "Mesa não encontrada. Confira o código.",
+"kind": "exact"
+},
+{
+"pt": "Anônimo",
+"kind": "exact"
+},
+{
+"pt": "{0} voltou à mesa.",
+"kind": "tpl"
+},
+{
+"pt": "{0} entrou na mesa ({1}).",
+"kind": "tpl"
+},
+{
+"pt": "{0} perdeu a conexão.",
+"kind": "tpl"
+},
+{
+"pt": "{0} removeu {1} da mesa.",
+"kind": "tpl"
+},
+{
+"pt": "Sem conexão com o anfitrião.",
+"kind": "exact"
+},
+{
+"pt": "Esta mesa já tem o máximo de 4 observadores.",
+"kind": "exact"
+},
+{
+"pt": "Esta mesa já tem dois jogadores. Peça ao anfitrião o link de observador.",
+"kind": "exact"
+},
+{
+"pt": "créditos",
+"kind": "exact"
+},
+{
+"pt": "cartas na mão",
+"kind": "exact"
+},
+{
+"pt": "pontos de agenda",
+"kind": "exact"
+},
+{
+"pt": "má publicidade",
+"kind": "exact"
+},
+{
+"pt": "memória usada (MU)",
+"kind": "exact"
+},
+{
+"pt": "memória máxima (MU)",
+"kind": "exact"
+},
+{
+"pt": "Ganhar 1 crédito",
+"kind": "exact"
+},
+{
+"pt": "Comprar 1 carta",
+"kind": "exact"
+},
+{
+"pt": "Instalar uma carta",
+"kind": "exact"
+},
+{
+"pt": "Jogar uma operação",
+"kind": "exact"
+},
+{
+"pt": "Avançar uma carta",
+"kind": "exact"
+},
+{
+"pt": "Descartar um recurso",
+"kind": "exact"
+},
+{
+"pt": "Expurgar vírus",
+"kind": "exact"
+},
+{
+"pt": "Jogar um evento",
+"kind": "exact"
+},
+{
+"pt": "{0}: {1} de {2} {3} → {4}",
+"kind": "tpl"
+},
+{
+"pt": "🏆 {0} chegou a {1} pontos de agenda e venceu a partida.",
+"kind": "tpl"
+},
+{
+"pt": "1º clique",
+"kind": "exact"
+},
+{
+"pt": "{0} ganhou 1 clique extra.",
+"kind": "tpl"
+},
+{
+"pt": "{0} {1}inicia uma corrida em {2}.",
+"kind": "tpl"
+},
+{
+"pt": "{0}: fase de {1}.",
+"kind": "tpl"
+},
+{
+"pt": "{0} vai jogar de {1}${other ?",
+"kind": "tpl"
+},
+{
+"pt": ").join(' contra ')}. Iniciem a próxima partida.",
+"kind": "frag"
+},
+{
+"pt": "A partida começou: {0} contra {1}. A Corporação joga primeiro, sem compra obrigatória neste turno.",
+"kind": "tpl"
+},
+{
+"pt": "O anfitrião mutou o microfone de {0}.",
+"kind": "tpl"
+},
+{
+"pt": "O anfitrião liberou o microfone de {0}.",
+"kind": "tpl"
+},
+{
+"pt": "O anfitrião mutou os observadores.",
+"kind": "exact"
+},
+{
+"pt": "O anfitrião liberou o microfone dos observadores.",
+"kind": "exact"
+},
+{
+"pt": "O anfitrião liberou todos os microfones.",
+"kind": "exact"
+},
+{
+"pt": "{0}: compra obrigatória (+1 carta na mão, agora {1}).",
+"kind": "tpl"
+},
+{
+"pt": "Você está assistindo como observador. Use ⚙ Áudio para configurar o microfone.",
+"kind": "exact"
+},
+{
+"pt": "aguardando vídeo…",
+"kind": "exact"
+},
+{
+"pt": "VITÓRIA",
+"kind": "exact"
+},
+{
+"pt": "(você)",
+"kind": "exact"
+},
+{
+"pt": "{0} {1}",
+"kind": "tpl"
+},
+{
+"pt": "Remover {0} da mesa",
+"kind": "tpl"
+},
+{
+"pt": "Remover {0} da mesa?",
+"kind": "tpl"
+},
+{
+"pt": "sem microfone",
+"kind": "exact"
+},
+{
+"pt": "O navegador não permitiu tela cheia.",
+"kind": "exact"
+},
+{
+"pt": "Turno de {0}",
+"kind": "tpl"
+},
+{
+"pt": "Clique devolvido",
+"kind": "exact"
+},
+{
+"pt": "{0}º clique",
+"kind": "tpl"
+},
+{
+"pt": "último clique: passe a vez",
+"kind": "exact"
+},
+{
+"pt": "<div class=\"ctr mu {0}\" title=\"Memória (MU): usada / máxima. A máxima começa em 4 e pode aumentar com hardware ou pela identidade.${over ?",
+"kind": "tpl"
+},
+{
+"pt": "Memória usada acima da máxima",
+"kind": "exact"
+},
+{
+"pt": "= base ? 'extra' : ''}\" data-act=\"{0}\" data-i=\"{1}\" aria-label=\"Clique {2}\">",
+"kind": "tpl"
+},
+{
+"pt": "0 ? 'hot' : ''}\" title=\"Tamanho máximo de mão (5{0})\">${over > 0 ?",
+"kind": "tpl"
+},
+{
+"pt": "Passar a vez ➜",
+"kind": "exact"
+},
+{
+"pt": "você",
+"kind": "exact"
+},
+{
+"pt": "' : ''} {0} ${p.deck ? '",
+"kind": "tpl"
+},
+{
+"pt": "{0} de {1}",
+"kind": "tpl"
+},
+{
+"pt": "Remover da mesa",
+"kind": "exact"
+},
+{
+"pt": "Girar minha câmera 90° ({0})",
+"kind": "tpl"
+},
+{
+"pt": "Espelhar minha câmera",
+"kind": "exact"
+},
+{
+"pt": "Inverter minha câmera",
+"kind": "exact"
+},
+{
+"pt": "Remover {0} da mesa?",
+"kind": "tpl"
+},
+{
+"pt": "◷ (grátis se não houver cliques)",
+"kind": "exact"
+},
+{
+"pt": "{0}¢ · {1} na mão · {2} PA",
+"kind": "tpl"
+},
+{
+"pt": "Reiniciar partida",
+"kind": "exact"
+},
+{
+"pt": "Trocar os lados? A partida atual é encerrada.",
+"kind": "exact"
+},
+{
+"pt": "Reiniciar a partida? Créditos, cliques e pontos voltam ao início.",
+"kind": "exact"
+},
+{
+"pt": "Operação",
+"kind": "exact"
+},
+{
+"pt": "dados oficiais do NetrunnerDB no GitHub",
+"kind": "exact"
+},
+{
+"pt": "Cartas carregadas:",
+"kind": "frag"
+},
+{
+"pt": "Não consegui baixar as cartas (nem do NetrunnerDB, nem da cópia no GitHub). A busca e a leitura por nome ficam indisponíveis; recarregue a página para tentar de novo.",
+"kind": "exact"
+},
+{
+"pt": "As imagens das cartas não abriram em nenhuma fonte (bloqueio de rede ou do navegador).",
+"kind": "exact"
+},
+{
+"pt": "Carta não encontrada.",
+"kind": "exact"
+},
+{
+"pt": "avanço {0}",
+"kind": "tpl"
+},
+{
+"pt": "{0} {1} de agenda",
+"kind": "tpl"
+},
+{
+"pt": "força {0}",
+"kind": "tpl"
+},
+{
+"pt": "influência {0}",
+"kind": "tpl"
+},
+{
+"pt": "deck mín. {0}",
+"kind": "tpl"
+},
+{
+"pt": "influência máx. {0}",
+"kind": "tpl"
+},
+{
+"pt": "link {0}",
+"kind": "tpl"
+},
+{
+"pt": "Revelar à mesa",
+"kind": "exact"
+},
+{
+"pt": "Você revelou",
+"kind": "frag"
+},
+{
+"pt": "à mesa.",
+"kind": "frag"
+},
+{
+"pt": "Ainda não há vídeo deste jogador.",
+"kind": "exact"
+},
+{
+"pt": "Nenhum deck carregado.",
+"kind": "exact"
+},
+{
+"pt": "Com o deck, a mesa reconhece suas cartas também",
+"kind": "frag"
+},
+{
+"pt": "pela imagem",
+"kind": "exact"
+},
+{
+"pt": ": mais rápido e mais preciso.",
+"kind": "frag"
+},
+{
+"pt": "{0}",
+"kind": "tpl"
+},
+{
+"pt": "' : ''}{0}{1} cartas${myDeck.url ?",
+"kind": "tpl"
+},
+{
+"pt": "Remover o deck carregado?",
+"kind": "exact"
+},
+{
+"pt": "Buscando o deck…",
+"kind": "exact"
+},
+{
+"pt": "use um link do netrunnerdb.com (decklist publicada ou deck compartilhado)",
+"kind": "exact"
+},
+{
+"pt": "o deck veio vazio (se for um deck privado, marque-o como compartilhado no NetrunnerDB)",
+"kind": "exact"
+},
+{
+"pt": "Deck carregado:",
+"kind": "frag"
+},
+{
+"pt": "{0}",
+"kind": "tpl"
+},
+{
+"pt": "Não consegui importar: {0}. Alternativa: no NetrunnerDB use",
+"kind": "tpl"
+},
+{
+"pt": "As cartas do NetrunnerDB ainda não carregaram. Tente de novo em instantes.",
+"kind": "exact"
+},
+{
+"pt": "Não encontrei cartas nessa lista. Formato esperado: uma carta por linha, como",
+"kind": "frag"
+},
+{
+"pt": "Deck carregado: {0} cartas diferentes${deck.bad?.length ?",
+"kind": "tpl"
+},
+{
+"pt": "Não foi possível carregar o módulo de visão (OpenCV). O reconhecimento pelo nome continua funcionando.",
+"kind": "exact"
+},
+{
+"pt": "para {0} de {1} cartas.${failed ?",
+"kind": "tpl"
+},
+{
+"pt": "(o servidor de imagens bloqueou a leitura)",
+"kind": "frag"
+},
+{
+"pt": "As imagens das cartas não puderam ser analisadas{0}. O reconhecimento pelo nome continua funcionando, priorizando as cartas do seu deck.",
+"kind": "tpl"
+},
+{
+"pt": "Já estou lendo uma carta, um instante…",
+"kind": "exact"
+},
+{
+"pt": "As cartas do NetrunnerDB não carregaram: a leitura por nome não vai funcionar.",
+"kind": "exact"
+},
+{
+"pt": "mesa de {0}",
+"kind": "tpl"
+},
+{
+"pt": "procurando o contorno da carta…",
+"kind": "exact"
+},
+{
+"pt": "o jogador está comparando a carta com o deck dele…",
+"kind": "exact"
+},
+{
+"pt": "alta resolução",
+"kind": "exact"
+},
+{
+"pt": "vídeo recebido",
+"kind": "exact"
+},
+{
+"pt": "só o deck",
+"kind": "exact"
+},
+{
+"pt": "todas as cartas",
+"kind": "exact"
+},
+{
+"pt": "reconhecida pela imagem do deck",
+"kind": "exact"
+},
+{
+"pt": "lendo o nome entre as cartas do deck…",
+"kind": "exact"
+},
+{
+"pt": "conferindo pela imagem",
+"kind": "exact"
+},
+{
+"pt": "reconhecida pela imagem (deck do jogador)",
+"kind": "exact"
+},
+{
+"pt": "lida entre as cartas do deck do jogador",
+"kind": "exact"
+},
+{
+"pt": "comparando com as cartas já vistas nesta mesa",
+"kind": "exact"
+},
+{
+"pt": "reconhecida pela imagem (carta já vista nesta mesa)",
+"kind": "exact"
+},
+{
+"pt": "comparando as imagens das candidatas",
+"kind": "exact"
+},
+{
+"pt": "reconhecida pela imagem",
+"kind": "exact"
+},
+{
+"pt": "leitura concluída",
+"kind": "exact"
+},
+{
+"pt": "imagens de referência indisponíveis: resultado só pelo texto",
+"kind": "exact"
+},
+{
+"pt": "{0}",
+"kind": "tpl"
+},
+{
+"pt": "Falha na identificação:",
+"kind": "frag"
+},
+{
+"pt": "Não reconheci a carta. Arraste um retângulo em volta dela, aproxime a câmera ou use a busca acima.",
+"kind": "exact"
+},
+{
+"pt": "Não reconheci a carta.",
+"kind": "exact"
+},
+{
+"pt": ": ''}Carta:",
+"kind": "frag"
+},
+{
+"pt": "Você é o anfitrião: sair encerra a mesa. Sair mesmo assim?",
+"kind": "exact"
+},
+{
+"pt": "Link de",
+"kind": "frag"
+},
+{
+"pt": "copiado: é só mandar para quem vai assistir.",
+"kind": "frag"
+},
+{
+"pt": "Código de observador copiado.",
+"kind": "exact"
+},
+{
+"pt": "copiado: é só mandar para o oponente.",
+"kind": "frag"
+},
+{
+"pt": "Código copiado.",
+"kind": "exact"
+},
+{
+"pt": "Link de observador (copie e envie):",
+"kind": "frag"
+},
+{
+"pt": "Link de jogador (copie e envie):",
+"kind": "frag"
+},
+{
+"pt": "Seu microfone",
+"kind": "exact"
+},
+{
+"pt": "Assistir à mesa",
+"kind": "exact"
+},
+{
+"pt": "Você foi convidado para",
+"kind": "frag"
+},
+{
+"pt": "à mesa",
+"kind": "frag"
+},
+{
+"pt": "Você foi convidado para jogar na mesa",
+"kind": "frag"
+},
+{
+"pt": "Quer abrir a sua própria mesa? Acesse o site sem o código no final do endereço.",
+"kind": "exact"
+},
+{
+"pt": "O anfitrião removeu você da mesa.",
+"kind": "exact"
+},
+{
+"pt": "Este navegador não permite acesso à câmera nesta página. Abra em Chrome/Edge/Firefox atualizados (https ou arquivo local).",
+"kind": "exact"
+}
+]

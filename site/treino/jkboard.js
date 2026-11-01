@@ -42,7 +42,9 @@ var JK_PHASE_RUN = {
   "Run: Unsuccessful": "Run sem sucesso", "Run: Successful": "Run com sucesso", "Run Ends": "Fim da run", "Run: End": "Fim da run",
 };
 var JK_PHASE_SUFFIX = { "Response": "resposta", "Paid Ability Window": "janela de habilidades", "Begins": "início" };
+function JKIsEN() { return typeof JKLang != "undefined" && JKLang == "en"; }
 function JKPhasePT(t) {
+  if (JKIsEN()) return null; // em inglês o motor já escreve as fases em inglês
   var meCorp = false;
   try { meCorp = typeof PhysicalHuman == "function" && PhysicalHuman() == corp; } catch (e) {}
   var map = meCorp ? JK_PHASE_C : JK_PHASE_R;
@@ -64,6 +66,7 @@ function JKPhasePT(t) {
   return null;
 }
 function JKTranslateUI() {
+  if (JKIsEN()) return; // em inglês os botões e fases do motor ficam como estão
   $("#footer button").each(function () {
     var t = $(this).text().trim();
     if (JK_PT[t] && JK_PT[t] !== t) $(this).text(JK_PT[t]);
@@ -192,7 +195,7 @@ function JKCard(card, opts) {
   var isIce = card.cardType == "ice";
   if (!visible) {
     var back = card.player == corp ? "corp" : "runner";
-    var lbl = isIce ? "Ice" : (CheckInstalled(card) ? "Carta" : "");
+    var lbl = isIce ? "Ice" : (CheckInstalled(card) ? (JKIsEN() ? "Card" : "Carta") : "");
     return "<div class='jk-card jk-back jk-back-" + back + (opts.cls ? " " + opts.cls : "") + "'><span class='jk-back-mark'>" + lbl + "</span>" + JKBadges(card) + "</div>";
   }
   var db = JKDb(card.title) || {};
@@ -530,9 +533,10 @@ function JKZoomHTML(title, $src) {
     if (src) img = "<img src='" + src + "' data-code='" + code + "' alt='' referrerpolicy='no-referrer' onload='JKImgOk(this);this.parentNode.classList.add(\"has-img\")' onerror='JKImgNext(this)'>";
   }
   var stats = [];
-  if (c.co != null) stats.push((c.ty == "ice" || c.ty == "asset" || c.ty == "upgrade" ? "Rez " : c.ty == "operation" || c.ty == "event" ? "Custo " : "Instalar ") + c.co);
-  if (c.str != null) stats.push("Força " + c.str);
-  if (c.adv != null) stats.push("Avanço " + c.adv + " · " + c.ap + " pt");
+  var EN = JKIsEN();
+  if (c.co != null) stats.push((c.ty == "ice" || c.ty == "asset" || c.ty == "upgrade" ? "Rez " : c.ty == "operation" || c.ty == "event" ? (EN ? "Cost " : "Custo ") : (EN ? "Install " : "Instalar ")) + c.co);
+  if (c.str != null) stats.push((EN ? "Strength " : "Força ") + c.str);
+  if (c.adv != null) stats.push((EN ? "Advance " : "Avanço ") + c.adv + " · " + c.ap + " pt");
   if (c.tc != null) stats.push("Trash " + c.tc);
   if (c.mu != null) stats.push(c.mu + " MU");
   var badges = $src && $src.find(".jk-badges").length ? "<div class='jkz-state'>" + $src.find(".jk-badges").html() + "</div>" : "";

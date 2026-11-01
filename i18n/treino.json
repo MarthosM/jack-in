@@ -1,0 +1,1162 @@
+[
+{
+"pt": "Jack In — Treino",
+"kind": "exact"
+},
+{
+"pt": "// Treino",
+"kind": "exact"
+},
+{
+"pt": "Netrunner pela câmera, com as suas cartas físicas, ou digital, contra a IA ou contra outra pessoa.",
+"kind": "exact"
+},
+{
+"pt": "Pela câmera",
+"kind": "exact"
+},
+{
+"pt": "Cada um com as suas cartas físicas na mão e a câmera aberta, numa mesa online com vídeo e voz. O placar, os cliques e os créditos ficam na tela.",
+"kind": "exact"
+},
+{
+"pt": "Jogar pela câmera",
+"kind": "exact"
+},
+{
+"pt": "A partida inteira na tela, com as regras aplicadas pelo programa: créditos, cliques, runs, acessos e marcadores. Contra a IA ou contra outra pessoa.",
+"kind": "exact"
+},
+{
+"pt": "Jogar digital",
+"kind": "exact"
+},
+{
+"pt": "Digital ·",
+"kind": "exact"
+},
+{
+"pt": "A IA do Chiriboga joga do outro lado da mesa, de Runner ou de Corp. Use a sua lista do NetrunnerDB ou um deck montado pela IA.",
+"kind": "exact"
+},
+{
+"pt": "Jogar contra a IA",
+"kind": "exact"
+},
+{
+"pt": "Contra uma pessoa",
+"kind": "exact"
+},
+{
+"pt": "Duas pessoas, cada uma no seu navegador, com microfone aberto. Quem cria a sala manda o link; o outro escolhe o deck e entra.",
+"kind": "exact"
+},
+{
+"pt": "Jogar contra uma pessoa",
+"kind": "exact"
+},
+{
+"pt": "Escolha como jogar:",
+"kind": "exact"
+},
+{
+"pt": "pela câmera, com cartas físicas, ou digital, contra a IA ou contra uma pessoa.",
+"kind": "exact"
+},
+{
+"pt": "Escolha o deck:",
+"kind": "exact"
+},
+{
+"pt": "cole a sua lista exportada do NetrunnerDB ou deixe a IA montar um para você.",
+"kind": "exact"
+},
+{
+"pt": "Jogue pelos botões da mesa:",
+"kind": "exact"
+},
+{
+"pt": "instalar, fazer run, avançar, ativar. O programa cuida das regras.",
+"kind": "exact"
+},
+{
+"pt": "Clique em qualquer carta",
+"kind": "exact"
+},
+{
+"pt": "para ver o texto e a imagem; o painel lateral mostra o que o oponente revelou.",
+"kind": "exact"
+},
+{
+"pt": "Cartas disponíveis: System Gateway, System Update 2021, Midnight Sun (parcial), o deck Vic (Criminal) e os decks de Corp Ob Superheavy, Jinteki: Restoring Humanity, AU Co., Earth Station e LEO Construction. Cartas fora desse pool ainda não rodam.",
+"kind": "exact"
+},
+{
+"pt": "Projeto de fã, gratuito e sem fins lucrativos.",
+"kind": "exact"
+},
+{
+"pt": "Netrunner e as imagens das cartas pertencem aos seus respectivos detentores de direitos (Null Signal Games, Fantasy Flight Games, Wizards of the Coast); este site não é afiliado a eles. Motor de jogo e IA:",
+"kind": "exact"
+},
+{
+"pt": ", software livre sob a GPL-3.0; este treino é derivado dele e tem a mesma licença. Dados e imagens das cartas:",
+"kind": "exact"
+},
+{
+"pt": "Jack In Treino",
+"kind": "exact"
+},
+{
+"pt": "é software livre, sob a",
+"kind": "exact"
+},
+{
+"pt": "Código-fonte no GitHub",
+"kind": "exact"
+},
+{
+"pt": "Código de conduta",
+"kind": "exact"
+},
+{
+"pt": "‹ Início",
+"kind": "exact"
+},
+{
+"pt": "Você joga de",
+"kind": "exact"
+},
+{
+"pt": "Seu lado",
+"kind": "exact"
+},
+{
+"pt": "Como você vai jogar",
+"kind": "exact"
+},
+{
+"pt": "Modo de jogo",
+"kind": "exact"
+},
+{
+"pt": "Só pela tela",
+"kind": "exact"
+},
+{
+"pt": "Para começar",
+"kind": "exact"
+},
+{
+"pt": "O programa embaralha e compra por você; a sua mão aparece na mesa. Não precisa de cartas na mão. Bom para conhecer o treino.",
+"kind": "exact"
+},
+{
+"pt": "Com as cartas físicas",
+"kind": "exact"
+},
+{
+"pt": "Você usa o seu baralho de verdade. A cada compra, clica na carta que saiu; a mão fica com você, e o programa cuida do resto da mesa.",
+"kind": "exact"
+},
+{
+"pt": "Seu deck (Runner)",
+"kind": "exact"
+},
+{
+"pt": "Deck da IA",
+"kind": "exact"
+},
+{
+"pt": "Aleatório (a IA monta um deck)",
+"kind": "exact"
+},
+{
+"pt": "Colar lista de Runner (só cartas que a IA sabe jogar)",
+"kind": "exact"
+},
+{
+"pt": "Seu deck",
+"kind": "exact"
+},
+{
+"pt": "Deck montado pela IA",
+"kind": "exact"
+},
+{
+"pt": "A IA monta um deck com as cartas do treino. As cartas ficam na tela (sem cartas físicas).",
+"kind": "exact"
+},
+{
+"pt": "Lista exportada do NetrunnerDB (texto)",
+"kind": "exact"
+},
+{
+"pt": "Colar lista de Corp",
+"kind": "exact"
+},
+{
+"pt": "Lista de Corp (texto do NetrunnerDB)",
+"kind": "exact"
+},
+{
+"pt": "Pontos de agenda para vencer",
+"kind": "exact"
+},
+{
+"pt": "Começar partida",
+"kind": "exact"
+},
+{
+"pt": "Cartas disponíveis: System Gateway, System Update 2021, Midnight Sun (parcial), o deck Vic (Criminal) e os decks de Corp Ob Superheavy, Jinteki: Restoring Humanity, AU Co., Earth Station e LEO Construction.",
+"kind": "exact"
+},
+{
+"pt": "Contra uma",
+"kind": "exact"
+},
+{
+"pt": "· cartas digitais",
+"kind": "exact"
+},
+{
+"pt": "Criar uma sala",
+"kind": "exact"
+},
+{
+"pt": "Você cria a sala, escolhe o seu lado e manda o link para o oponente. O motor do jogo roda no seu navegador, então deixe esta aba aberta.",
+"kind": "exact"
+},
+{
+"pt": "Seu nome",
+"kind": "exact"
+},
+{
+"pt": "Seu lado na sala",
+"kind": "exact"
+},
+{
+"pt": "Seu deck na sala",
+"kind": "exact"
+},
+{
+"pt": "Sua lista de Runner (texto exportado do NetrunnerDB)",
+"kind": "exact"
+},
+{
+"pt": "Identidade 3x Carta ...",
+"kind": "exact"
+},
+{
+"pt": "Criar sala",
+"kind": "exact"
+},
+{
+"pt": "Cole a sua lista para liberar o botão.",
+"kind": "exact"
+},
+{
+"pt": "Entrar numa sala",
+"kind": "exact"
+},
+{
+"pt": "Recebeu um link? Abra o link direto, ou digite o código da sala aqui. O deck você escolhe na tela seguinte.",
+"kind": "exact"
+},
+{
+"pt": "Código da sala",
+"kind": "exact"
+},
+{
+"pt": "Os dois lados são pessoas; o programa só aplica as regras e compra as cartas.",
+"kind": "exact"
+},
+{
+"pt": "O microfone abre quando a partida começa (o navegador pede permissão). O botão 🎙 no canto liga e desliga.",
+"kind": "exact"
+},
+{
+"pt": "Só entram cartas já programadas no treino (a lista avisa o que não é reconhecido).",
+"kind": "exact"
+},
+{
+"pt": "Se alguém cair, basta abrir o mesmo link de novo para voltar à partida.",
+"kind": "exact"
+},
+{
+"pt": "Seu deck (Corp)",
+"kind": "exact"
+},
+{
+"pt": "Você faz runs, instala programas e tenta roubar agendas. A IA defende de Corp.",
+"kind": "exact"
+},
+{
+"pt": "Você instala servidores, ices e agendas e tenta pontuar. A IA ataca de Runner.",
+"kind": "exact"
+},
+{
+"pt": "Lista de Runner (texto do NetrunnerDB)",
+"kind": "exact"
+},
+{
+"pt": "o seu deck",
+"kind": "exact"
+},
+{
+"pt": "o deck da IA",
+"kind": "exact"
+},
+{
+"pt": "a lista de Runner não tem identidade ou cartas reconhecidas",
+"kind": "exact"
+},
+{
+"pt": "A IA de Runner não sabe jogar: {0}",
+"kind": "tpl"
+},
+{
+"pt": "a IA de Runner não sabe jogar algumas cartas da lista",
+"kind": "exact"
+},
+{
+"pt": "cole a lista de Runner (",
+"kind": "frag"
+},
+{
+"pt": "ou escolha \"Deck montado pela IA\"",
+"kind": "frag"
+},
+{
+"pt": "ou escolha \"Aleatório\" no deck da IA",
+"kind": "frag"
+},
+{
+"pt": "a lista de Corp não tem identidade ou cartas reconhecidas",
+"kind": "exact"
+},
+{
+"pt": "cole a lista de Corp (",
+"kind": "frag"
+},
+{
+"pt": "Para começar:",
+"kind": "frag"
+},
+{
+"pt": "sala.html?sala=",
+"kind": "exact"
+},
+{
+"pt": "Sua lista de",
+"kind": "frag"
+},
+{
+"pt": "(texto exportado do NetrunnerDB)",
+"kind": "frag"
+},
+{
+"pt": "Anfitrião",
+"kind": "exact"
+},
+{
+"pt": "mesa.html?",
+"kind": "exact"
+},
+{
+"pt": "Voltar ao início",
+"kind": "exact"
+},
+{
+"pt": "Trocar deck",
+"kind": "exact"
+},
+{
+"pt": "Jack In — Treino · Sala",
+"kind": "exact"
+},
+{
+"pt": "Jack In · Treino",
+"kind": "exact"
+},
+{
+"pt": "Sair da sala",
+"kind": "exact"
+},
+{
+"pt": "Você está jogando pela sala de outra pessoa: o motor do jogo roda no navegador dela. Se a página travar, recarregue com o mesmo link para voltar à partida.",
+"kind": "exact"
+},
+{
+"pt": "Ganhar 1¢",
+"kind": "exact"
+},
+{
+"pt": "Usar habilidade",
+"kind": "exact"
+},
+{
+"pt": "Manter mão",
+"kind": "exact"
+},
+{
+"pt": "Próxima carta",
+"kind": "exact"
+},
+{
+"pt": "Aproximar do servidor",
+"kind": "exact"
+},
+{
+"pt": "Concluir instalação",
+"kind": "exact"
+},
+{
+"pt": "Encerrar turno",
+"kind": "exact"
+},
+{
+"pt": "Ir para descarte",
+"kind": "exact"
+},
+{
+"pt": "Próxima ação",
+"kind": "exact"
+},
+{
+"pt": "Jogar de novo",
+"kind": "exact"
+},
+{
+"pt": "Não dar trash",
+"kind": "exact"
+},
+{
+"pt": "Avançar",
+"kind": "exact"
+},
+{
+"pt": "Purgar vírus",
+"kind": "exact"
+},
+{
+"pt": "Seu turno começa",
+"kind": "exact"
+},
+{
+"pt": "Seu turno · ações",
+"kind": "exact"
+},
+{
+"pt": "Turno da Corp",
+"kind": "exact"
+},
+{
+"pt": "Turno da Corp · compra",
+"kind": "exact"
+},
+{
+"pt": "Sua mão inicial",
+"kind": "exact"
+},
+{
+"pt": "Mão inicial da Corp",
+"kind": "exact"
+},
+{
+"pt": "Descarte da Corp",
+"kind": "exact"
+},
+{
+"pt": "Você venceu",
+"kind": "exact"
+},
+{
+"pt": "Seu turno · compra",
+"kind": "exact"
+},
+{
+"pt": "Turno do Runner",
+"kind": "exact"
+},
+{
+"pt": "Mão inicial do Runner",
+"kind": "exact"
+},
+{
+"pt": "Descarte do Runner",
+"kind": "exact"
+},
+{
+"pt": "Run · encontro com ice",
+"kind": "exact"
+},
+{
+"pt": "Run · aproximação",
+"kind": "exact"
+},
+{
+"pt": "Run sem sucesso",
+"kind": "exact"
+},
+{
+"pt": "Run com sucesso",
+"kind": "exact"
+},
+{
+"pt": "Fim da run",
+"kind": "exact"
+},
+{
+"pt": "janela de habilidades",
+"kind": "exact"
+},
+{
+"pt": "início",
+"kind": "exact"
+},
+{
+"pt": "Começar o turno sem usar",
+"kind": "exact"
+},
+{
+"pt": "Usar habilidade de início de turno",
+"kind": "exact"
+},
+{
+"pt": "Escolha uma carta para descartar (vai para Archives)",
+"kind": "exact"
+},
+{
+"pt": "Escolha uma carta para descartar (vai para o Heap)",
+"kind": "exact"
+},
+{
+"pt": "sem ice",
+"kind": "exact"
+},
+{
+"pt": "Mão",
+"kind": "exact"
+},
+{
+"pt": "Créditos",
+"kind": "exact"
+},
+{
+"pt": "Mão (HQ)",
+"kind": "exact"
+},
+{
+"pt": "Cartas na mão da Corp",
+"kind": "exact"
+},
+{
+"pt": "¢ para gastar só naquela run",
+"kind": "exact"
+},
+{
+"pt": "Cartas na mão do Runner",
+"kind": "exact"
+},
+{
+"pt": "Mão máx.",
+"kind": "exact"
+},
+{
+"pt": "Dano núcleo",
+"kind": "exact"
+},
+{
+"pt": "mão vazia",
+"kind": "exact"
+},
+{
+"pt": "Cartas na sua mão",
+"kind": "exact"
+},
+{
+"pt": "Tags do Runner",
+"kind": "exact"
+},
+{
+"pt": "Sua mão (HQ)",
+"kind": "frag"
+},
+{
+"pt": "Mão do Runner",
+"kind": "frag"
+},
+{
+"pt": "Sua mão",
+"kind": "frag"
+},
+{
+"pt": "Você · Corp",
+"kind": "exact"
+},
+{
+"pt": "Registro da partida",
+"kind": "exact"
+},
+{
+"pt": "Gire o celular para jogar",
+"kind": "exact"
+},
+{
+"pt": "No celular, a mesa funciona deitada. Dica: trave a rotação depois de girar.",
+"kind": "exact"
+},
+{
+"pt": "Sair da tela cheia",
+"kind": "exact"
+},
+{
+"pt": "Jack In Treino · v",
+"kind": "exact"
+},
+{
+"pt": "Jack In: tela sem opções na vez do jogador em",
+"kind": "frag"
+},
+{
+"pt": "(de Archives)",
+"kind": "frag"
+},
+{
+"pt": "Força",
+"kind": "frag"
+},
+{
+"pt": "Avanço",
+"kind": "frag"
+},
+{
+"pt": "Quebrar até $1",
+"kind": "exact"
+},
+{
+"pt": "Quebrar todas as",
+"kind": "exact"
+},
+{
+"pt": "+$1 de força",
+"kind": "exact"
+},
+{
+"pt": "força",
+"kind": "exact"
+},
+{
+"pt": "até o fim da run",
+"kind": "exact"
+},
+{
+"pt": "até o fim do encontro",
+"kind": "exact"
+},
+{
+"pt": "Gastar 1 marcador de agenda: procurar 1 carta no R&D, revelar e pôr no HQ",
+"kind": "exact"
+},
+{
+"pt": "Pôr $1 na mão",
+"kind": "exact"
+},
+{
+"pt": "Pôr $1 no HQ",
+"kind": "exact"
+},
+{
+"pt": "Instalar $1",
+"kind": "exact"
+},
+{
+"pt": "O Runner perde 1 clique, se puder.",
+"kind": "exact"
+},
+{
+"pt": "Causa $1 de dano de rede.",
+"kind": "exact"
+},
+{
+"pt": "Causa $1 de dano físico.",
+"kind": "exact"
+},
+{
+"pt": "Causa $1 de dano cerebral.",
+"kind": "exact"
+},
+{
+"pt": "aproximação",
+"kind": "exact"
+},
+{
+"pt": "Início",
+"kind": "exact"
+},
+{
+"pt": "Ice não rezzada",
+"kind": "exact"
+},
+{
+"pt": "Ice de fora",
+"kind": "exact"
+},
+{
+"pt": "Ice de dentro",
+"kind": "exact"
+},
+{
+"pt": "Desconectar ou seguir",
+"kind": "exact"
+},
+{
+"pt": "Acessando cartas",
+"kind": "exact"
+},
+{
+"pt": "Ver as cartas",
+"kind": "exact"
+},
+{
+"pt": "<ol class='jkr-seq' aria-label='Sequência da run' style='grid-template-columns:repeat(",
+"kind": "frag"
+},
+{
+"pt": "Você chegou ao servidor. Agora vem o acesso.",
+"kind": "exact"
+},
+{
+"pt": "Nenhuma ice pela frente.",
+"kind": "exact"
+},
+{
+"pt": "A ice ainda não foi rezzada: a Corp decide se rezza quando você encontrar com ela.",
+"kind": "exact"
+},
+{
+"pt": "Esta ice não tem subrotinas.",
+"kind": "exact"
+},
+{
+"pt": "Força da ice",
+"kind": "frag"
+},
+{
+"pt": "Toque na carta para ver grande",
+"kind": "exact"
+},
+{
+"pt": "Nada a fazer agora",
+"kind": "exact"
+},
+{
+"pt": "de força só neste encontro",
+"kind": "frag"
+},
+{
+"pt": "Rig do Runner",
+"kind": "exact"
+},
+{
+"pt": "O que dá para usar agora vem primeiro e fica aceso",
+"kind": "exact"
+},
+{
+"pt": "Nada para usar neste momento",
+"kind": "exact"
+},
+{
+"pt": "A run foi encerrada pela ice",
+"kind": "frag"
+},
+{
+"pt": "Você desconectou (jack out).",
+"kind": "exact"
+},
+{
+"pt": "A run terminou sem sucesso.",
+"kind": "exact"
+},
+{
+"pt": "Não disparou",
+"kind": "exact"
+},
+{
+"pt": "Subrotinas de",
+"kind": "frag"
+},
+{
+"pt": "Ver a mesa",
+"kind": "exact"
+},
+{
+"pt": "' aria-label='Caixa da run'>",
+"kind": "exact"
+},
+{
+"pt": "Voltar à run em",
+"kind": "frag"
+},
+{
+"pt": "Escolha a carta para acessar",
+"kind": "exact"
+},
+{
+"pt": "Escolha a carta para o heap",
+"kind": "exact"
+},
+{
+"pt": "Escolha a carta para o baralho",
+"kind": "exact"
+},
+{
+"pt": "A Corp está decidindo…",
+"kind": "exact"
+},
+{
+"pt": "O Runner está decidindo…",
+"kind": "exact"
+},
+{
+"pt": "Instalar em",
+"kind": "frag"
+},
+{
+"pt": "Instalar num servidor novo",
+"kind": "exact"
+},
+{
+"pt": "Usar:",
+"kind": "frag"
+},
+{
+"pt": "Avançar · 1¢",
+"kind": "exact"
+},
+{
+"pt": "Você acessou",
+"kind": "exact"
+},
+{
+"pt": "Nada ainda. Eventos jogados e cartas instaladas pelo Runner aparecem aqui.",
+"kind": "exact"
+},
+{
+"pt": "Nada revelado ainda. Operações jogadas, ices rezzados e cartas acessadas aparecem aqui.",
+"kind": "exact"
+},
+{
+"pt": "Custo de rez",
+"kind": "frag"
+},
+{
+"pt": "Custo de instalar",
+"kind": "frag"
+},
+{
+"pt": "Na mesa",
+"kind": "exact"
+},
+{
+"pt": "Só pode ser usada na sua fase de ações.",
+"kind": "exact"
+},
+{
+"pt": "Só pode ser jogada antes de terminar a primeira ação do turno.",
+"kind": "exact"
+},
+{
+"pt": "Precisa de 3¢ para jogar.",
+"kind": "exact"
+},
+{
+"pt": "Usar habilidade desta carta",
+"kind": "exact"
+},
+{
+"pt": "deck/peerjs.min.js",
+"kind": "exact"
+},
+{
+"pt": "stun:stun.l.google.com:19302",
+"kind": "exact"
+},
+{
+"pt": "stun:stun1.l.google.com:19302",
+"kind": "exact"
+},
+{
+"pt": "stun:global.stun.twilio.com:3478",
+"kind": "exact"
+},
+{
+"pt": "Não consegui carregar a biblioteca de rede (PeerJS). Verifique a internet e recarregue.",
+"kind": "exact"
+},
+{
+"pt": "Sem microfone (clique para tentar de novo)",
+"kind": "exact"
+},
+{
+"pt": "Voz conectada com",
+"kind": "frag"
+},
+{
+"pt": "· mande este link para o seu oponente: <input id='x1-link' readonly value='",
+"kind": "frag"
+},
+{
+"pt": "· Aguardando o oponente entrar…",
+"kind": "frag"
+},
+{
+"pt": "sala aberta:",
+"kind": "frag"
+},
+{
+"pt": "Já existe uma sala com este código. Volte ao início e crie outra.",
+"kind": "exact"
+},
+{
+"pt": "Erro de rede:",
+"kind": "frag"
+},
+{
+"pt": "· o oponente saiu. Se ele abrir o mesmo link, volta para a partida.",
+"kind": "frag"
+},
+{
+"pt": "O oponente comprou a mão inicial",
+"kind": "exact"
+},
+{
+"pt": "carta oculta",
+"kind": "exact"
+},
+{
+"pt": "Vez de",
+"kind": "frag"
+},
+{
+"pt": "Link sem código de sala. Peça ao anfitrião o link completo.",
+"kind": "exact"
+},
+{
+"pt": "Conectando à sala",
+"kind": "frag"
+},
+{
+"pt": "Conectado. Aguardando a sala…",
+"kind": "exact"
+},
+{
+"pt": "A conexão com o anfitrião caiu. Recarregue a página para tentar voltar.",
+"kind": "exact"
+},
+{
+"pt": "Erro de conexão:",
+"kind": "frag"
+},
+{
+"pt": "Procurando a sala",
+"kind": "frag"
+},
+{
+"pt": "não encontrada. Confira o link ou peça ao anfitrião para abrir a sala de novo.",
+"kind": "frag"
+},
+{
+"pt": "Esta sala já tem dois jogadores.",
+"kind": "exact"
+},
+{
+"pt": "Voltando para a partida…",
+"kind": "exact"
+},
+{
+"pt": "joga de",
+"kind": "frag"
+},
+{
+"pt": "pontos de agenda, com cartas digitais: o programa compra por você e mostra a sua mão na tela.",
+"kind": "frag"
+},
+{
+"pt": "Seu deck de",
+"kind": "frag"
+},
+{
+"pt": "A IA monta um deck de",
+"kind": "frag"
+},
+{
+"pt": "com as cartas do treino.",
+"kind": "frag"
+},
+{
+"pt": "Entrar na partida",
+"kind": "exact"
+},
+{
+"pt": "Cole a lista para liberar o botão.",
+"kind": "exact"
+},
+{
+"pt": "Só cartas programadas no treino: System Gateway, System Update 2021, Midnight Sun (parcial), o deck Vic e os decks de Corp Ob Superheavy, Jinteki: Restoring Humanity, AU Co., Earth Station e LEO Construction.",
+"kind": "exact"
+},
+{
+"pt": "ao comprar",
+"kind": "exact"
+},
+{
+"pt": "Tire da sua mão:",
+"kind": "frag"
+},
+{
+"pt": "(vai para o heap)",
+"kind": "frag"
+},
+{
+"pt": "Tire do seu HQ:",
+"kind": "frag"
+},
+{
+"pt": "(roubada pelo Runner)",
+"kind": "frag"
+},
+{
+"pt": "(vai para Archives)",
+"kind": "frag"
+},
+{
+"pt": "Tire do topo do seu R&D:",
+"kind": "frag"
+},
+{
+"pt": "O Runner acessou do seu HQ:",
+"kind": "frag"
+},
+{
+"pt": "(mostre essa carta)",
+"kind": "frag"
+},
+{
+"pt": "mão",
+"kind": "exact"
+},
+{
+"pt": "fora de jogo",
+"kind": "exact"
+},
+{
+"pt": "Sua mão:",
+"kind": "frag"
+},
+{
+"pt": "Essa carta não está no seu R&D.",
+"kind": "exact"
+},
+{
+"pt": "(topo do R&D)",
+"kind": "frag"
+},
+{
+"pt": "Essa carta não está mais no seu baralho.",
+"kind": "exact"
+},
+{
+"pt": "Você informou:",
+"kind": "frag"
+},
+{
+"pt": "Qual carta saiu do seu baralho?",
+"kind": "exact"
+},
+{
+"pt": "no baralho",
+"kind": "frag"
+},
+{
+"pt": ": qual é a",
+"kind": "frag"
+},
+{
+"pt": "ª carta do topo do seu R&D?",
+"kind": "exact"
+},
+{
+"pt": "O Runner vai acessar o seu R&D: qual é a",
+"kind": "frag"
+},
+{
+"pt": "ª carta do topo?",
+"kind": "exact"
+},
+{
+"pt": "Vire a carta do topo do seu R&D físico (sem embaralhar) e clique nela.",
+"kind": "exact"
+},
+{
+"pt": "som/partida.mp3",
+"kind": "exact"
+},
+{
+"pt": "Trilha e efeitos originais do Jack In Treino.",
+"kind": "exact"
+},
+{
+"pt": "Identidade não encontrada",
+"kind": "exact"
+},
+{
+"pt": "cartas reconhecidas (mínimo",
+"kind": "frag"
+},
+{
+"pt": "Fora do pool ou não reconhecidas:",
+"kind": "frag"
+},
+{
+"pt": "Cartas do outro lado ignoradas:",
+"kind": "frag"
+},
+{
+"pt": "vez=",
+"kind": "frag"
+},
+{
+"pt": "turno=",
+"kind": "frag"
+},
+{
+"pt": "pts mão",
+"kind": "exact"
+},
+{
+"pt": "estado indisponível:",
+"kind": "frag"
+},
+{
+"pt": "Jack In Treino — página",
+"kind": "frag"
+},
+{
+"pt": "lado=",
+"kind": "exact"
+},
+{
+"pt": "página fechada ou recarregada",
+"kind": "exact"
+},
+{
+"pt": "aba visível",
+"kind": "exact"
+},
+{
+"pt": "Salvar log da sessão",
+"kind": "exact"
+}
+]

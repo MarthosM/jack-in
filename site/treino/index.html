@@ -2,6 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<script src="i18n-data.js"></script>
+<script src="i18n.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <title>Jack In — Treino</title>
@@ -400,23 +402,24 @@ function check(){
   const useC = SIDE==='c' ? MYDECK==='paste' : $('corpMode').value==='paste';
   const missing = [];
   const who = s => (s===SIDE ? 'o seu deck' : 'o deck da IA');
+  const EN = typeof JKLang != 'undefined' && JKLang == 'en';
   if (useR) {
     const rt = $('runnerList').value.trim();
     if (rt) {
       const r = parse(rt,'r');
-      if (!report($('runnerReport'), r, 'r')) missing.push('a lista de Runner não tem identidade ou cartas reconhecidas');
-      if (SIDE==='c') { const bad=[...new Set(noAI(r))]; if (bad.length){ $('runnerReport').innerHTML += `<div class="err">A IA de Runner não sabe jogar: ${bad.join(', ')}</div>`; missing.push('a IA de Runner não sabe jogar algumas cartas da lista'); } }
-    } else { $('runnerReport').innerHTML=''; missing.push('cole a lista de Runner (' + who('r') + ')' + (SIDE==='r' ? ' ou escolha "Deck montado pela IA"' : ' ou escolha "Aleatório" no deck da IA')); }
+      if (!report($('runnerReport'), r, 'r')) missing.push(EN ? 'the Runner list has no identity or recognized cards' : 'a lista de Runner não tem identidade ou cartas reconhecidas');
+      if (SIDE==='c') { const bad=[...new Set(noAI(r))]; if (bad.length){ $('runnerReport').innerHTML += `<div class="err">A IA de Runner não sabe jogar: ${bad.join(', ')}</div>`; missing.push(EN ? 'the Runner AI cannot play some cards in the list' : 'a IA de Runner não sabe jogar algumas cartas da lista'); } }
+    } else { $('runnerReport').innerHTML=''; missing.push(EN ? 'paste the Runner list (' + (SIDE==='r' ? 'your deck' : 'the AI deck') + ')' + (SIDE==='r' ? ' or choose "AI-built deck"' : ' or choose "Random" for the AI deck') : 'cole a lista de Runner (' + who('r') + ')' + (SIDE==='r' ? ' ou escolha "Deck montado pela IA"' : ' ou escolha "Aleatório" no deck da IA')); }
   }
   if (useC) {
     const ct = $('corpList').value.trim();
-    if (ct) { if (!report($('corpReport'), parse(ct,'c'), 'c')) missing.push('a lista de Corp não tem identidade ou cartas reconhecidas'); }
-    else { $('corpReport').innerHTML=''; missing.push('cole a lista de Corp (' + who('c') + ')' + (SIDE==='c' ? ' ou escolha "Deck montado pela IA"' : ' ou escolha "Aleatório" no deck da IA')); }
+    if (ct) { if (!report($('corpReport'), parse(ct,'c'), 'c')) missing.push(EN ? 'the Corp list has no identity or recognized cards' : 'a lista de Corp não tem identidade ou cartas reconhecidas'); }
+    else { $('corpReport').innerHTML=''; missing.push(EN ? 'paste the Corp list (' + (SIDE==='c' ? 'your deck' : 'the AI deck') + ')' + (SIDE==='c' ? ' or choose "AI-built deck"' : ' or choose "Random" for the AI deck') : 'cole a lista de Corp (' + who('c') + ')' + (SIDE==='c' ? ' ou escolha "Deck montado pela IA"' : ' ou escolha "Aleatório" no deck da IA')); }
   }
   const ok = !missing.length;
   $('start').disabled = !ok;
   $('startHint').hidden = ok;
-  $('startHint').textContent = ok ? '' : 'Para começar: ' + missing.join('; ') + '.';
+  $('startHint').textContent = ok ? '' : (EN ? 'To start: ' : 'Para começar: ') + missing.join('; ') + '.';
   try { const sv = JSON.parse(localStorage.getItem('jackin-treino')||'{}'); Object.assign(sv, {r:$('runnerList').value,c:$('corpList').value,m:$('corpMode').value,rm:$('runnerMode').value,side:SIDE,ap:$('ap').value,phys:PHYS,mydeck:MYDECK,seen:1}); localStorage.setItem('jackin-treino', JSON.stringify(sv)); } catch(e){}
 }
 function restore(){
@@ -508,4 +511,5 @@ function go(params){
   location.href = 'mesa.html?' + new URLSearchParams(params).toString();
 }
 </script>
+<script>JKLangToggle({right:60});</script>
 </body></html>

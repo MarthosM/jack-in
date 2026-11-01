@@ -164,10 +164,11 @@ function RevealShowCard(title, stateHtml, loc, by) {
   var c = RV.db[title];
   if (!c) return;
   var stats = [];
-  if (c.co != null) stats.push((c.ty == "ice" || c.ty == "asset" || c.ty == "upgrade" ? "Custo de rez " : c.ty == "operation" || c.ty == "event" ? "Custo " : "Custo de instalar ") + c.co);
-  if (c.str != null) stats.push("Força " + c.str);
-  if (c.adv != null) stats.push("Avanço " + c.adv);
-  if (c.ap != null) stats.push(c.ap + " ponto" + (c.ap > 1 ? "s" : ""));
+  var EN = typeof JKLang != "undefined" && JKLang == "en";
+  if (c.co != null) stats.push((c.ty == "ice" || c.ty == "asset" || c.ty == "upgrade" ? (EN ? "Rez cost " : "Custo de rez ") : c.ty == "operation" || c.ty == "event" ? (EN ? "Cost " : "Custo ") : (EN ? "Install cost " : "Custo de instalar ")) + c.co);
+  if (c.str != null) stats.push((EN ? "Strength " : "Força ") + c.str);
+  if (c.adv != null) stats.push((EN ? "Advancement " : "Avanço ") + c.adv);
+  if (c.ap != null) stats.push(c.ap + (EN ? " point" : " ponto") + (c.ap > 1 ? "s" : ""));
   if (c.tc != null) stats.push("Trash " + c.tc);
   if (c.mu != null) stats.push(c.mu + " MU");
   var img = c.code && typeof JKImgTag == "function" ? JKImgTag(c.code, "rv-img") : "";

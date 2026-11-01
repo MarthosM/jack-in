@@ -17,6 +17,10 @@ function JKRunActive() {
 
 // textos das habilidades em português (o que der para traduzir com segurança)
 function JKRunPT(s) {
+  if (typeof JKLang != "undefined" && JKLang == "en") {
+    // em inglês: só os ícones viram símbolos
+    return String(s || "").replace(/(\d)\[c\]/g, "$1¢").replace(/\[c\]/g, "1¢").replace(/\[click\]/g, "click").replace(/\[mu\]/g, "MU").replace(/\[trash\]/g, "trash");
+  }
   return String(s || "")
     .replace(/(\d)\[c\]/g, "$1¢").replace(/\[c\]/g, "1¢").replace(/\[click\]/g, "clique").replace(/\[mu\]/g, "MU").replace(/\[trash\]/g, "lixar")
     .replace(/\bBreak up to (\d+)\b/g, "Quebrar até $1").replace(/\bBreak all\b/g, "Quebrar todas as").replace(/\bBreak\b/g, "Quebrar")
@@ -104,7 +108,7 @@ function JKRunIcePanel(info) {
     subs = "<p class='jkr-note'>A ice ainda não foi rezzada: a Corp decide se rezza quando você encontrar com ela.</p>";
   } else subs = "<p class='jkr-note'>Esta ice não tem subrotinas.</p>";
   var str = "";
-  if (visible) { try { str = "Força da ice " + Strength(ice); } catch (e) {} }
+  if (visible) { try { str = (typeof JKLang != "undefined" && JKLang == "en" ? "Ice strength " : "Força da ice ") + Strength(ice); } catch (e) {} }
   return "<div class='jkr-main'><div class='jkr-card-col'>" + JKCard(ice, { cls: "jkr-ice jk-landscape" }) + "<small>Toque na carta para ver grande</small></div>" +
     "<div class='jkr-subs'><h3>Subrotinas <em>" + JKEsc(str) + "</em></h3>" + subs + "</div></div>";
 }
@@ -261,10 +265,11 @@ function JKRunSync() {
   });
   var h = $("#footer h2").first().text().trim();
   var HPT = { "Access cards": "Escolha a carta para acessar", "Drag to your heap": "Escolha a carta para o heap", "Drag to your stack": "Escolha a carta para o baralho" };
-  if (HPT[h]) h = HPT[h];
+  if (HPT[h] && !(typeof JKLang != "undefined" && JKLang == "en")) h = HPT[h];
   if (!html && !hasTrigBtns) h = h || (typeof activePlayer != "undefined" && activePlayer && activePlayer.AI ? (activePlayer == corp ? "A Corp está decidindo…" : "O Runner está decidindo…") : "Aguardando…");
   // compara com o último conteúdo escrito (a caixa fica dentro da mesa observada: reescrever à toa vira um laço)
   if ($proxy.attr("data-sig") !== html) $proxy.attr("data-sig", html).html(html);
+  if (typeof JKT == "function") h = JKT(h); // compara já no idioma da tela (evita reescrever sem parar)
   if ($hint.text() !== h) $hint.text(h);
 
 }
