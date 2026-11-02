@@ -391,6 +391,73 @@ class RunnerAI {
 	return true;
   }
   //list of unprotected servers (not comprehensive check, just no ice and no obvious defensives)
+  //Jack In: ice que o Runner ainda não conhece (não rezzada e nunca vista)
+  _jkUnknownIce(server) {
+    var n = 0;
+    for (var i = 0; i < server.ice.length; i++) if (!server.ice[i].rezzed && !PlayerCanLook(runner, server.ice[i])) n++;
+    return n;
+  }
+
+  //Jack In: runs de pressão. Quando o servidor que o Runner quer (ex.: R&D) está atrás de ice desconhecida,
+  //vale primeiro fazer uma run em outro servidor também com ice desconhecida (ex.: HQ): a Corp gasta créditos
+  //para rezzar ali e sobra menos para rezzar a ice do alvo. Com bastante crédito, o Runner também testa ice
+  //desconhecida só para manter a Corp gastando.
+  _jkPressureRuns() {
+    var turn = typeof JKR2 != "undefined" ? JKR2.turn : 0;
+    if (!this.jkProbe || this.jkProbe.turn !== turn) this.jkProbe = { turn: turn, done: [] };
+    //anota cada run de verdade (um teste de pressão por servidor por turno)
+    if (typeof MakeRun == "function" && !MakeRun.jkProbeWrapped) {
+      var _MR = MakeRun;
+      MakeRun = function (server) {
+        try { if (runner.AI && runner.AI.jkProbe) runner.AI.jkProbe.done.push(server); } catch (e) {}
+        return _MR.apply(this, arguments);
+      };
+      MakeRun.jkProbeWrapped = true;
+    }
+    var list = this.serverList;
+    var self = this;
+    var clicks = runner.clickTracker;
+    var myCr = runner.creditPool;
+    var corpCr = corp.creditPool;
+    var breakers = 0;
+    for (var i = 0; i < runner.rig.programs.length; i++) if (CheckSubType(runner.rig.programs[i], "Icebreaker")) breakers++;
+    if (clicks < 2 || breakers == 0 || corpCr < 2) return;
+    //alvo: o servidor de maior potencial que tem ice desconhecida
+    var target = null;
+    list.forEach(function (e) {
+      if (e.potential >= 1 && self._jkUnknownIce(e.server) > 0 && (!target || e.potential > target.potential)) target = e;
+    });
+    list.forEach(function (e) {
+      e.jkPressure = false;
+      if (e === target || e.bestcost == Infinity) return;
+      if (self.jkProbe.done.indexOf(e.server) > -1) return; //um teste por servidor por turno
+      var u = self._jkUnknownIce(e.server);
+      if (!u) return;
+      //remoto vazio: a Corp pode simplesmente não rezzar
+      if (typeof e.server.cards == "undefined" && e.server.root.length == 0) return;
+      //a run de pressão não pode comer o dinheiro da run principal
+      if (e.bestcost > myCr * 0.5) return;
+      var bonus = 0;
+      if (target) {
+        bonus = 0.5 + 0.25 * Math.min(u, 2);
+        if (corpCr <= 8) bonus += 0.3;   //Corp com pouco crédito: cada rez pesa
+        if (corpCr > 15) bonus -= 0.4;   //Corp rica: drenar adianta pouco
+        if (bonus > 0) {
+          e.potential += bonus;
+          //com cliques para as duas runs, a pressão vem antes do alvo
+          if (clicks >= 2 && corpCr <= 15) e.potential = Math.max(e.potential, target.potential + 0.05);
+        }
+      } else if (myCr >= 8) {
+        bonus = 0.3 + 0.15 * Math.min(u, 2);
+        e.potential += bonus;
+      }
+      if (bonus > 0) {
+        e.jkPressure = true;
+        self._log("Pressure run candidate: " + e.server.serverName + " (+" + bonus.toFixed(2) + (target ? ", target " + target.server.serverName : "") + ")");
+      }
+    });
+  }
+
   _unprotectedServers() {
 	  var ret = [];
 	  if (!this._serverIsProtected(corp.archives)) ret.push(corp.archives);
@@ -2189,6 +2256,9 @@ console.log(this.preferred);
         }
       }
 
+      //Jack In: runs de pressão (fazer a Corp gastar créditos rezzando ice)
+      this._jkPressureRuns();
+
       //check for inaccessible high-potential servers that might become accessible with some prep
       for (var i = 0; i < this.serverList.length; i++) {
         //add a bit of jitter to make the runner less predictable
@@ -2262,8 +2332,17 @@ console.log(this.preferred);
               }
             }
           }
-		} else if (!this.serverList[0].bonusBreaker) {
-			if (
+		} else if (!this.serverList[0].bonusBreaker && !this.serverList[0].jkPressure) {
+			//Jack In: Runner já montado (quebradores e crédito sobrando) não fica só montando: corre para manter a pressão
+			var jkBreakers = 0;
+			for (var jb = 0; jb < runner.rig.programs.length; jb++) if (CheckSubType(runner.rig.programs[jb], "Icebreaker")) jkBreakers++;
+			//pronto = sobra crédito depois da run (com quebradores, pode gastar mais; sem eles, só runs baratas)
+			var jkShare = jkBreakers >= 2 ? 0.6 : jkBreakers == 1 ? 0.5 : 0.35;
+			var jkReady = runner.creditPool >= (jkBreakers >= 1 ? 6 : 8) && runner.clickTracker >= 2;
+			var jkAffordable = this.serverList[0].bestcost <= runner.creditPool * jkShare;
+			if (jkReady && jkAffordable && this.serverList[0].potential >= 0.75) {
+				this._log("Ready runner: keeping pressure (potential " + this.serverList[0].potential.toFixed(2) + ", cost " + this.serverList[0].bestcost.toFixed(1) + ")");
+			} else if (
 			  priorityEcon &&
 			  this.serverList[0].potential < 1.5 &&
 			  runner.clickTracker > 1
@@ -2277,7 +2356,7 @@ console.log(this.preferred);
 			  this.cardsWorthKeeping.length > 0
 			) {
 			  //the values are arbitrary but basically potential is low and cost is not negligible
-			  this._log("Favouring setup (potential "+ this.serverList[0].potential+", cost "+this.serverList[0].bestcost+")");
+			  this._log("Favouring setup (potential "+ this.serverList[0].potential.toFixed(2)+", cost "+this.serverList[0].bestcost.toFixed(1)+", credits "+runner.creditPool+", breakers "+jkBreakers+", clicks "+runner.clickTracker+", server "+this.serverList[0].server.serverName+")");
 			  this.serverList = [];
 			}
 		}
@@ -2327,6 +2406,7 @@ console.log(this.preferred);
         this.rc.Print(this.serverList[0].bestpath, this.serverList[0].server);
 		//use this server for cached path
 	    this.cachedBestPath = this.serverList[0].bestpath;
+		if (this.serverList[0].jkPressure) this._log("Pressure run on " + this.serverList[0].server.serverName);
 		this.cachedComplete = true;
 		this.cachedPathServer = this.serverList[0].server;
 

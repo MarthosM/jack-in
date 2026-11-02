@@ -65,7 +65,24 @@ function JKPhasePT(t) {
   }
   return null;
 }
+// momentos de resposta (ex.: ao pontuar, ao roubar): o botão diz qual habilidade é, em vez de um "Usar habilidade" genérico
+function JKNameTriggerButtons() {
+  try {
+    if (currentPhase && ["Corp 2.2", "Runner 1.3", "Corp 2.1", "Runner 1.2", "Corp 1.2"].indexOf(currentPhase.identifier) < 0 &&
+        phaseOptions && phaseOptions.trigger && phaseOptions.trigger.length && activePlayer && activePlayer.AI == null) {
+      var tr = phaseOptions.trigger;
+      var lbl = tr.length == 1 ? (tr[0].label || (tr[0].card ? tr[0].card.title : "")) : "";
+      var want = lbl ? (JKIsEN() ? "Use: " : "Usar: ") + lbl : (JKIsEN() ? "Use an ability (" + tr.length + ")" : "Usar uma habilidade (" + tr.length + ")");
+      var $t2 = $("#footerbutton-trigger");
+      if ($t2.length && $t2.text() != want) $t2.text(want).addClass("jk-trig-named");
+      var $n2 = $("#footerbutton-n");
+      var skip = JKIsEN() ? "Don't use" : "Não usar";
+      if ($n2.length && $t2.length && $n2.text() != skip) $n2.text(skip);
+    }
+  } catch (e) {}
+}
 function JKTranslateUI() {
+  JKNameTriggerButtons();
   if (JKIsEN()) return; // em inglês os botões e fases do motor ficam como estão
   $("#footer button").each(function () {
     var t = $(this).text().trim();
