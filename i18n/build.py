@@ -11,7 +11,7 @@ for g in ('camera','treino','cartas'):
         if pt in seen: continue
         seen[pt]=1; data.append([pt,tr,k])
 # termos fixos que aparecem montados por código
-extra=[["Comece a sua run.","Start your run.","exact"],["Treine nas sombras do Sprawl.","Train in the shadows of the Sprawl.","exact"],["Run sem sucesso","Unsuccessful run","exact"],["Run com sucesso","Successful run","exact"],["Fechar","Close","exact"],
+extra=[["MESA · encontrar jogadores","MESA · find players","exact"],["Marque que está disponível e receba um aviso quando alguém quiser jogar Netrunner.","Mark yourself available and get notified when someone wants to play Netrunner.","exact"],["Comece a sua run.","Start your run.","exact"],["Treine nas sombras do Sprawl.","Train in the shadows of the Sprawl.","exact"],["Run sem sucesso","Unsuccessful run","exact"],["Run com sucesso","Successful run","exact"],["Fechar","Close","exact"],
  ["Som","Sound","exact"],["Cliques","Clicks","exact"],["Pontos","Points","exact"],["Créditos","Credits","exact"],["Mão","Hand","exact"],["Mão máx.","Max hand","exact"],
  ["Mão (HQ)","Hand (HQ)","exact"],["Identidade","Identity","exact"],["Poder (ID)","Power (ID)","exact"],["Dano núcleo","Core damage","exact"],["Tags do Runner","Runner tags","exact"],
  ["Sua mão","Your grip","exact"],["Sua mão (HQ)","Your hand (HQ)","exact"],["Mão do Runner","Runner's grip","exact"],["Você ·","You ·","exact"],["mão vazia","empty hand","exact"],
