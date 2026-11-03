@@ -271,7 +271,8 @@ cardSet[26032] = {
             function () { Install(p.card, p.server, true, null, true); },
             function () { if (CheckInstalled(p.card) && !p.card.rezzed) Rez(p.card, true, null, null, false); },
           ], self);
-        }, "Architect Deployment Test", "ADT: instalar e ativar 1 carta ignorando custos", self, "install");
+        }, "Architect Deployment Test", "ADT: instalar e ativar 1 carta ignorando custos" +
+          (corp.AI == null ? " (topo do R&D: " + top.map(function (c) { return c.title; }).join(", ") + ")" : ""), self, "install");
         if (corp.AI != null) {
           var pick = null;
           var ice = installable.filter(function (c) { return c.cardType == "ice"; }).sort(function (a, b) { return (b.rezCost || 0) - (a.rezCost || 0); });

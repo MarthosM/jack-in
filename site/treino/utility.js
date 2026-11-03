@@ -2361,6 +2361,11 @@ function ChoicesCardInstall(card, ignoreCreditCost = false) {
       }
     }
   }
+  //Jack In Treino: instalar do próprio R&D/pilha (Architect Deployment Test...): quem instala vê os nomes
+  if (card.cardLocation === corp.RnD.cards || card.cardLocation === runner.stack) {
+    var hid = GetTitle(card, true);
+    if (hid != card.title) ret.forEach(function (o) { if (o.label) o.label = o.label.split(hid).join(card.title); });
+  }
   return ret;
 }
 
