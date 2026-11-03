@@ -72,8 +72,10 @@ body.jk-ui #menubar button::before{content:"";position:absolute;left:11px;right:
 .jk-unrezzed{filter:saturate(.25) brightness(.7)}
 .jk-unrezzed::after{content:"não rezzada";position:absolute;left:4px;top:4px;font-size:9px;text-transform:uppercase;letter-spacing:.06em;background:#000b;color:var(--dim);padding:1px 4px;border-radius:3px}
 .jk-back{cursor:default;display:flex;align-items:center;justify-content:center}
-.jk-back-corp{background:repeating-linear-gradient(135deg,#14223a 0 8px,#101c30 8px 16px);border-color:#2f4a73}
-.jk-back-runner{background:repeating-linear-gradient(135deg,#2e2416 0 8px,#241b10 8px 16px);border-color:#5a4420}
+.jk-back-corp{background:#0f1c33 url(images/back-corp.svg) center/cover no-repeat;border-color:#2f4a73}
+.jk-back-runner{background:#1f150b url(images/back-runner.svg) center/cover no-repeat;border-color:#5a4420}
+.jk-back .jk-back-mark{background:#000a;padding:1px 6px;border-radius:3px}
+.jk-back .jk-back-mark:empty{display:none}
 .jk-back-mark{font:600 11px var(--f-ui);letter-spacing:.1em;text-transform:uppercase;color:#ffffff66}
 .jk-empty{border-style:dashed;background:none;display:flex;align-items:center;justify-content:center;cursor:default}
 .jk-empty span{font-size:11px;color:var(--dim)}
@@ -510,3 +512,14 @@ body.x1 #jk-runbox.jkr-summary.jkr-ended{top:82px}
 /* v4.7: desfazer instalação (janela da carta) */
 .rv-act.rv-undo{border-color:var(--run,#ffb347); color:#ffd28a; background:rgba(255,179,71,.08)}
 .rv-act.rv-undo:hover{background:rgba(255,179,71,.18)}
+
+/* v4.8: baralhos com cara de pilha e identidade da Corp no lugar do HQ */
+.jk-deck .jk-back{overflow:visible}
+.jk-deck .jk-back::before,.jk-deck .jk-back::after{content:"";position:absolute;inset:-1px;border-radius:7px;border:1px solid;z-index:-1}
+.jk-deck .jk-back-corp::before{transform:translate(3px,3px);background:#0b1526;border-color:#2f4a73}
+.jk-deck .jk-back-corp::after{transform:translate(6px,6px);background:#08101d;border-color:#24395a}
+.jk-deck .jk-back-runner::before{transform:translate(3px,3px);background:#1a1109;border-color:#5a4420}
+.jk-deck .jk-back-runner::after{transform:translate(6px,6px);background:#120c06;border-color:#3f3016}
+.jk-deck.jk-deck-thin .jk-back::after{display:none}
+.jk-deck{isolation:isolate;padding:0 6px 6px 0}
+.jk-hq-id{border-color:var(--corp);box-shadow:0 0 0 1px #7aa7ff33}

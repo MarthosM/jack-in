@@ -274,8 +274,13 @@ function JKServer(server, name, iceBelow) {
   if (!server.ice.length) ice += "<div class='jk-noice'>sem ice</div>";
   ice += "</div>";
   var root = "<div class='jk-root'>";
-  if (server === corp.HQ) root += JKPile("Mão", corp.HQ.cards, { facedown: true, side: "corp", cls: "jk-mini-pile" });
-  if (server === corp.RnD) root += JKPile("Baralho", corp.RnD.cards, { facedown: true, side: "corp", cls: "jk-mini-pile" });
+  if (server === corp.HQ) {
+    // como na mesa de verdade: a identidade da Corp fica no lugar do HQ
+    if (corp.identityCard) root += "<div class='jk-pile jk-hq-idpile'>" + JKCard(corp.identityCard, { forceVisible: true, cls: "jk-hq-id" }) +
+      "<div class='jk-pile-lbl'><span>Identidade</span></div></div>";
+    root += JKPile("Mão", corp.HQ.cards, { facedown: true, side: "corp", cls: "jk-mini-pile" });
+  }
+  if (server === corp.RnD) root += JKPile("Baralho", corp.RnD.cards, { facedown: true, side: "corp", cls: "jk-mini-pile jk-deck" + (corp.RnD.cards.length < 3 ? " jk-deck-thin" : "") });
   if (server === corp.archives) {
     var meCorpA = typeof PhysicalHuman == "function" && PhysicalHuman() == corp;
     var up = corp.archives.cards.filter(function (c) { return IsFaceUp(c); });
@@ -360,7 +365,7 @@ function JKBoardHTML() {
     : "<div class='jk-grip'><h4>Sua mão <b>" + runner.grip.length + "</b></h4><div class='jk-cards'>" + grip + "</div></div>";
   var corpHalf =
     "<div class='jk-half jk-corp'>" +
-      "<div class='jk-side-head'><div class='jk-who'>" + (corp.identityCard ? JKCard(corp.identityCard, { forceVisible: true, cls: "jk-mini jk-idcard" }) : "") + "<span class='jk-dot corp'></span>" + (meCorp ? "Você · Corp" : (corp.AI ? "Corp (IA)" : "Corp")) + "<em class='jk-idname' data-title=\"" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "\">" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "</em></div><div class='jk-stats'>" + corpStats + "</div></div>" +
+      "<div class='jk-side-head'><div class='jk-who'>" + "<span class='jk-dot corp'></span>" + (meCorp ? "Você · Corp" : (corp.AI ? "Corp (IA)" : "Corp")) + "<em class='jk-idname' data-title=\"" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "\">" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "</em></div><div class='jk-stats'>" + corpStats + "</div></div>" +
       "<div class='jk-servers'>" + servers + "</div>" +
       (corpScore ? "<div class='jk-score'><h4>Agendas pontuadas</h4><div class='jk-cards'>" + corpScore + "</div></div>" : "") +
       corpHand +
@@ -371,7 +376,7 @@ function JKBoardHTML() {
       "<div class='jk-rig'>" +
         "<div class='jk-id'>" + (runner.identityCard ? JKCard(runner.identityCard, { forceVisible: true }) : "") + "</div>" +
         "<div class='jk-rows'>" + row("Programas", runner.rig.programs) + row("Hardware", runner.rig.hardware) + row("Recursos", runner.rig.resources) + "</div>" +
-        "<div class='jk-piles'>" + JKPile("Stack", runner.stack, { facedown: true, side: "runner" }) + JKPile("Heap", runner.heap, { forceVisible: true }) +
+        "<div class='jk-piles'>" + JKPile("Stack", runner.stack, { facedown: true, side: "runner", cls: "jk-deck" + (runner.stack.length < 3 ? " jk-deck-thin" : "") }) + JKPile("Heap", runner.heap, { forceVisible: true }) +
           (runnerScore ? "<div class='jk-score'><h4>Roubadas</h4><div class='jk-cards'>" + runnerScore + "</div></div>" : "") + "</div>" +
       "</div>" +
       runnerHand +
