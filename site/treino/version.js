@@ -1,2 +1,2 @@
 // Versão do Jack In Treino (um lugar só: aparece na página inicial e na mesa)
-var JK_VERSION = "4.7.2";
+var JK_VERSION = "4.7.3";

@@ -414,3 +414,23 @@ function JKRunTrigger(k) {
   var _MR = MakeRun;
   MakeRun = function () { JKRun.peek = false; JKRun.cur = null; JKRun.ended = null; JKRun.logStart = JK.logTotal || 0; return _MR.apply(this, arguments); };
 })();
+
+// agenda acessada e não roubada: diz no registro por quê (Ansel 1.0, Méliès sem clique...)
+(function () {
+  if (typeof phases == "undefined" || !phases.runAccessingCard) return;
+  var _n = phases.runAccessingCard.Resolve.n;
+  phases.runAccessingCard.Resolve.n = function () {
+    try {
+      var c = accessingCard;
+      if (c && c.cardType == "agenda" && c.cardLocation !== runner.scoreArea && CardEffectsForbid("steal", c)) {
+        var who = ChoicesActiveTriggers("modifyCannot").filter(function (t) {
+          try { return t.card.modifyCannot.Resolve.call(t.card, "steal", c); } catch (e) { return false; }
+        });
+        var en = typeof JKIsEN == "function" && JKIsEN();
+        who = who.map(function (t) { return t.card === c ? (en ? "no click left to pay the extra cost" : "sem clique para pagar o custo extra") : t.card.title; });
+        Log((en ? "The Runner cannot steal " : "O Runner não pode roubar ") + c.title + (who.length ? " (" + who.join(", ") + ")" : ""));
+      }
+    } catch (e) {}
+    return _n.apply(this, arguments);
+  };
+})();
