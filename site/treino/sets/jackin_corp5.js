@@ -73,6 +73,15 @@ function JKCMayInstallFromHQorArchives(title, ignoreCosts, ctx) {
 }
 // Executa passos em sequência numa fase própria: cada passo pode chamar Install/Draw/Rez
 // (que voltam para esta fase ao terminar) ou abrir uma DecisionPhase; quando acabam, volta à fase anterior.
+// pode jogar a operação sem gastar clique (efeito de carta)? FullCheckPlay exige cliques
+function JKCCanPlayFree(card) {
+  if (!card || !CheckPlay(card)) return false;
+  var cost = PlayCost(card);
+  if (cost === "X") cost = 0;
+  if (!CheckCredits(card.player, cost, "playing", card)) return false;
+  if (typeof card.Enumerate == "function") return card.Enumerate.call(card).length > 0;
+  return true;
+}
 function JKCRunSteps(title, steps, ctx) {
   var back = currentPhase;
   var i = 0;
@@ -333,7 +342,7 @@ cardSet[35039] = {
   trashCost: 1,
   JKCPlayOp: function () {
     var self = this;
-    var ops = corp.HQ.cards.filter(function (c) { return c.cardType == "operation" && FullCheckPlay(c, false); });
+    var ops = corp.HQ.cards.filter(function (c) { return c.cardType == "operation" && JKCCanPlayFree(c); });
     if (!ops.length) return;
     var choices = ChoicesArrayCards(ops);
     choices.push({ skip: true, label: "Não jogar", button: "Não jogar" });
