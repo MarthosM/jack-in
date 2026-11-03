@@ -239,7 +239,7 @@ $(function () {
     if (typeof X1 != "undefined" && X1.role == "guest") { if (typeof X1Send == "function") X1Send({ t: "act", kind: "opt", cmd: cmd, k: k, seq: X1.seq }); return; }
     try { JKOptRun(cmd, k); } catch (err) { console.error(err); }
   });
-  $(document).on("click", ".rv-act:not(.rv-opt)", function () {
+  $(document).on("click", ".rv-act:not(.rv-opt):not(.rv-undo)", function () {
     $("#card-view").hide();
     try { ExecuteChosen($(this).attr("data-cmd")); } catch (e) { console.error(e); }
   });

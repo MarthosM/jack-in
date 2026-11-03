@@ -506,3 +506,7 @@ body.x1 #jk-runbox.jkr-summary.jkr-ended{top:82px}
 }
 .jkr-sub-idle{opacity:.6}
 .jkr-sub-idle .jkr-tag{background:#33424a;color:var(--dim)}
+
+/* v4.7: desfazer instalação (janela da carta) */
+.rv-act.rv-undo{border-color:var(--run,#ffb347); color:#ffd28a; background:rgba(255,179,71,.08)}
+.rv-act.rv-undo:hover{background:rgba(255,179,71,.18)}
