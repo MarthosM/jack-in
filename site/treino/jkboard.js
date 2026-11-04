@@ -17,7 +17,7 @@ var JK_PT = {
   "Resolve unbroken subroutines": "Deixar subrotinas dispararem",
   "Continue to Movement Phase": "Seguir em frente", "Continue to Encounter Phase": "Encontrar o ice",
   "Continue without rezzing ice": "Continuar", "Finish install (trash no more cards)": "Concluir instalação",
-  "End turn": "Encerrar turno", "Continue to Discard Phase": "Ir para descarte", "Continue to next action": "Próxima ação",
+  "End turn": "Encerrar turno", "Begin turn": "Começar o turno · comprar 1 carta", "Continue to Discard Phase": "Ir para descarte", "Continue to next action": "Próxima ação",
   "Play again": "Jogar de novo", "Cancel": "Cancelar", "Auto": "Auto",
   "Continue without trashing": "Não dar trash", "End the run": "Encerrar a run", "Take 1 tag": "Receber 1 tag",
   "Advance": "Avançar", "Purge": "Purgar vírus", "Rez": "Rez", "Score": "Pontuar", "Use": "Usar",
@@ -252,8 +252,9 @@ function JKPile(label, cards, opts) {
   if (!top) inner = "<div class='jk-card jk-empty'><span>vazio</span></div>";
   else if (opts.facedown) inner = "<div class='jk-card jk-back jk-back-" + opts.side + "'><span class='jk-back-mark'></span></div>";
   else inner = JKCard(top, { forceVisible: opts.forceVisible });
-  return "<div class='jk-pile" + (opts.cls ? " " + opts.cls : "") + "'>" + inner +
-    "<div class='jk-pile-lbl'><span>" + label + "</span><b>" + cards.length + "</b></div></div>";
+  var view = opts.view && cards.length ? "<button type='button' class='jk-viewall' data-jk-view='" + opts.view + "'>" + (JKIsEN() ? "See all" : "Ver todas") + "</button>" : "";
+  return "<div class='jk-pile" + (opts.view ? " jk-pile-view" : "") + (opts.cls ? " " + opts.cls : "") + "'" + (opts.view && cards.length ? " data-jk-view='" + opts.view + "'" : "") + ">" + inner +
+    "<div class='jk-pile-lbl'><span>" + label + "</span><b>" + cards.length + "</b></div>" + view + "</div>";
 }
 
 function JKServer(server, name, iceBelow) {
@@ -288,7 +289,8 @@ function JKServer(server, name, iceBelow) {
     // Corp humana vê as próprias cartas viradas em Archives (e pode usar habilidades delas, ex.: Petty Cash)
     var shown = meCorpA ? corp.archives.cards.slice(-12) : up.slice(-6);
     root += "<div class='jk-archives'>" + (shown.length ? shown.map(function (c) { return JKCard(c, { cls: "jk-mini" + (IsFaceUp(c) ? "" : " jk-arch-down"), forceVisible: true }); }).join("") : "") +
-      "<div class='jk-pile-lbl'><span>Archives</span><b>" + corp.archives.cards.length + "</b>" + (down ? "<small>" + down + " virada(s)</small>" : "") + "</div></div>";
+      "<div class='jk-pile-lbl'><span>Archives</span><b>" + corp.archives.cards.length + "</b>" + (down ? "<small>" + down + " virada(s)</small>" : "") + "</div>" +
+      ((meCorpA ? corp.archives.cards.length : up.length) ? "<button type='button' class='jk-viewall' data-jk-view='archives'>" + (JKIsEN() ? "See all" : "Ver todas") + "</button>" : "") + "</div>";
   }
   server.root.forEach(function (c) { root += JKCard(c); });
   root += "</div>";
@@ -376,7 +378,7 @@ function JKBoardHTML() {
       "<div class='jk-rig'>" +
         "<div class='jk-id'>" + (runner.identityCard ? JKCard(runner.identityCard, { forceVisible: true }) : "") + "</div>" +
         "<div class='jk-rows'>" + row("Programas", runner.rig.programs) + row("Hardware", runner.rig.hardware) + row("Recursos", runner.rig.resources) + "</div>" +
-        "<div class='jk-piles'>" + JKPile("Stack", runner.stack, { facedown: true, side: "runner", cls: "jk-deck" + (runner.stack.length < 3 ? " jk-deck-thin" : "") }) + JKPile("Heap", runner.heap, { forceVisible: true }) +
+        "<div class='jk-piles'>" + JKPile("Stack", runner.stack, { facedown: true, side: "runner", cls: "jk-deck" + (runner.stack.length < 3 ? " jk-deck-thin" : "") }) + JKPile("Heap", runner.heap, { forceVisible: true, view: "heap" }) +
           (runnerScore ? "<div class='jk-score'><h4>Roubadas</h4><div class='jk-cards'>" + runnerScore + "</div></div>" : "") + "</div>" +
       "</div>" +
       runnerHand +
@@ -445,9 +447,26 @@ $(function () {
   $(document).on("click", "#jk-board .jk-card[data-title], #jk-board .jk-idname", function (e) {
     e.stopPropagation();
     JKZoomHide();
+    // carta do topo do heap: abre a lista do heap inteiro
+    var $pv = $(this).closest(".jk-pile-view[data-jk-view]");
+    if ($pv.length) { JKPileViewOpen($pv.attr("data-jk-view")); return; }
     var $b = $(this).find(".jk-badges");
     if (typeof RevealShowCard == "function") RevealShowCard($(this).attr("data-title"), $b.length ? $b.html() : "", $(this).hasClass("jk-hand") ? "hand" : "table");
   });
+  // heap / Archives: janela com todas as cartas, da mais recente para a mais antiga
+  $(document).on("click", "[data-jk-view]", function (e) {
+    e.stopPropagation();
+    JKZoomHide();
+    JKPileViewOpen($(this).attr("data-jk-view"));
+  });
+  $(document).on("click", "#jk-pileview .jk-card[data-title]", function (e) {
+    e.stopPropagation();
+    JKZoomHide();
+    if (typeof RevealShowCard == "function") RevealShowCard($(this).attr("data-title"), "", "table");
+  });
+  $(document).on("click", "#jk-pileview, #jk-pileview-close", function (e) { if (e.target === this) JKPileViewClose(); });
+  // (na captura: roda antes do Esc que fecha a janela da carta, então fecha uma janela por vez)
+  document.addEventListener("keydown", function (e) { if (e.key == "Escape" && !$("#card-view").is(":visible")) JKPileViewClose(); }, true);
   // traduz botões assim que o rodapé muda
   var obs = new MutationObserver(function () { JKTranslateUI(); });
   ["footer", "header"].forEach(function (id) {
@@ -590,3 +609,50 @@ $(function () {
   // a mesa é redesenhada o tempo todo: some a ampliação se a carta sair da tela
   setInterval(function () { if (JKZoom.cur && !document.body.contains(JKZoom.cur)) JKZoomHide(); }, 400);
 });
+
+
+// ------------------------------------------------ heap e Archives em lista
+var JKPileView = { kind: null };
+function JKPileViewCards(kind) {
+  if (kind == "heap") return runner.heap.slice();
+  if (kind == "archives") {
+    var meCorp = typeof PhysicalHuman == "function" && PhysicalHuman() == corp;
+    if (typeof X1 != "undefined" && X1.role == "host" && X1.started) meCorp = X1.mySide() == corp;
+    return corp.archives.cards.filter(function (c) { return meCorp || IsFaceUp(c); });
+  }
+  return [];
+}
+function JKPileViewHTML(kind) {
+  var en = JKIsEN();
+  var cards = JKPileViewCards(kind).reverse(); // mais recente primeiro
+  var title = kind == "heap" ? (en ? "Runner's heap" : "Heap do Runner") : "Archives";
+  var types = {};
+  cards.forEach(function (c) { var t = c.cardType || "?"; types[t] = (types[t] || 0) + 1; });
+  var TN = en ? { event: ["event", "events"], program: ["program", "programs"], hardware: ["hardware", "hardware"], resource: ["resource", "resources"], operation: ["operation", "operations"], ice: ["ice", "ice"], asset: ["asset", "assets"], upgrade: ["upgrade", "upgrades"], agenda: ["agenda", "agendas"] }
+              : { event: ["evento", "eventos"], program: ["programa", "programas"], hardware: ["hardware", "hardware"], resource: ["recurso", "recursos"], operation: ["operação", "operações"], ice: ["ice", "ice"], asset: ["ativo", "ativos"], upgrade: ["upgrade", "upgrades"], agenda: ["agenda", "agendas"] };
+  var summary = Object.keys(types).sort(function (a, b) { return types[b] - types[a]; }).map(function (t) { return types[t] + " " + (TN[t] ? TN[t][types[t] > 1 ? 1 : 0] : t); }).join(" · ");
+  var list = cards.map(function (c, i) {
+    var down = kind == "archives" && !IsFaceUp(c);
+    return "<div class='jk-pv-item'>" + JKCard(c, { forceVisible: true, cls: down ? "jk-arch-down" : "" }) +
+      "<span class='jk-pv-n'>" + (i == 0 ? (en ? "latest" : "mais recente") : "#" + (i + 1)) + (down ? (en ? " · facedown" : " · virada") : "") + "</span></div>";
+  }).join("");
+  if (!cards.length) list = "<p class='jk-none'>" + (en ? "Empty." : "Vazio.") + "</p>";
+  return "<div class='jk-pv-box'><button id='jk-pileview-close' type='button' aria-label='Fechar'>×</button>" +
+    "<h3>" + title + " <b>" + cards.length + "</b></h3>" + (summary ? "<p class='jk-pv-sum'>" + summary + "</p>" : "") +
+    "<div class='jk-pv-list'>" + list + "</div></div>";
+}
+function JKPileViewOpen(kind) {
+  JKPileView.kind = kind;
+  if (!$("#jk-pileview").length) $("body").append("<div id='jk-pileview' role='dialog' aria-modal='true'></div>");
+  $("#jk-pileview").html(JKPileViewHTML(kind)).css("display", "flex");
+}
+function JKPileViewClose() { JKPileView.kind = null; $("#jk-pileview").hide(); }
+// a lista acompanha a partida enquanto estiver aberta
+(function () {
+  var _JKR = JKRender;
+  JKRender = function () {
+    var r = _JKR.apply(this, arguments);
+    try { if (JKPileView.kind && $("#jk-pileview").is(":visible")) $("#jk-pileview").html(JKPileViewHTML(JKPileView.kind)); } catch (e) {}
+    return r;
+  };
+})();

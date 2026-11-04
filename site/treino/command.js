@@ -622,7 +622,7 @@ function EnumeratePhase() {
   //if the only available actions are precluded by usability functions, assume continue
   //(usability checks also help the AI but only rez for now; the check for AI is done in FullCheckRez)
   if (activePlayer.AI == null) {
-	  if (numberOfOptionsWithUsabilityFalse > 0 && totalNumberOfOptions == numberOfOptionsWithUsabilityFalse+1 && typeof phaseOptions.n != 'undefined' && phaseOptions.n.length == 1) {
+	  if (currentPhase.identifier != "Corp 1.1" && numberOfOptionsWithUsabilityFalse > 0 && totalNumberOfOptions == numberOfOptionsWithUsabilityFalse+1 && typeof phaseOptions.n != 'undefined' && phaseOptions.n.length == 1) {
 		console.log("All options have usability false, skipping phase");
 		phaseOptions = { n:[{}] };
 	  }
