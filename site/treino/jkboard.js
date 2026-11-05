@@ -278,8 +278,7 @@ function JKServer(server, name, iceBelow) {
   if (server === corp.HQ) {
     // como na mesa de verdade: a identidade da Corp fica no lugar do HQ
     if (corp.identityCard) root += "<div class='jk-pile jk-hq-idpile'>" + JKCard(corp.identityCard, { forceVisible: true, cls: "jk-hq-id" }) +
-      "<div class='jk-pile-lbl'><span>Identidade</span></div></div>";
-    root += JKPile("Mão", corp.HQ.cards, { facedown: true, side: "corp", cls: "jk-mini-pile" });
+      "<div class='jk-pile-lbl'><span>Mão</span><b>" + corp.HQ.cards.length + "</b></div></div>";
   }
   if (server === corp.RnD) root += JKPile("Baralho", corp.RnD.cards, { facedown: true, side: "corp", cls: "jk-mini-pile jk-deck" + (corp.RnD.cards.length < 3 ? " jk-deck-thin" : "") });
   if (server === corp.archives) {
@@ -325,7 +324,7 @@ function JKBoardHTML() {
   var corpSide = corp.identityCard && typeof corp.identityCard.JKCSideLabel == "function" ? JKStat("Identidade", corp.identityCard.JKCSideLabel(), "jk-side") : "";
   var corpPower = corp.identityCard && typeof corp.identityCard.power == "number" && corp.identityCard.cardDefinition && typeof corp.identityCard.cardDefinition.power == "number" ? JKStat("Poder (ID)", corp.identityCard.power) : "";
   var corpStats = corpSide + corpPower + JKStat("Créditos", corp.creditPool, "jk-big") + JKStat("Cliques", corp.clickTracker) +
-    JKStat("Mão (HQ)", corp.HQ.cards.length, "jk-hand-n", "Cartas na mão da Corp") + JKStat("Pontos", cAP + "/" + win) + JKStat("R&D", corp.RnD.cards.length) +
+    JKStat("Pontos", cAP + "/" + win) +
     (corp.badPublicity ? JKStat("Bad pub.", corp.badPublicity, "jk-warn", "Bad publicity: em cada run o Runner ganha " + corp.badPublicity + "¢ para gastar só naquela run") : "");
   var iceBelow = !(typeof viewingPlayer != "undefined" && viewingPlayer == corp);
   var servers = JKServer(corp.archives, "Archives", iceBelow) + JKServer(corp.RnD, "R&D", iceBelow) + JKServer(corp.HQ, "HQ", iceBelow);
@@ -342,10 +341,10 @@ function JKBoardHTML() {
   var runnerStats = JKStat("Créditos", runner.creditPool + tempCr, "jk-big") + JKStat("Mão", runner.grip.length, "jk-hand-n" + (runner.grip.length > MaxHandSize(runner) ? " jk-warn" : ""), "Cartas na mão do Runner") +
     "<div class='jk-stat jk-clicks'><span>Cliques</span><b>" + clicks + "</b></div>" +
     JKStat("Tags", runner.tags, runner.tags ? "jk-tagged" : "", "Tags recebidas") +
-    JKStat("MU", muUsed + "/" + mu) + JKStat("Mão máx.", MaxHandSize(runner)) +
+    JKStat("Mão máx.", MaxHandSize(runner)) +
     JKStat("Pontos", rAP + "/" + win) + (runner.coreDamage ? JKStat("Dano núcleo", runner.coreDamage, "jk-warn") : "");
-  var row = function (label, arr) {
-    return "<div class='jk-row'><h4>" + label + " <b>" + arr.length + "</b></h4><div class='jk-cards'>" +
+  var row = function (label, arr, extra) {
+    return "<div class='jk-row'><h4>" + label + " <b>" + arr.length + "</b>" + (extra || "") + "</h4><div class='jk-cards'>" +
       (arr.length ? arr.map(function (c) { return JKCard(c, { forceVisible: true }); }).join("") : "<span class='jk-none'>—</span>") + "</div></div>";
   };
   var grip = runner.grip.map(function (c) { return JKCard(c, { forceVisible: true, cls: "jk-hand" }); }).join("") || "<span class='jk-none'>mão vazia</span>";
@@ -356,7 +355,7 @@ function JKBoardHTML() {
     var cclicks = "";
     for (var k = 0; k < Math.max(3, corp.clickTracker); k++) cclicks += "<i class='" + (k < corp.clickTracker ? "on" : "") + "'></i>";
     corpStats = corpSide + corpPower + JKStat("Créditos", corp.creditPool, "jk-big") + "<div class='jk-stat jk-clicks'><span>Cliques</span><b>" + cclicks + "</b></div>" +
-      JKStat("Mão (HQ)", corp.HQ.cards.length, "jk-hand-n", "Cartas na sua mão") + JKStat("Pontos", cAP + "/" + win) + JKStat("Mão máx.", MaxHandSize(corp)) + JKStat("R&D", corp.RnD.cards.length) +
+      JKStat("Pontos", cAP + "/" + win) + JKStat("Mão máx.", MaxHandSize(corp)) +
       (corp.badPublicity ? JKStat("Bad pub.", corp.badPublicity, "jk-warn", "Bad publicity: em cada run o Runner ganha " + corp.badPublicity + "¢ para gastar só naquela run") : "") +
       JKStat("Tags do Runner", runner.tags, runner.tags ? "jk-tagged" : "");
   }
@@ -367,17 +366,17 @@ function JKBoardHTML() {
     : "<div class='jk-grip'><h4>Sua mão <b>" + runner.grip.length + "</b></h4><div class='jk-cards'>" + grip + "</div></div>";
   var corpHalf =
     "<div class='jk-half jk-corp'>" +
-      "<div class='jk-side-head'><div class='jk-who'>" + "<span class='jk-dot corp'></span>" + (meCorp ? "Você · Corp" : (corp.AI ? "Corp (IA)" : "Corp")) + "<em class='jk-idname' data-title=\"" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "\">" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "</em></div><div class='jk-stats'>" + corpStats + "</div></div>" +
+      "<div class='jk-side-head'><div class='jk-who'>" + (meCorp ? "Você · Corp" : (corp.AI ? "Corp (IA)" : "Corp")) + "<em class='jk-idname' data-title=\"" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "\">" + JKEsc(corp.identityCard ? corp.identityCard.title : "") + "</em></div><div class='jk-stats'>" + corpStats + "</div></div>" +
       "<div class='jk-servers'>" + servers + "</div>" +
       (corpScore ? "<div class='jk-score'><h4>Agendas pontuadas</h4><div class='jk-cards'>" + corpScore + "</div></div>" : "") +
       corpHand +
     "</div>";
   var runnerHalf =
     "<div class='jk-half jk-runner" + (runner.tags ? " is-tagged" : "") + "'>" +
-      "<div class='jk-side-head'><div class='jk-who'><span class='jk-dot runner'></span>" + (meCorp ? (runner.AI ? "Runner (IA)" : "Runner") : "Runner") + "<em class='jk-idname' data-title=\"" + JKEsc(runner.identityCard ? runner.identityCard.title : "") + "\">" + JKEsc(runner.identityCard ? runner.identityCard.title : "") + "</em></div><div class='jk-stats'>" + runnerStats + "</div></div>" +
+      "<div class='jk-side-head'><div class='jk-who'>" + (meCorp ? (runner.AI ? "Runner (IA)" : "Runner") : "Runner") + "<em class='jk-idname' data-title=\"" + JKEsc(runner.identityCard ? runner.identityCard.title : "") + "\">" + JKEsc(runner.identityCard ? runner.identityCard.title : "") + "</em></div><div class='jk-stats'>" + runnerStats + "</div></div>" +
       "<div class='jk-rig'>" +
         "<div class='jk-id'>" + (runner.identityCard ? JKCard(runner.identityCard, { forceVisible: true }) : "") + "</div>" +
-        "<div class='jk-rows'>" + row("Programas", runner.rig.programs) + row("Hardware", runner.rig.hardware) + row("Recursos", runner.rig.resources) + "</div>" +
+        "<div class='jk-rows'>" + row("Programas", runner.rig.programs, "<span class='jk-mu" + (muUsed > mu ? " jk-warn" : "") + "'>MU " + muUsed + "/" + mu + "</span>") + row("Hardware", runner.rig.hardware) + row("Recursos", runner.rig.resources) + "</div>" +
         "<div class='jk-piles'>" + JKPile("Stack", runner.stack, { facedown: true, side: "runner", cls: "jk-deck" + (runner.stack.length < 3 ? " jk-deck-thin" : "") }) + JKPile("Heap", runner.heap, { forceVisible: true, view: "heap" }) +
           (runnerScore ? "<div class='jk-score'><h4>Roubadas</h4><div class='jk-cards'>" + runnerScore + "</div></div>" : "") + "</div>" +
       "</div>" +
@@ -653,6 +652,23 @@ function JKPileViewClose() { JKPileView.kind = null; $("#jk-pileview").hide(); }
   JKRender = function () {
     var r = _JKR.apply(this, arguments);
     try { if (JKPileView.kind && $("#jk-pileview").is(":visible")) $("#jk-pileview").html(JKPileViewHTML(JKPileView.kind)); } catch (e) {}
+    return r;
+  };
+})();
+
+// v4.11: os números de quem está em cima vão para a barra do topo, os de quem está embaixo para a barra de baixo
+(function () {
+  var _JKR = JKRender;
+  JKRender = function () {
+    var r = _JKR.apply(this, arguments);
+    try {
+      if (!$("#jk-topstats").length) $("body").append("<div id='jk-topstats'></div><div id='jk-botstats'></div>");
+      var halves = $("#jk-board > .jk-half");
+      var top = halves.eq(0), bot = halves.eq(1);
+      $("#jk-topstats").attr("class", top.hasClass("jk-corp") ? "st-corp" : "st-runner").html(top.find(".jk-stats").first().html() || "");
+      $("#jk-botstats").attr("class", bot.hasClass("jk-corp") ? "st-corp" : "st-runner").html(bot.find(".jk-stats").first().html() || "");
+      halves.find(".jk-stats").remove();
+    } catch (e) {}
     return r;
   };
 })();

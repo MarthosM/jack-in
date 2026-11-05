@@ -538,3 +538,34 @@ body.x1 #jk-runbox.jkr-summary.jkr-ended{top:82px}
 .jk-pv-n{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
 #jk-pileview-close{position:absolute;right:10px;top:8px;width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:20px;cursor:pointer}
 @media (max-height:500px){.jk-pv-box{padding:10px 12px}.jk-pv-list .jk-card{--cw:64px;--ch:90px}}
+
+/* v4.11: números nas barras de cima e de baixo */
+#jk-topstats,#jk-botstats{position:fixed;z-index:961;display:flex;gap:6px;align-items:center}
+#jk-topstats{top:4px;left:62px;height:44px}
+#jk-topstats .jk-stat span,#jk-botstats .jk-stat span{font-size:9px}
+#jk-botstats{bottom:8px;left:16px;height:56px}
+#jk-topstats .jk-stat,#jk-botstats .jk-stat{padding:2px 9px;min-width:50px}
+#jk-topstats .jk-stat b{font-size:16px} #jk-topstats .jk-stat.jk-big b{font-size:18px}
+#jk-botstats .jk-stat b{font-size:17px} #jk-botstats .jk-stat.jk-big b{font-size:20px}
+.st-corp .jk-stat.jk-big b{color:var(--corp)} .st-corp .jk-stat{border-color:#2f4a73}
+.st-runner .jk-stat.jk-big b{color:var(--runner)} .st-runner .jk-stat{border-color:#5a4420}
+#jk-version{left:auto!important;right:12px}
+body.jk-ui #header{justify-content:flex-end;padding-right:120px}
+body.jk-ui #footer{justify-content:center;padding-left:520px;padding-right:150px;box-sizing:border-box;flex-wrap:nowrap}
+.jk-mu{white-space:nowrap;display:inline-block;margin-left:10px;font:600 11px var(--f-mono);color:var(--acc);letter-spacing:.04em;background:#0b1a2a;border:1px solid var(--line);border-radius:999px;padding:1px 7px}
+.jk-mu.jk-warn{color:var(--warn);border-color:var(--warn)}
+.jk-side-head{justify-content:flex-start}
+body.x1 #jk-topstats{left:146px}
+@media (max-width:1250px){body.jk-ui #footer{padding-right:16px;justify-content:flex-end;overflow-x:auto} body.jk-ui #footer button{white-space:nowrap;flex:0 0 auto;padding:9px 13px;font-size:14px} #jk-version{display:none}}
+@media (orientation:landscape) and (max-height:500px){
+  #jk-topstats{top:2px;left:40px;height:26px;gap:3px}
+  body.x1 #jk-topstats{left:104px}
+  #jk-topstats .jk-stat,#jk-botstats .jk-stat{padding:0 5px;min-width:32px;border-radius:5px}
+  #jk-topstats .jk-stat span,#jk-botstats .jk-stat span{font-size:7px}
+  #jk-topstats .jk-stat b,#jk-botstats .jk-stat b{font-size:11px;line-height:1.1}
+  #jk-topstats .jk-stat.jk-big b,#jk-botstats .jk-stat.jk-big b{font-size:12px}
+  #jk-botstats{bottom:4px;left:6px;height:36px;gap:3px}
+  body.jk-ui #footer{padding-left:300px;padding-right:8px}
+  body.jk-ui #header{justify-content:center;padding-right:0;padding-left:230px}
+  .jk-mu{font-size:9px;margin-left:6px;padding:0 5px}
+}
