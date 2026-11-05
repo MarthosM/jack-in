@@ -434,3 +434,35 @@ function JKRunTrigger(k) {
     return _n.apply(this, arguments);
   };
 })();
+
+// ---------------------------------------------------------------------
+// Sequência do turno conforme as regras (NSG): ajustes na ordem do motor
+// 1) Turno do Runner, passo 1.e: janela de habilidades pagas antes de cada ação,
+//    em que a Corp também pode rezzar cartas que não são ice. O motor original
+//    só dava a vez ao Runner; agora a Corp recebe a prioridade antes de seguir.
+//    Também vale antes da primeira ação (logo depois de "o turno começa").
+// 2) Fim do descarte (Corp 3.c / Runner 2.c): cliques não usados são perdidos.
+(function () {
+  if (typeof phases == "undefined" || !phases.runnerPostAction) return;
+  var post = phases.runnerPostAction;
+  post.Resolve.n = function () {
+    if (activePlayer != currentPhase.player) opportunitiesGiven = true; // cada jogador tem pelo menos uma chance de agir
+    if (opportunitiesGiven && !actedThisPhase) {
+      if (runner.clickTracker < 1) ChangePhase(phases.runnerDiscardStart);
+      else IncrementPhase();
+    } else {
+      activePlayer = activePlayer == corp ? runner : corp;
+      actedThisPhase = false;
+    }
+  };
+  phases.runnerTurnBegin.next = post;
+
+  var _CP = ChangePhase;
+  ChangePhase = function (phase) {
+    try {
+      if (phase === phases.corpEndOfTurn) corp.clickTracker = 0;
+      if (phase === phases.runnerEndOfTurn) runner.clickTracker = 0;
+    } catch (e) {}
+    return _CP.apply(this, arguments);
+  };
+})();
