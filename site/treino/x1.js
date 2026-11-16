@@ -433,6 +433,7 @@ function X1GuestLobby(room) {
     $("#x1-hint").toggle(!ok);
   }
   $("#x1-deck").on("input", check);
+  if (typeof JKDecks != "undefined") { JKDecks.attach({ textarea: $("#x1-deck")[0], side: function () { return side; }, onChange: check }); JKDecks.cloudInit(); }
   setMode(mode);
   $("#x1-join").on("click", function () {
     X1.names.guest = $("#x1-name").val().trim() || "Oponente";

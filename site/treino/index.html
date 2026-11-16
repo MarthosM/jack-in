@@ -345,12 +345,31 @@ footer{margin-top:30px; text-align:center; font-size:.85rem; color:var(--muted);
 <script src="version.js"></script>
 <script>document.querySelectorAll("#jkVer,#jkVerF").forEach(function(e){e.textContent="v"+JK_VERSION;});</script>
 <script src="decklist.js"></script>
+<script src="mydecks.js"></script>
 <script src="som.js"></script>
 <script>SomMusic("abertura");</script>
 <script>
 let CARDS = null;
 const $ = id => document.getElementById(id);
-DeckList.onReady = () => { CARDS = DeckList.cards; restore(); check(); x1check(); };
+DeckList.onReady = () => {
+  CARDS = DeckList.cards;
+  // deck recebido por link (#deck=...): guarda em Meus decks e abre o treino com ele
+  const got = JKDecks.fromHash();
+  if (got) history.replaceState(null, '', location.pathname + '#treinar');
+  restore();
+  JKDecks.attach({ textarea: $('runnerList'), side: () => 'r', onChange: check });
+  JKDecks.attach({ textarea: $('corpList'), side: () => 'c', onChange: check });
+  JKDecks.attach({ textarea: $('x1List'), side: () => X1SIDE, onChange: x1check });
+  if (got) {
+    const rec = JKDecks.addReceived(got);
+    $(got.side === 'r' ? 'runnerList' : 'corpList').value = rec.text;
+    SIDE = got.side; setMyDeck('paste'); show('setup');
+    JKDecks.refresh();
+    JKDecks.toast((typeof JKLang != 'undefined' && JKLang == 'en') ? 'Deck "' + rec.name + '" received and saved in My decks.' : 'Deck "' + rec.name + '" recebido e salvo em Meus decks.');
+  }
+  check(); x1check();
+  JKDecks.cloudInit();
+};
 const parse = DeckList.parse, report = DeckList.report, noAI = DeckList.noAI, pack = DeckList.pack;
 
 let SIDE = 'r', PHYS = 0, MYDECK = 'paste', X1DECK = 'paste';
@@ -440,6 +459,7 @@ function restore(){
 }
 
 ['runnerList','corpList','ap'].forEach(id=>$(id).addEventListener('input', check));
+window.addEventListener('hashchange', ()=>{ if (/deck=/.test(location.hash)) location.reload(); });
 $('corpMode').addEventListener('change', ()=>setSide(SIDE));
 $('runnerMode').addEventListener('change', ()=>setSide(SIDE));
 
@@ -466,6 +486,7 @@ function x1side(v){
   X1SIDE = v;
   document.querySelectorAll('.x1-side').forEach(b=>b.setAttribute('aria-checked', b.dataset.side===v ? 'true' : 'false'));
   $('x1ListLabel').textContent = 'Sua lista de ' + (v==='r' ? 'Runner' : 'Corp') + ' (texto exportado do NetrunnerDB)';
+  if (typeof JKDecks != 'undefined') JKDecks.refresh();
   x1check();
 }
 document.querySelectorAll('.x1-side').forEach(b=>b.addEventListener('click', ()=>x1side(b.dataset.side)));
