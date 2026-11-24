@@ -28,6 +28,7 @@ function JKRunPT(s) {
     .replace(/\bQuebrar (\d+|até \d+) (barrier|code gate|sentry) subrotinas?\b/g, function (m, n, t) { return "Quebrar " + n + (n == "1" ? " subrotina" : " subrotinas") + " de " + t; })
     .replace(/\+(\d+) strength\b/g, "+$1 de força").replace(/\bstrength\b/g, "força")
     .replace(/\bfor the remainder of this run\b/g, "até o fim da run").replace(/\bfor the remainder of this encounter\b/g, "até o fim do encontro")
+    .replace(/^Inside Job: bypass this ice$/, "Inside Job: contornar esta ice (bypass)")
     // habilidades de agendas pontuadas
     .replace(/^Search R&D for 1 card and reveal it\. Add it to HQ\.?$/i, "Gastar 1 marcador de agenda: procurar 1 carta no R&D, revelar e pôr no HQ")
     // escolhas de busca (Mutual Favor e parecidas)
@@ -63,13 +64,15 @@ function JKRunSequence(info) {
     var known = ice.rezzed || (typeof PlayerCanLook == "function" && PlayerCanLook(viewingPlayer, ice));
     var name = known ? ice.title : "Ice não rezzada";
     var st = "next", v = name;
-    if (info.where != "ice") st = "done";
+    var byp = (typeof JKRunBypassed == "function" ? JKRunBypassed() : []).filter(function (b) { return b.ice === ice; })[0];
+    if (byp) { st = "done"; v = name + " · " + (JKIsEN() ? "bypassed" : "contornada"); }
+    else if (info.where != "ice") st = "done";
     else if (i > approachIce) st = "done";
     else if (i == approachIce) {
       if (info.sub == "passou") { st = "done"; v = name + " · passou"; }
       else { st = "cur"; v = name + (info.sub ? " · " + info.sub : ""); }
     }
-    steps.push({ k: (i == n - 1 ? "Ice de fora" : (i == 0 ? "Ice de dentro" : "Ice " + (n - i))), v: v, st: st });
+    steps.push({ k: (i == n - 1 ? "Ice de fora" : (i == 0 ? "Ice de dentro" : "Ice " + (n - i))), v: v, st: st, byp: !!byp });
   }
   steps.push({ k: "Servidor", v: info.where == "server" ? "Chegou ao servidor" : "Desconectar ou seguir", st: info.where == "server" ? "cur" : (info.where == "access" ? "done" : "next") });
   steps.push({ k: "Acesso", v: info.where == "access" ? "Acessando cartas" : "Ver as cartas", st: info.where == "access" ? "cur" : "next" });
@@ -80,7 +83,7 @@ function JKRunSequence(info) {
   }
   return "<ol class='jkr-seq' aria-label='Sequência da run' style='grid-template-columns:repeat(" + steps.length + ",minmax(0,1fr))'>" +
     steps.map(function (x, k) {
-      return "<li class='jkr-step jkr-" + x.st + "'" + (x.st == "cur" ? " aria-current='step'" : "") + "><span>" + (k + 1) + " · " + JKEsc(x.k) + "</span><b>" + (x.st == "done" ? "✓ " : "") + JKEsc(x.v) + "</b></li>";
+      return "<li class='jkr-step jkr-" + x.st + (x.byp ? " jkr-bypassed" : "") + "'" + (x.st == "cur" ? " aria-current='step'" : "") + "><span>" + (k + 1) + " · " + JKEsc(x.k) + "</span><b>" + (x.byp ? "⤳ " : (x.st == "done" ? "✓ " : "")) + JKEsc(x.v) + "</b></li>";
     }).join("") + "</ol>";
 }
 
@@ -96,7 +99,14 @@ function JKRunIcePanel(info) {
   }
   var visible = ice.rezzed || (typeof PlayerCanLook == "function" && PlayerCanLook(viewingPlayer, ice));
   var subs = "";
-  if (visible && ice.subroutines && ice.subroutines.length) {
+  var wasByp = (typeof JKRunBypassed == "function" ? JKRunBypassed() : []).some(function (b) { return b.ice === ice; });
+  if (wasByp && visible && ice.subroutines && ice.subroutines.length) {
+    subs = "<ul class='jkr-sublist'>" + ice.subroutines.map(function (s) {
+      return "<li class='jkr-sub jkr-sub-bypassed'><span class='jkr-tag'>" + (JKIsEN() ? "Bypassed" : "Contornada") + "</span><span class='jkr-sub-t'>" + JKEsc(JKRunPT(s.text || "")) + "</span></li>";
+    }).join("") + "</ul>";
+  } else if (wasByp) {
+    subs = "<p class='jkr-note'>" + (JKIsEN() ? "This ice was bypassed: none of its subroutines fire." : "Esta ice foi contornada: nenhuma subrotina dela dispara.") + "</p>";
+  } else if (visible && ice.subroutines && ice.subroutines.length) {
     var firing = info.id == "Run Subroutines" ? subroutine : -1;
     subs = ice.subroutines.map(function (s, k) {
       var cls = s.broken ? "jkr-sub-broken" : (k == firing ? "jkr-sub-firing" : "jkr-sub-live");
@@ -122,6 +132,7 @@ function JKRunTriggers() {
 function JKRunTrigBtn(t) {
   var lbl = t.o.label || (t.o.ability && t.o.ability.text) || (t.o.card ? t.o.card.title : "Usar");
   lbl = String(lbl).replace(/^\([^)]*\)\s*/, ""); // o nome da carta já aparece no card
+  if (t.o.alt == "insidejob_bypass") lbl = JKIsEN() ? "Inside Job: bypass this ice" : "Inside Job: contornar esta ice (bypass)";
   return "<button type='button' class='jkr-btn jkr-trig' data-jk-trig='" + t.k + "'>" + JKEsc(JKRunPT(lbl)) + "</button>";
 }
 
@@ -205,7 +216,7 @@ function JKRunHTML() {
       var ok = lines.some(function (l) { return /Run successful/i.test(l); });
       JKRun.ended = { name: JKRun.cur.name, at: Date.now(), ok: ok, lines: lines.slice(-6), view: ok ? "" : JKRunEndView(lines), reason: ok ? "" : JKRunEndReason(lines) };
       JKRun.lastEncSeq = null; JKRun.lastEncIce = null;
-      JKRun.cur = null;
+      JKRun.cur = null; JKRun.bypassed = null;
       if (ok) setTimeout(function () { if (typeof JKSchedule == "function") JKSchedule(); }, 6100);
     }
     return JKRunSummaryHTML();
@@ -218,7 +229,7 @@ function JKRunHTML() {
     attackedServer.ice.length + (attackedServer.ice.length == 1 ? " ice protegendo" : " ices protegendo") + "</span><span class='jkr-grow'></span>" +
     JKStat("Créditos", runner.creditPool + (runner.temporaryCredits > 0 ? " <small class='jk-temp' title='Créditos da bad publicity: só valem nesta run'>+" + runner.temporaryCredits + " BP</small>" : ""), "jk-big jkr-cr") + JKStat("Cliques", runner.clickTracker) +
     "<button type='button' class='jkr-peek-btn' data-jk-peek='1'>Ver a mesa</button></div>";
-  var view = JKRunSequence(info) + JKRunIcePanel(info);
+  var view = JKRunSequence(info) + JKRunBypassNote() + JKRunIcePanel(info);
   // guarda a sequência do último encontro com ice, para mostrar no fim se a run terminar sem sucesso
   if (info.where == "ice" && (info.sub == "encontro" || info.sub == "subrotinas disparando")) {
     JKRun.lastEncSeq = JKRunSequence(info);
@@ -230,6 +241,21 @@ function JKRunHTML() {
     "<button type='button' id='jk-runpill' data-jk-peek='0'>Voltar à run em " + JKEsc(name) + "</button>";
 }
 
+// faixa de aviso: ice contornada nesta run, ou Inside Job esperando a primeira ice
+function JKRunBypassNote() {
+  var en = JKIsEN(), out = "";
+  JKRunBypassed().forEach(function (b) {
+    var nm = JKRunIceName(b.ice);
+    out += "<p class='jkr-bypass'><b>⤳ " + JKEsc(b.by || "Bypass") + "</b> " + JKEsc(en
+      ? nm + " was bypassed: the Runner passed it without breaking subroutines, and none of them fired."
+      : nm + " foi contornada (bypass): o Runner passou por ela sem quebrar subrotinas, e nenhuma disparou.") + "</p>";
+  });
+  var pend = JKRunPendingBypass();
+  if (pend && !JKRunBypassed().length) out += "<p class='jkr-bypass jkr-bypass-wait'><b>⤳ " + JKEsc(pend.title) + "</b> " + JKEsc(en
+    ? "The first ice the Runner encounters on this run will be bypassed."
+    : "A primeira ice que o Runner encontrar nesta run será contornada (bypass).") + "</p>";
+  return out;
+}
 // copia os botões do rodapé para dentro da caixa (no anfitrião e no convidado; o rodapé continua sendo a fonte)
 function JKRunTrigCount() {
   // mesma visão que a mesa usa ao desenhar (no anfitrião do X1, o lado de quem está nesta tela)
@@ -243,6 +269,9 @@ function JKModalPT() {
   $("#modalcontent p, #modalcontent span, #modalcontent button").each(function () {
     if (this.children.length) return;
     var t = this.textContent, pt = JKRunPT(t);
+    // Inside Job no encontro: o botão diz o que acontece
+    if (t.trim() == "Inside Job" && currentPhase && currentPhase.triggerCallbackName == "responseOnEncounter")
+      pt = JKIsEN() ? "Inside Job: bypass this ice" : "Inside Job: contornar esta ice (bypass)";
     if (pt !== t) this.textContent = pt;
   });
 }
@@ -466,3 +495,71 @@ function JKRunTrigger(k) {
     return _CP.apply(this, arguments);
   };
 })();
+
+// ---------------------------------------------------------------- bypass (Inside Job e parecidos)
+// O motor contorna a ice e segue direto para a próxima: sem isto, a run "pula" a ice sem explicação.
+// Aqui fica registrado qual ice foi contornada e por qual carta, e a caixa da run mostra isso até o fim da run.
+(function () {
+  if (typeof Bypass != "function" || typeof cardSet == "undefined") return;
+  // marca a carta que pediu o bypass: envolve as funções das cartas que chamam Bypass()
+  var wrap = function (obj, key, def) {
+    var f = obj[key];
+    if (typeof f != "function" || !/\bBypass\s*\(/.test(String(f))) return;
+    obj[key] = function () {
+      var prev = JKRun.bypassSrc;
+      JKRun.bypassSrc = this && this.title ? this : def;
+      try { return f.apply(this, arguments); } finally { JKRun.bypassSrc = prev; }
+    };
+  };
+  var scan = function (def) {
+    if (!def || typeof def != "object") return;
+    Object.keys(def).forEach(function (k) {
+      var v = def[k];
+      if (typeof v == "function") wrap(def, k, def);
+      else if (v && typeof v == "object" && k != "player" && k != "cardDefinition") {
+        if (Array.isArray(v)) v.forEach(function (a) { if (a && typeof a == "object") Object.keys(a).forEach(function (k2) { wrap(a, k2, def); }); });
+        else Object.keys(v).forEach(function (k2) { wrap(v, k2, def); });
+      }
+    });
+  };
+  Object.keys(cardSet).forEach(function (n) { scan(cardSet[n]); });
+
+  var _BP = Bypass;
+  Bypass = function () {
+    try {
+      var ice = attackedServer.ice[approachIce];
+      var src = JKRun.bypassSrc;
+      if (!JKRun.bypassed || JKRun.bypassed.server !== attackedServer || JKRun.bypassed.run !== JKRun.cur) JKRun.bypassed = { server: attackedServer, run: JKRun.cur, list: [] };
+      JKRun.bypassed.list.push({ ice: ice, idx: approachIce, by: src ? src.title : "" });
+      var en = typeof JKLang != "undefined" && JKLang == "en";
+      var nm = JKRunIceName(ice);
+      Log(src ? (en ? src.title + ": " + nm + " bypassed (the Runner passes it without breaking subroutines)" : src.title + ": " + nm + " contornada (bypass): o Runner passa por ela sem quebrar subrotinas")
+              : (en ? nm + " bypassed (the Runner passes it without breaking subroutines)" : nm + " contornada (bypass): o Runner passa por ela sem quebrar subrotinas"));
+      if (typeof RevealShowCard == "function" && src && viewingPlayer != runner && src.player == runner) { /* a carta já aparece no painel da run */ }
+    } catch (e) {}
+    return _BP.apply(this, arguments);
+  };
+})();
+// nome da ice para os avisos: o título se ela já é conhecida, senão "Ice não rezzada"
+function JKRunIceName(ice) {
+  if (!ice) return "";
+  var known = ice.rezzed || (typeof PlayerCanLook == "function" && PlayerCanLook(viewingPlayer, ice));
+  return known ? ice.title : (JKIsEN() ? "Unrezzed ice" : "Ice não rezzada");
+}
+// as ices contornadas nesta run (vale só para a run atual)
+function JKRunBypassed() {
+  var b = JKRun.bypassed;
+  if (!b || typeof attackedServer == "undefined" || b.server !== attackedServer || (b.run && b.run !== JKRun.cur)) return [];
+  return b.list;
+}
+// Inside Job ainda esperando a primeira ice
+function JKRunPendingBypass() {
+  try {
+    if (!runner.resolvingCards) return null;
+    for (var i = 0; i < runner.resolvingCards.length; i++) {
+      var c = runner.resolvingCards[i];
+      if (c && c.title == "Inside Job" && !c.encounteredIceThisRun) return c;
+    }
+  } catch (e) {}
+  return null;
+}

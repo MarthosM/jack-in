@@ -569,3 +569,12 @@ body.x1 #jk-topstats{left:146px}
   body.jk-ui #header{justify-content:center;padding-right:0;padding-left:230px}
   .jk-mu{font-size:9px;margin-left:6px;padding:0 5px}
 }
+/* v4.13: ice contornada (bypass) na run */
+.jkr-step.jkr-bypassed{border-style:dashed;border-color:#ffb347;background:#2a1d0c}
+.jkr-step.jkr-bypassed b{color:#ffd28a}
+.jkr-bypass{margin:8px 0 0;padding:8px 12px;border:1px solid #ffb347;border-left-width:4px;border-radius:6px;background:#24190b;color:#ffe2b8;font-size:14px;line-height:1.4}
+.jkr-bypass b{color:#ffb347;margin-right:4px}
+.jkr-bypass-wait{border-style:dashed;background:#1a140b}
+.jkr-sub.jkr-sub-bypassed{border-style:dashed;border-color:#6b5532;background:#1d170e;opacity:.85}
+.jkr-sub.jkr-sub-bypassed .jkr-tag{background:#ffb347;color:#1a1109}
+.jkr-sub.jkr-sub-bypassed .jkr-sub-t{text-decoration:line-through;text-decoration-color:#ffb34788}
