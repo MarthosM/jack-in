@@ -216,6 +216,7 @@ function X1GuestView() {
     v.mine = activePlayer === guest;
     v.turn = typeof playerTurn != "undefined" && playerTurn === guest ? "mine" : "theirs";
     if (/wins/.test(title)) v.over = title;
+    if (v.over && typeof JKEnd != "undefined" && JKEnd.data) v.end = JKEnd.data;
     if (v.mine) {
       var $f = $("<div>").html($("#footer").html() || "");
       $f.find("#autocontinue, #timerbar").remove();
@@ -467,6 +468,7 @@ function X1GuestRender(v) {
     if (typeof RevealShowCard == "function") RevealShowCard(v.revealShow.title, "", "revealed", v.revealShow.by);
   }
   if (v.over) {
+    if (v.end && typeof JKEndShow == "function" && !JKEnd.shown) setTimeout(function () { JKEndShow(v.end, X1.side == "c" ? "c" : "r"); }, 1400);
     $("#footer").html("<h2 class='x1-over'>" + X1Esc(v.phase) + "</h2><button class='button' type='button' onclick=\"location.href='index.html'\">Voltar ao início</button>").show();
     $("#modal").hide();
     $("body").removeClass("x1-waiting");

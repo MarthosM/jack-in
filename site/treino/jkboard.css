@@ -578,3 +578,31 @@ body.x1 #jk-topstats{left:146px}
 .jkr-sub.jkr-sub-bypassed{border-style:dashed;border-color:#6b5532;background:#1d170e;opacity:.85}
 .jkr-sub.jkr-sub-bypassed .jkr-tag{background:#ffb347;color:#1a1109}
 .jkr-sub.jkr-sub-bypassed .jkr-sub-t{text-decoration:line-through;text-decoration-color:#ffb34788}
+/* v4.14: tela de fim de partida */
+#jk-end{position:fixed;inset:0;z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(3,7,12,.78);opacity:0;transition:opacity .45s ease}
+#jk-end.on{opacity:1}
+#jk-end .jke-box{width:min(760px,100%);max-height:calc(100vh - 32px);overflow:auto;background:#0b1622;border:1px solid var(--jke-c);border-radius:12px;box-shadow:0 0 0 1px #000,0 0 60px var(--jke-glow),0 20px 60px rgba(0,0,0,.6);transform:scale(.94);transition:transform .5s cubic-bezier(.2,.9,.25,1.2)}
+#jk-end.on .jke-box{transform:scale(1)}
+#jk-end.jke-runner{--jke-c:#ffb347;--jke-c2:#ffe2b8;--jke-glow:#ffb34755}
+#jk-end.jke-corp{--jke-c:#7aa7ff;--jke-c2:#cfe0ff;--jke-glow:#7aa7ff55}
+#jk-end .jke-art{position:relative;height:clamp(150px,34vh,300px);background-size:cover;background-position:center;border-radius:12px 12px 0 0;display:flex;flex-direction:column;justify-content:flex-end;padding:18px 26px}
+#jk-end .jke-shade{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(5,10,16,.9))}
+#jk-end.jke-lose .jke-art{filter:saturate(.55)}
+#jk-end.jke-lose .jke-shade{background:linear-gradient(180deg,rgba(40,0,10,.25) 0%,rgba(5,10,16,.92) 85%)}
+#jk-end .jke-kicker{position:relative;margin:0;font:600 13px 'Chakra Petch',system-ui,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--jke-c2)}
+#jk-end .jke-title{position:relative;margin:2px 0 0;font:700 clamp(44px,9vw,84px)/1 'Chakra Petch',system-ui,sans-serif;letter-spacing:.08em;color:#fff;text-shadow:0 0 24px var(--jke-c),0 0 2px var(--jke-c)}
+#jk-end.jke-lose .jke-title{color:#ffd0d8;text-shadow:0 0 24px #ff4f6d,0 0 2px #ff4f6d}
+#jk-end .jke-title::before,#jk-end .jke-title::after{content:attr(data-text);position:absolute;left:0;top:0;opacity:0;pointer-events:none}
+#jk-end.on .jke-title::before{color:var(--jke-c);animation:jke-glitch 1.1s steps(2) .35s 2}
+#jk-end.on .jke-title::after{color:#5fd3ff;animation:jke-glitch 1.1s steps(2) .45s 2 reverse}
+@keyframes jke-glitch{0%{opacity:.8;transform:translate(-4px,1px);clip-path:inset(0 0 60% 0)}25%{transform:translate(4px,-2px);clip-path:inset(40% 0 20% 0)}50%{transform:translate(-2px,2px);clip-path:inset(70% 0 0 0)}75%{transform:translate(3px,0);clip-path:inset(10% 0 70% 0)}100%{opacity:0;transform:none}}
+#jk-end .jke-body{padding:18px 26px 22px}
+#jk-end .jke-reason{margin:0 0 8px;font:16px/1.5 'IBM Plex Sans',system-ui,sans-serif;color:#dbe6f2}
+#jk-end .jke-score{margin:0 0 16px;font:600 13px 'Chakra Petch',system-ui,sans-serif;letter-spacing:.08em;color:#8da0b6}
+#jk-end .jke-acts{display:flex;gap:10px;flex-wrap:wrap}
+#jk-end .jke-btn{background:#10202f;border:1px solid #28465f;color:#dbe6f2;padding:10px 18px;border-radius:6px;font:600 15px 'Chakra Petch',system-ui,sans-serif;cursor:pointer}
+#jk-end .jke-btn:hover{border-color:var(--jke-c)}
+#jk-end .jke-btn.jke-pri{background:var(--jke-c);border-color:var(--jke-c);color:#0a0d12}
+#jk-end-reopen{position:fixed;left:50%;top:52px;transform:translateX(-50%);z-index:2900;background:#0b1622;border:1px solid #28465f;color:#dbe6f2;border-radius:999px;padding:6px 16px;font:600 13px 'Chakra Petch',system-ui,sans-serif;cursor:pointer}
+@media (max-height:500px){#jk-end .jke-art{height:120px;padding:10px 18px}#jk-end .jke-body{padding:10px 18px 14px}#jk-end .jke-reason{font-size:14px}}
+@media (prefers-reduced-motion:reduce){#jk-end,#jk-end .jke-box{transition:none}#jk-end .jke-title::before,#jk-end .jke-title::after{animation:none}}

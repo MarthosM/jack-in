@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" preserveAspectRatio="xMidYMid slice">
+  <!-- Jack In Treino: cena de fim de partida, vitória do Runner (arte original) -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b1208"/><stop offset=".6" stop-color="#2e1d0b"/><stop offset="1" stop-color="#0d0904"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffb347" stop-opacity=".55"/><stop offset=".45" stop-color="#ff8a2a" stop-opacity=".18"/><stop offset="1" stop-color="#ff8a2a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="trace" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffb347" stop-opacity="0"/><stop offset=".25" stop-color="#ffb347"/><stop offset="1" stop-color="#ffe2b8"/>
+    </linearGradient>
+    <pattern id="scan" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)">
+      <path d="M0 0H8" stroke="#ffb347" stroke-opacity=".07" stroke-width="1.4"/>
+    </pattern>
+    <filter id="blur"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <rect width="1200" height="480" fill="url(#sky)"/>
+  <circle cx="830" cy="230" r="300" fill="url(#sun)"/>
+  <!-- cidade -->
+  <g fill="#0d0904">
+    <rect x="0" y="300" width="70" height="180"/><rect x="78" y="250" width="54" height="230"/><rect x="140" y="320" width="80" height="160"/>
+    <rect x="228" y="210" width="46" height="270"/><rect x="282" y="290" width="90" height="190"/><rect x="380" y="260" width="58" height="220"/>
+    <rect x="446" y="330" width="70" height="150"/><rect x="1010" y="270" width="60" height="210"/><rect x="1078" y="220" width="50" height="260"/><rect x="1136" y="300" width="64" height="180"/>
+  </g>
+  <g fill="#ffb347" fill-opacity=".35">
+    <rect x="90" y="270" width="6" height="4"/><rect x="104" y="290" width="6" height="4"/><rect x="238" y="232" width="6" height="4"/><rect x="252" y="262" width="6" height="4"/>
+    <rect x="300" y="310" width="6" height="4"/><rect x="392" y="280" width="6" height="4"/><rect x="408" y="310" width="6" height="4"/><rect x="1090" y="244" width="6" height="4"/><rect x="1104" y="280" width="6" height="4"/>
+  </g>
+  <rect width="1200" height="480" fill="url(#scan)"/>
+  <!-- hexágono da Corp aberto: as placas se afastam -->
+  <g transform="translate(830 230)" fill="none" stroke-linejoin="round">
+    <g stroke="#9cc0ff" stroke-opacity=".55" stroke-width="5">
+      <path d="M-14 -150 -128 -84 -132 -20" transform="translate(-26 -18)"/>
+      <path d="M14 -150 128 -84 132 -20" transform="translate(30 -22)"/>
+      <path d="M-132 20 -128 84 -14 150" transform="translate(-28 22)"/>
+      <path d="M132 20 128 84 14 150" transform="translate(26 26)"/>
+    </g>
+    <g fill="#9cc0ff" fill-opacity=".5">
+      <path d="M-170 -60 l12 -6 4 12 -12 6z"/><path d="M178 70 l10 -8 6 10 -10 8z"/><path d="M-60 186 l12 -2 2 12 -12 2z"/><path d="M90 -188 l10 4 -4 10 -10 -4z"/>
+    </g>
+    <circle r="78" fill="#ffb347" fill-opacity=".12" filter="url(#blur)"/>
+  </g>
+  <!-- rastro da run atravessando o núcleo -->
+  <path d="M-20 360 C220 360 300 250 470 250 S700 236 830 230" fill="none" stroke="url(#trace)" stroke-width="7" stroke-linecap="round"/>
+  <path d="M-20 360 C220 360 300 250 470 250 S700 236 830 230" fill="none" stroke="#ffb347" stroke-opacity=".35" stroke-width="22" stroke-linecap="round" filter="url(#blur)"/>
+  <g fill="#ffb347"><rect x="520" y="226" width="64" height="3" fill-opacity=".6"/><rect x="610" y="252" width="40" height="2" fill-opacity=".5"/><rect x="380" y="232" width="30" height="2" fill-opacity=".4"/></g>
+  <!-- símbolo do Jack In no lugar do núcleo -->
+  <svg x="742" y="142" width="176" height="176" viewBox="-56 -90 168 168">
+    <path d="M-44 -78 C-6 -82 16 -52 14 -20 C13 -6 12 6 8 20 C5 32 10 46 36 60" fill="none" stroke="#ffe2b8" stroke-width="5" stroke-linecap="round"/>
+    <path d="M1 0 H-18 L-28 -10 H-42 M-18 0 L-27 10 H-40 M-6 -30 H-26 L-34 -38" fill="none" stroke="#ffb347" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="-45" cy="-10" r="4.5" fill="#ffb347"/><circle cx="-43" cy="10" r="4.5" fill="#ffb347"/><circle cx="-37" cy="-40" r="4.5" fill="#ffb347"/><circle cx="-3" cy="-30" r="4.5" fill="#ffb347"/>
+    <rect x="3" y="-11" width="14" height="22" rx="3" fill="#1a1109" stroke="#ffe2b8" stroke-width="3"/>
+    <rect x="8" y="-4" width="9" height="8" fill="#ffb347"/><rect x="18" y="-8" width="5" height="16" rx="2" fill="#ffb347"/>
+    <rect x="25" y="-10" width="26" height="20" rx="5" fill="none" stroke="#ffb347" stroke-width="3.8"/>
+    <path d="M51 0 H59 L64 -12 L71 12 L76 0 H90 Q102 0 102 14 V30" fill="none" stroke="#ffc477" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <!-- falhas de sinal -->
+  <g fill="#ffb347"><rect x="60" y="70" width="180" height="3" fill-opacity=".3"/><rect x="900" y="60" width="240" height="2" fill-opacity=".25"/><rect x="980" y="410" width="160" height="3" fill-opacity=".3"/><rect x="120" y="430" width="120" height="2" fill-opacity=".25"/></g>
+</svg>
