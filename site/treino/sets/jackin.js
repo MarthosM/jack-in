@@ -491,10 +491,18 @@ cardSet[34073] = {
       },
       Resolve: function () {
         var ice = GetApproachEncounterIce();
+        // custo: 2¢ e trash nesta carta; efeito: trash na ice encontrada.
+        // Um trash de cada vez (cada um abre a sua janela de reações); depois a run segue para a próxima ice.
         SpendCredits(runner, 2, "using", this, function () {
-          Trash(this, false);
-          Bypass();
-          Trash(ice, true);
+          Trash(this, false, function () {
+            Trash(ice, true, function () {
+              if (ice.cardLocation != corp.archives.cards) return; // trash evitado: o encontro continua
+              Log("Arruaceiras Crew: " + ice.title + " foi para Archives e a run segue");
+              if (runner.AI != null) runner.AI.cachedBestPath = null;
+              phases.runEncounterEnd.next = phases.runPassesIce;
+              ChangePhase(phases.runEncounterEnd);
+            }, this);
+          }, this);
         }, this);
       },
     },
