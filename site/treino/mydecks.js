@@ -134,6 +134,7 @@ var JKDecks = (function () {
         if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(u).then(done, function () { window.prompt(tx("Copie o link:", "Copy the link:"), u); });
         else window.prompt(tx("Copie o link:", "Copy the link:"), u);
       } else if (act == "in") openLogin();
+      else if (act == "pw") openSetPassword(false);
       else if (act == "out") {
         (CL.sb ? CL.sb.auth.signOut() : Promise.resolve()).catch(function () {}).then(function () {
           CL.user = null; CL.state = tx("você saiu; os decks continuam neste navegador", "signed out; your decks stay in this browser"); renderAll();
@@ -160,7 +161,7 @@ var JKDecks = (function () {
       "<button type='button' class='lnk' data-jkd='link'>" + tx("Copiar link do deck", "Copy deck link") + "</button>" +
       "<input type='file' class='jkd-file' accept='.txt,.text,text/plain' hidden></div>";
     if (CLOUD_ON) {
-      if (CL.user) h += "<div class='jkd-acct'>☁ " + tx("Conectado como ", "Signed in as ") + "<b>" + esc(CL.user.email || "") + "</b>" + (CL.state ? " · <span>" + esc(CL.state) + "</span>" : "") + " · <a href='#' data-jkd='out'>" + tx("Sair", "Sign out") + "</a></div>";
+      if (CL.user) h += "<div class='jkd-acct'>☁ " + tx("Conectado como ", "Signed in as ") + "<b>" + esc(CL.user.email || "") + "</b>" + (CL.state ? " · <span>" + esc(CL.state) + "</span>" : "") + " · <a href='#' data-jkd='pw'>" + (lsGet("jackin-haspw", false) ? tx("Trocar senha", "Change password") : tx("Criar senha", "Set password")) + "</a> · <a href='#' data-jkd='out'>" + tx("Sair", "Sign out") + "</a></div>";
       else h += "<div class='jkd-acct'>☁ <a href='#' data-jkd='in'>" + tx("Entrar para guardar seus decks em qualquer aparelho", "Sign in to keep your decks on any device") + "</a>" + (CL.state ? " · <span>" + esc(CL.state) + "</span>" : "") + "</div>";
     }
     B.el.innerHTML = h;
@@ -182,6 +183,7 @@ var JKDecks = (function () {
     if (initP) return initP;
     var hasTok = /access_token=|error_description=|[?&]code=/.test(location.hash + location.search);
     var hasSes = false; try { hasSes = !!localStorage.getItem("jackin-auth"); } catch (e) {}
+    var isRecovery = /type=recovery/.test(location.hash), linkErr = /error_description=/.test(location.hash);
     if (!force && !hasTok && !hasSes) return Promise.resolve();
     initP = loadSupa().then(function () {
       CL.sb = window.supabase.createClient(SUPA_URL, SUPA_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storageKey: "jackin-auth" } });
@@ -190,6 +192,7 @@ var JKDecks = (function () {
       var ses = res && res.data && res.data.session;
       CL.user = ses ? ses.user : null;
       CL.sb.auth.onAuthStateChange(function (ev, s) {
+        if (ev == "PASSWORD_RECOVERY" && !isRecovery) setTimeout(function () { openSetPassword(true); }, 50);
         var u = s ? s.user : null, changed = (u && u.id) !== (CL.user && CL.user.id);
         CL.user = u;
         if (changed && u) { cloudSync(); var ld = document.getElementById("jkdLogin"); if (ld) ld.hidden = true; }
@@ -197,6 +200,9 @@ var JKDecks = (function () {
       });
       if (/access_token=|error_description=/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search);
       // voltou do link do e-mail: retorna à página de onde pediu (ex.: a sala)
+      if (linkErr) setTimeout(function () { toast(tx("O link do e-mail expirou ou já foi usado. Peça outro, ou entre com e-mail e senha.", "The email link expired or was already used. Ask for a new one, or sign in with email and password.")); }, 300);
+      // voltou do link "Esqueci a senha": pede a senha nova aqui mesmo
+      if (isRecovery && CL.user) { renderAll(); cloudSync(); setTimeout(function () { openSetPassword(true); }, 300); return; }
       if (hasTok && CL.user) {
         var ret = lsGet("jackin-auth-return", null); lsSet("jackin-auth-return", null);
         if (ret && ret.u && Date.now() - ret.t < 3 * 3600e3 && ret.u.indexOf(location.origin) == 0 && ret.u != location.href) { location.replace(ret.u); return; }
@@ -244,46 +250,125 @@ var JKDecks = (function () {
       CL.state = tx("sem conexão: o deck ficou neste navegador e sobe na próxima vez", "offline: the deck stayed in this browser and will upload next time"); renderAll(); return false;
     });
   }
+  var MAILRE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  // o link do e-mail sempre volta para a abertura do treino; de lá, retorna à página de origem
+  function backURL() { return location.origin + location.pathname.replace(/[^/]*$/, "") + "index.html"; }
+  function rememberReturn() { if (!/\/(index\.html)?$/.test(location.pathname)) lsSet("jackin-auth-return", { u: location.href.split("#")[0], t: Date.now() }); }
+  function authErr(er) {
+    var m = (er && er.message) || String(er || "");
+    if (/rate|limit|seconds/i.test(m)) return tx("Muitos pedidos agora; tente de novo em alguns minutos.", "Too many requests right now; try again in a few minutes.");
+    if (/invalid login credentials/i.test(m)) return tx("E-mail ou senha incorretos. Se você sempre entrou pelo link do e-mail, entre pelo link uma vez e crie a sua senha.", "Wrong email or password. If you always signed in with the email link, use the link once and create your password.");
+    if (/email not confirmed/i.test(m)) return tx("Falta confirmar o e-mail: abra o link que enviamos quando você criou a conta.", "Your email isn't confirmed yet: open the link we sent when you created the account.");
+    if (/password should be|at least 6/i.test(m)) return tx("A senha precisa ter pelo menos 6 caracteres.", "The password needs at least 6 characters.");
+    if (/already registered|already exists/i.test(m)) return tx("Esse e-mail já tem conta. Use \"Entrar\" ou \"Esqueci a senha\".", "This email already has an account. Use \"Sign in\" or \"Forgot password\".");
+    return m;
+  }
   function openLogin() {
     var d = document.getElementById("jkdLogin");
     if (!d) {
       d = document.createElement("div"); d.id = "jkdLogin"; d.className = "jkd-dlg";
       d.innerHTML = "<div class='jkd-box' role='dialog' aria-modal='true' aria-labelledby='jkdLogT'><h2 id='jkdLogT'>" + tx("Guardar meus decks", "Keep my decks") + "</h2>" +
         "<p class='jkd-note'>" + tx("Entre para seus decks ficarem guardados na sua conta e aparecerem em qualquer aparelho. Os decks que já estão neste navegador vão junto. A conta é a mesma do Elysium 2P.", "Sign in to keep your decks in your account and see them on any device. The decks already in this browser come along. It's the same account as Elysium 2P.") + "</p>" +
-        (GOOGLE_ON ? "<button type='button' class='btn pri' id='jkdG'>" + tx("Entrar com Google", "Sign in with Google") + "</button><div class='jkd-or'>" + tx("ou receba um link de acesso no e-mail", "or get a sign-in link by email") + "</div>"
-          : "<div class='jkd-or'>" + tx("Receba um link de acesso no e-mail (sem senha):", "Get a sign-in link by email (no password):") + "</div>") +
+        (GOOGLE_ON ? "<button type='button' class='btn pri' id='jkdG'>" + tx("Entrar com Google", "Sign in with Google") + "</button><div class='jkd-or'>" + tx("ou com e-mail e senha", "or with email and password") + "</div>" : "") +
         "<label class='lbl' for='jkdMail'>E-mail</label><input id='jkdMail' class='input' type='email' autocomplete='email' placeholder='" + tx("seu@email.com", "you@email.com") + "'>" +
-        "<div class='jkd-row' style='margin-top:10px'><button type='button' class='btn pri' id='jkdSend'>" + tx("Enviar link", "Send link") + "</button><button type='button' class='btn' id='jkdClose'>" + tx("Fechar", "Close") + "</button></div>" +
-        "<p id='jkdMsg' class='jkd-note' aria-live='polite'></p></div>";
+        "<label class='lbl' for='jkdPass'>" + tx("Senha", "Password") + "</label><input id='jkdPass' class='input' type='password' autocomplete='current-password' minlength='6' placeholder='" + tx("pelo menos 6 caracteres", "at least 6 characters") + "'>" +
+        "<div class='jkd-row' style='margin-top:10px'><button type='button' class='btn pri' id='jkdIn'>" + tx("Entrar", "Sign in") + "</button><button type='button' class='btn' id='jkdNew'>" + tx("Criar conta", "Create account") + "</button><button type='button' class='btn' id='jkdClose'>" + tx("Fechar", "Close") + "</button></div>" +
+        "<div class='jkd-row jkd-links'><button type='button' class='jkd-lnk' id='jkdForgot'>" + tx("Esqueci a senha", "Forgot password") + "</button><button type='button' class='jkd-lnk' id='jkdSend'>" + tx("Entrar sem senha, por link no e-mail", "Sign in without a password, by email link") + "</button></div>" +
+        "<p id='jkdMsg' class='jkd-note' aria-live='polite'></p>" +
+        "<p class='jkd-note jkd-small'>" + tx("Depois de entrar, este aparelho fica conectado; não é preciso entrar de novo a cada visita.", "Once signed in, this device stays connected; you don't need to sign in on every visit.") + "</p></div>";
       document.body.appendChild(d);
-      // o link do e-mail sempre volta para a abertura do treino; de lá, retorna à página de origem
-      var back = location.origin + location.pathname.replace(/[^/]*$/, "") + "index.html";
       var $q = function (s) { return d.querySelector(s); };
+      var msg = function (t) { $q("#jkdMsg").textContent = t; };
+      var busy = function (on) { ["#jkdIn", "#jkdNew", "#jkdSend", "#jkdForgot"].forEach(function (id) { $q(id).disabled = on; }); };
+      var mail = function () { var em = $q("#jkdMail").value.trim(); if (!MAILRE.test(em)) { msg(tx("Confira o e-mail.", "Check the email address.")); return null; } return em; };
+      var pass = function () { var p = $q("#jkdPass").value; if (p.length < 6) { msg(tx("A senha precisa ter pelo menos 6 caracteres.", "The password needs at least 6 characters.")); return null; } return p; };
+      var run = function (wait, fn, ok) {
+        busy(true); msg(wait);
+        cloudInit(true).then(function () {
+          if (!CL.sb) throw new Error(tx("nuvem indisponível agora", "cloud unavailable right now"));
+          return fn();
+        }).then(function (r) {
+          if (r && r.error) msg(authErr(r.error)); else ok(r || {});
+        }).catch(function (e) { msg(authErr(e)); }).then(function () { busy(false); });
+      };
       $q("#jkdClose").addEventListener("click", function () { d.hidden = true; });
       d.addEventListener("click", function (e) { if (e.target === d) d.hidden = true; });
       d.addEventListener("keydown", function (e) { if (e.key == "Escape") d.hidden = true; });
       if ($q("#jkdG")) $q("#jkdG").addEventListener("click", function () {
-        cloudInit(true).then(function () { return CL.sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: back } }); }).then(function (r) { if (r && r.error) $q("#jkdMsg").textContent = r.error.message; });
+        cloudInit(true).then(function () { return CL.sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: backURL() } }); }).then(function (r) { if (r && r.error) msg(r.error.message); });
       });
-      var send = function () {
-        var em = $q("#jkdMail").value.trim(), msg = $q("#jkdMsg");
-        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { msg.textContent = tx("Confira o e-mail.", "Check the email address."); return; }
-        $q("#jkdSend").disabled = true; msg.textContent = tx("Enviando…", "Sending…");
-        if (!/\/(index\.html)?$/.test(location.pathname)) lsSet("jackin-auth-return", { u: location.href.split("#")[0], t: Date.now() });
-        cloudInit(true).then(function () {
-          if (!CL.sb) throw new Error(tx("nuvem indisponível agora", "cloud unavailable right now"));
-          return CL.sb.auth.signInWithOtp({ email: em, options: { emailRedirectTo: back } });
-        }).then(function (r) {
-          var er = r && r.error;
-          msg.textContent = er ? (/rate|limit|seconds/i.test(er.message) ? tx("Muitos pedidos agora; tente de novo em alguns minutos.", "Too many requests right now; try again in a few minutes.") : er.message)
-            : tx("Pronto! Abra o link que chegou no seu e-mail (pode estar no spam). Ele abre o treino já conectado.", "Done! Open the link sent to your email (check spam). It opens the trainer already signed in.");
-        }).catch(function (e) { msg.textContent = e.message || String(e); }).then(function () { $q("#jkdSend").disabled = false; });
+      var signIn = function () {
+        var em = mail(); if (!em) return; var pw = pass(); if (!pw) return;
+        run(tx("Entrando…", "Signing in…"), function () { return CL.sb.auth.signInWithPassword({ email: em, password: pw }); },
+          function () { lsSet("jackin-haspw", true); renderAll(); msg(tx("Pronto! Conectado.", "Done! Signed in.")); setTimeout(function () { d.hidden = true; }, 700); });
       };
-      $q("#jkdSend").addEventListener("click", send);
-      $q("#jkdMail").addEventListener("keydown", function (e) { if (e.key == "Enter") send(); });
+      $q("#jkdIn").addEventListener("click", signIn);
+      $q("#jkdPass").addEventListener("keydown", function (e) { if (e.key == "Enter") signIn(); });
+      $q("#jkdMail").addEventListener("keydown", function (e) { if (e.key == "Enter") $q("#jkdPass").focus(); });
+      $q("#jkdNew").addEventListener("click", function () {
+        var em = mail(); if (!em) return; var pw = pass(); if (!pw) return;
+        rememberReturn(); lsSet("jackin-haspw", true);
+        run(tx("Criando a conta…", "Creating the account…"), function () { return CL.sb.auth.signUp({ email: em, password: pw, options: { emailRedirectTo: backURL() } }); },
+          function (r) {
+            var data = r.data || {};
+            if (data.session) { msg(tx("Conta criada e conectada.", "Account created and signed in.")); setTimeout(function () { d.hidden = true; }, 700); return; }
+            // o Supabase não diz se o e-mail já existia (por segurança): a mensagem cobre os dois casos
+            msg(tx("Enviamos um e-mail para confirmar a conta (só desta vez; pode estar no spam). Depois de confirmar, é só entrar com e-mail e senha. Se esse e-mail já tinha conta pelo link, entre pelo link e use \"Criar senha\".",
+                   "We sent an email to confirm the account (only this once; check spam). After confirming, just sign in with email and password. If this email already had an account through the link, sign in with the link and use \"Set password\"."));
+          });
+      });
+      $q("#jkdForgot").addEventListener("click", function () {
+        var em = mail(); if (!em) return;
+        rememberReturn();
+        run(tx("Enviando…", "Sending…"), function () { return CL.sb.auth.resetPasswordForEmail(em, { redirectTo: backURL() }); },
+          function () { msg(tx("Enviamos um link para criar uma nova senha (pode estar no spam). Ele abre o treino e pede a senha nova.", "We sent a link to create a new password (check spam). It opens the trainer and asks for the new password.")); });
+      });
+      $q("#jkdSend").addEventListener("click", function () {
+        var em = mail(); if (!em) return;
+        rememberReturn();
+        run(tx("Enviando…", "Sending…"), function () { return CL.sb.auth.signInWithOtp({ email: em, options: { emailRedirectTo: backURL() } }); },
+          function () { msg(tx("Pronto! Abra o link que chegou no seu e-mail (pode estar no spam). Ele abre o treino já conectado. Lá você pode criar uma senha para não precisar mais do link.", "Done! Open the link sent to your email (check spam). It opens the trainer already signed in. There you can set a password so you won't need the link again.")); });
+      });
     }
     d.hidden = false; d.querySelector("#jkdMsg").textContent = "";
     setTimeout(function () { (d.querySelector("#jkdG") || d.querySelector("#jkdMail")).focus(); }, 30);
+  }
+  // criar/trocar a senha de quem já está conectado (também abre ao voltar do link "Esqueci a senha")
+  function openSetPassword(recovery) {
+    var d = document.getElementById("jkdPw");
+    if (!d) {
+      d = document.createElement("div"); d.id = "jkdPw"; d.className = "jkd-dlg";
+      d.innerHTML = "<div class='jkd-box' role='dialog' aria-modal='true' aria-labelledby='jkdPwT'><h2 id='jkdPwT'></h2>" +
+        "<p class='jkd-note' id='jkdPwNote'></p>" +
+        "<label class='lbl' for='jkdPw1'>" + tx("Nova senha", "New password") + "</label><input id='jkdPw1' class='input' type='password' autocomplete='new-password' placeholder='" + tx("pelo menos 6 caracteres", "at least 6 characters") + "'>" +
+        "<label class='lbl' for='jkdPw2'>" + tx("Repita a senha", "Repeat the password") + "</label><input id='jkdPw2' class='input' type='password' autocomplete='new-password'>" +
+        "<div class='jkd-row' style='margin-top:10px'><button type='button' class='btn pri' id='jkdPwSave'>" + tx("Salvar senha", "Save password") + "</button><button type='button' class='btn' id='jkdPwClose'>" + tx("Fechar", "Close") + "</button></div>" +
+        "<p id='jkdPwMsg' class='jkd-note' aria-live='polite'></p></div>";
+      document.body.appendChild(d);
+      var $q = function (s) { return d.querySelector(s); };
+      $q("#jkdPwClose").addEventListener("click", function () { d.hidden = true; });
+      d.addEventListener("keydown", function (e) { if (e.key == "Escape") d.hidden = true; });
+      var save = function () {
+        var p1 = $q("#jkdPw1").value, p2 = $q("#jkdPw2").value, m = $q("#jkdPwMsg");
+        if (p1.length < 6) { m.textContent = tx("A senha precisa ter pelo menos 6 caracteres.", "The password needs at least 6 characters."); return; }
+        if (p1 != p2) { m.textContent = tx("As duas senhas estão diferentes.", "The two passwords don't match."); return; }
+        $q("#jkdPwSave").disabled = true; m.textContent = tx("Salvando…", "Saving…");
+        CL.sb.auth.updateUser({ password: p1 }).then(function (r) {
+          if (r && r.error) { m.textContent = authErr(r.error); return; }
+          m.textContent = tx("Senha salva. Da próxima vez, entre com e-mail e senha.", "Password saved. Next time, sign in with email and password.");
+          lsSet("jackin-haspw", true); renderAll();
+          setTimeout(function () { d.hidden = true; }, 1200);
+        }).catch(function (e) { m.textContent = authErr(e); }).then(function () { $q("#jkdPwSave").disabled = false; });
+      };
+      $q("#jkdPwSave").addEventListener("click", save);
+      $q("#jkdPw2").addEventListener("keydown", function (e) { if (e.key == "Enter") save(); });
+    }
+    d.querySelector("#jkdPwT").textContent = recovery ? tx("Criar uma nova senha", "Create a new password") : tx("Criar senha", "Set password");
+    d.querySelector("#jkdPwNote").textContent = tx("Conta: ", "Account: ") + ((CL.user && CL.user.email) || "") + ". " +
+      tx("Com a senha, você entra em qualquer aparelho sem precisar do link no e-mail.", "With a password you can sign in on any device without the email link.");
+    d.querySelector("#jkdPwMsg").textContent = "";
+    d.querySelector("#jkdPw1").value = ""; d.querySelector("#jkdPw2").value = "";
+    d.hidden = false; setTimeout(function () { d.querySelector("#jkdPw1").focus(); }, 30);
   }
 
   // estilos (a página do treino e a sala usam variáveis diferentes; tudo com valores próprios)
@@ -308,6 +393,9 @@ var JKDecks = (function () {
       ".jkd-box .input{background:#07101a;border:1px solid #28465f;border-radius:4px;padding:8px 10px;color:#dbe6f2;font:14px system-ui,sans-serif}" +
       ".jkd-box .lbl{display:block;font-size:13px;color:#8da0b6;margin:8px 0 4px}" +
       ".jkd-toast{position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:2100;background:#0f1d2b;border:1px solid #5fd3ff;color:#dbe6f2;padding:10px 16px;border-radius:6px;font:14px 'IBM Plex Sans',system-ui,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.5);max-width:calc(100% - 32px)}" +
+      ".jkd-links{margin-top:8px;gap:4px 16px}" +
+      ".jkd-lnk{background:none;border:0;padding:2px 0;color:#5fd3ff;cursor:pointer;font:13px 'IBM Plex Sans',system-ui,sans-serif;text-decoration:underline;text-underline-offset:2px}.jkd-lnk[disabled]{opacity:.4}" +
+      ".jkd-small{font-size:12px;margin-top:10px}" +
       ".jkd-note{font-size:13px;color:#8da0b6;margin:6px 0}.jkd-or{margin:10px 0 4px;font-size:13px;color:#8da0b6}";
     document.head.appendChild(s);
   })();
