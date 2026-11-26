@@ -546,7 +546,7 @@ class CorpAI {
 		  if (CheckCredits(corp,4)) {
 			  for (var i=0; i<optionList.length; i++) {
 				if (optionList[i].card) {
-				  if (optionList[i].card.title == "Snare!") return optionList[i];
+				  if (optionList[i].card.title == "Snare!" || optionList[i].card.title == "Byte!") return optionList[i];
 				}
 			  }
 		  }
@@ -596,9 +596,9 @@ class CorpAI {
 	}
 	//3 for Snare! if affordable (for now, assumes exactly one will be accessed)
 	var snare = null;
-	if (this._copyOfCardExistsIn("Snare!", server.root)) snare = true;
+	if (this._copyOfCardExistsIn("Snare!", server.root) || this._copyOfCardExistsIn("Byte!", server.root)) snare = true;
 	else if (typeof server.cards != 'undefined') {
-		if (this._copyOfCardExistsIn("Snare!", server.cards)) snare = true;
+		if (this._copyOfCardExistsIn("Snare!", server.cards) || this._copyOfCardExistsIn("Byte!", server.cards)) snare = true;
 	}
 	var creditsLeft = AvailableCredits(corp);
 	if (snare && creditsLeft > 3) {
@@ -1494,6 +1494,7 @@ class CorpAI {
       { title: "Ghost Branch", cost: 0 },
       { title: "Project Junebug", cost: 1 },
       { title: "Snare!", cost: 4 },
+      { title: "Byte!", cost: 4 },
       { title: "Urtica Cipher", cost: 0 },
       { title: "Manegarm Skunkworks", cost: 2 },
       { title: "Anoetic Void", cost: 0 },
@@ -1719,7 +1720,7 @@ class CorpAI {
 	}
 	
 	//or even maybe...these?
-	var snare = this._copyOfCardExistsIn("Snare!",cards);
+	var snare = this._copyOfCardExistsIn("Snare!",cards) || this._copyOfCardExistsIn("Byte!",cards);
 	if (snare && !PlayerCanLook(runner,snare) && AvailableCredits(corp,"using",snare) > 3) ret.push({
 		cardToInstall: snare,
 		serverToInstallTo: strongestEmptyRemote,
@@ -1830,7 +1831,7 @@ class CorpAI {
 		  }
 		}
 	    //include ambushes with costs as pretend ice of infinite value in this server
-		var costyAmbushes = [{title:"Snare!",cost:4}];
+		var costyAmbushes = [{title:"Snare!",cost:4},{title:"Byte!",cost:4}];
 		for (var i=0; i<costyAmbushes.length; i++) {
 			var arrayToCheck = server.root;
 			if (typeof server.cards != 'undefined') arrayToCheck = arrayToCheck.concat(server.cards);
